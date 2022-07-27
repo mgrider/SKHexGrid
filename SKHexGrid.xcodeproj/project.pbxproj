@@ -1,0 +1,428 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		85331842288C87230000DB75 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85331841288C87230000DB75 /* AppDelegate.swift */; };
+		85331844288C87230000DB75 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 85331843288C87230000DB75 /* GameScene.sks */; };
+		85331846288C87230000DB75 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 85331845288C87230000DB75 /* Actions.sks */; };
+		85331848288C87230000DB75 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85331847288C87230000DB75 /* GameScene.swift */; };
+		8533184A288C87230000DB75 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85331849288C87230000DB75 /* GameViewController.swift */; };
+		8533184D288C87230000DB75 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8533184B288C87230000DB75 /* Main.storyboard */; };
+		8533184F288C87240000DB75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8533184E288C87240000DB75 /* Assets.xcassets */; };
+		85331852288C87240000DB75 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85331850288C87240000DB75 /* LaunchScreen.storyboard */; };
+		85CD4FF7288C891100B73468 /* HexGridScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD4FF6288C891100B73468 /* HexGridScene.swift */; };
+		85CD4FFA288C8A1200B73468 /* HexGrid in Frameworks */ = {isa = PBXBuildFile; productRef = 85CD4FF9288C8A1200B73468 /* HexGrid */; };
+		85CD4FFC288C918E00B73468 /* Point+CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD4FFB288C918D00B73468 /* Point+CGPoint.swift */; };
+		85CD4FFE288C920E00B73468 /* Cell+Highlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD4FFD288C920E00B73468 /* Cell+Highlight.swift */; };
+		85CD5000288D995B00B73468 /* HexGrid+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD4FFF288D995B00B73468 /* HexGrid+Size.swift */; };
+		85CD5002288D99F200B73468 /* HexSize+CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD5001288D99F200B73468 /* HexSize+CGSize.swift */; };
+		85CD5005288F164B00B73468 /* ConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD5004288F164B00B73468 /* ConfigurationView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8533183E288C87230000DB75 /* SKHexGrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKHexGrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		85331841288C87230000DB75 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		85331843288C87230000DB75 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		85331845288C87230000DB75 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
+		85331847288C87230000DB75 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		85331849288C87230000DB75 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		8533184C288C87230000DB75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		8533184E288C87240000DB75 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		85331851288C87240000DB75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		85CD4FF6288C891100B73468 /* HexGridScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexGridScene.swift; sourceTree = "<group>"; };
+		85CD4FFB288C918D00B73468 /* Point+CGPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Point+CGPoint.swift"; sourceTree = "<group>"; };
+		85CD4FFD288C920E00B73468 /* Cell+Highlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Cell+Highlight.swift"; sourceTree = "<group>"; };
+		85CD4FFF288D995B00B73468 /* HexGrid+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HexGrid+Size.swift"; sourceTree = "<group>"; };
+		85CD5001288D99F200B73468 /* HexSize+CGSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HexSize+CGSize.swift"; sourceTree = "<group>"; };
+		85CD5004288F164B00B73468 /* ConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8533183B288C87230000DB75 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85CD4FFA288C8A1200B73468 /* HexGrid in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		85331835288C87230000DB75 = {
+			isa = PBXGroup;
+			children = (
+				85331840288C87230000DB75 /* SKHexGrid */,
+				8533183F288C87230000DB75 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8533183F288C87230000DB75 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8533183E288C87230000DB75 /* SKHexGrid.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		85331840288C87230000DB75 /* SKHexGrid */ = {
+			isa = PBXGroup;
+			children = (
+				85CD5003288D9A1700B73468 /* application */,
+				85CD4FF6288C891100B73468 /* HexGridScene.swift */,
+				85CD4FFB288C918D00B73468 /* Point+CGPoint.swift */,
+				85CD5001288D99F200B73468 /* HexSize+CGSize.swift */,
+				85CD4FFD288C920E00B73468 /* Cell+Highlight.swift */,
+				85CD4FFF288D995B00B73468 /* HexGrid+Size.swift */,
+				85331849288C87230000DB75 /* GameViewController.swift */,
+				85CD5004288F164B00B73468 /* ConfigurationView.swift */,
+			);
+			path = SKHexGrid;
+			sourceTree = "<group>";
+		};
+		85CD5003288D9A1700B73468 /* application */ = {
+			isa = PBXGroup;
+			children = (
+				85331843288C87230000DB75 /* GameScene.sks */,
+				85331845288C87230000DB75 /* Actions.sks */,
+				8533184B288C87230000DB75 /* Main.storyboard */,
+				8533184E288C87240000DB75 /* Assets.xcassets */,
+				85331850288C87240000DB75 /* LaunchScreen.storyboard */,
+				85331841288C87230000DB75 /* AppDelegate.swift */,
+				85331847288C87230000DB75 /* GameScene.swift */,
+			);
+			path = application;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8533183D288C87230000DB75 /* SKHexGrid */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 85331855288C87240000DB75 /* Build configuration list for PBXNativeTarget "SKHexGrid" */;
+			buildPhases = (
+				8533183A288C87230000DB75 /* Sources */,
+				8533183B288C87230000DB75 /* Frameworks */,
+				8533183C288C87230000DB75 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SKHexGrid;
+			packageProductDependencies = (
+				85CD4FF9288C8A1200B73468 /* HexGrid */,
+			);
+			productName = skhexgrid;
+			productReference = 8533183E288C87230000DB75 /* SKHexGrid.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		85331836288C87230000DB75 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1340;
+				LastUpgradeCheck = 1340;
+				TargetAttributes = {
+					8533183D288C87230000DB75 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 85331839288C87230000DB75 /* Build configuration list for PBXProject "SKHexGrid" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 85331835288C87230000DB75;
+			packageReferences = (
+				85CD4FF8288C8A1200B73468 /* XCRemoteSwiftPackageReference "hex-grid" */,
+			);
+			productRefGroup = 8533183F288C87230000DB75 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8533183D288C87230000DB75 /* SKHexGrid */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8533183C288C87230000DB75 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8533184D288C87230000DB75 /* Main.storyboard in Resources */,
+				85331844288C87230000DB75 /* GameScene.sks in Resources */,
+				8533184F288C87240000DB75 /* Assets.xcassets in Resources */,
+				85331852288C87240000DB75 /* LaunchScreen.storyboard in Resources */,
+				85331846288C87230000DB75 /* Actions.sks in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8533183A288C87230000DB75 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				85CD4FFE288C920E00B73468 /* Cell+Highlight.swift in Sources */,
+				85CD5005288F164B00B73468 /* ConfigurationView.swift in Sources */,
+				85331848288C87230000DB75 /* GameScene.swift in Sources */,
+				85CD4FFC288C918E00B73468 /* Point+CGPoint.swift in Sources */,
+				8533184A288C87230000DB75 /* GameViewController.swift in Sources */,
+				85CD5000288D995B00B73468 /* HexGrid+Size.swift in Sources */,
+				85CD4FF7288C891100B73468 /* HexGridScene.swift in Sources */,
+				85331842288C87230000DB75 /* AppDelegate.swift in Sources */,
+				85CD5002288D99F200B73468 /* HexSize+CGSize.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8533184B288C87230000DB75 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8533184C288C87230000DB75 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		85331850288C87240000DB75 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				85331851288C87240000DB75 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		85331853288C87240000DB75 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		85331854288C87240000DB75 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		85331856288C87240000DB75 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 39KKZG3UU3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.abstractpuzzle.skhexgrid;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		85331857288C87240000DB75 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 39KKZG3UU3;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.abstractpuzzle.skhexgrid;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		85331839288C87230000DB75 /* Build configuration list for PBXProject "SKHexGrid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				85331853288C87240000DB75 /* Debug */,
+				85331854288C87240000DB75 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		85331855288C87240000DB75 /* Build configuration list for PBXNativeTarget "SKHexGrid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				85331856288C87240000DB75 /* Debug */,
+				85331857288C87240000DB75 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		85CD4FF8288C8A1200B73468 /* XCRemoteSwiftPackageReference "hex-grid" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/fananek/hex-grid.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		85CD4FF9288C8A1200B73468 /* HexGrid */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 85CD4FF8288C8A1200B73468 /* XCRemoteSwiftPackageReference "hex-grid" */;
+			productName = HexGrid;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 85331836288C87230000DB75 /* Project object */;
+}
