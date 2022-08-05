@@ -3,7 +3,14 @@ import HexGrid
 
 class ConfigurationData: ObservableObject {
 
+    enum GridCoordinateType: Hashable {
+        case none
+        case cube
+        case offset
+        case axial
+    }
     enum GridType: Hashable {
+        case custom
         case rectangle
         case hexagon
         case triangle
@@ -11,7 +18,16 @@ class ConfigurationData: ObservableObject {
     @Published var associatedNumber: Double = 3
     @Published var gridType: GridType = .hexagon
     @Published var pointsUp = true
-    @Published var showsCoordinates = true
+    @Published var offsetEven = true
+    @Published var showsCoordinates: GridCoordinateType = .cube
+
+    init(
+        number: Double = 3,
+        gridType: GridType = .hexagon
+    ) {
+        self.associatedNumber = number
+        self.gridType = gridType
+    }
 }
 
 struct ConfigurationSheetView: View {
@@ -28,6 +44,7 @@ struct ConfigurationSheetView: View {
                 HStack {
                     Text("Grid")
                     Picker("View Type", selection: $gameData.gridType, content: {
+                        Text("Custom").tag(ConfigurationData.GridType.custom)
                         Text("Square").tag(ConfigurationData.GridType.rectangle)
                         Text("Hex").tag(ConfigurationData.GridType.hexagon)
                         Text("Triangle").tag(ConfigurationData.GridType.triangle)
@@ -36,16 +53,26 @@ struct ConfigurationSheetView: View {
                 HStack {
                     Text("Size: \(gameData.associatedNumber, specifier: "%.0f")")
                     Slider(value: $gameData.associatedNumber, in: 1...20) {
-                        Text("Size: \(gameData.associatedNumber, specifier: "%.0f")")
+                        Text("Size: \(gameData.associatedNumber.rounded(), specifier: "%.0f")")
                     }
                 }
-
-                Toggle(isOn: $gameData.showsCoordinates, label: {
-                    Text("Show hexagon coordinates")
-                })
+                HStack {
+                    Text("Coordinates")
+                    Picker("Coordinate Type", selection: $gameData.showsCoordinates, content: {
+                        Text("None").tag(ConfigurationData.GridCoordinateType.none)
+                        Text("Cube").tag(ConfigurationData.GridCoordinateType.cube)
+                        Text("Axial").tag(ConfigurationData.GridCoordinateType.axial)
+                        Text("Offset").tag(ConfigurationData.GridCoordinateType.offset)
+                    }).pickerStyle(SegmentedPickerStyle())
+                }
 
                 Toggle(isOn: $gameData.pointsUp, label: {
                     Text("Hexagon points face up")
+                })
+
+                Toggle(isOn: $gameData.offsetEven, label: {
+                    let str: String = gameData.offsetEven ? "Offset is Even" : "Offset is Odd"
+                    Text(str)
                 })
 
                 Spacer()

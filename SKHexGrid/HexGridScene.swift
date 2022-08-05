@@ -4,10 +4,13 @@ import HexGrid
 
 class HexGridScene: SKScene {
 
+    private var config: ConfigurationData
+
     private var grid: HexGrid
-    private var gridShape: GridShape
 
     private var nodesByCell = [Cell: SKShapeNode]()
+
+    private var labelsByCell = [Cell: SKLabelNode]()
 
     private var spinnyNode : SKShapeNode?
 
@@ -15,10 +18,14 @@ class HexGridScene: SKScene {
         config: ConfigurationData,
         size: CGSize
     ) {
+        self.config = config
 
-        let number = Int(config.associatedNumber)
+        let number = Int(config.associatedNumber.rounded())
         var shape: GridShape
         switch config.gridType {
+        case .custom:
+            // this is not used
+            shape = .hexagon(2)
         case .rectangle:
             shape = .rectangle(number, number)
         case .hexagon:
@@ -27,41 +34,39 @@ class HexGridScene: SKScene {
             shape = .triangle(number)
         }
 
-        self.gridShape = shape
-
         let orientation: Orientation = config.pointsUp ? .pointyOnTop : .flatOnTop
+        let offset: OffsetLayout = config.offsetEven ? .even : .odd
 
-        self.grid = HexGrid(
-            shape: gridShape,
-            gridSize: size.hexSize,
-            orientation: orientation
-        )
-
-        // set a reasonable origin based on grid type
-        // TODO: move this into a helper function, or maybe into the convenience init
-        switch gridShape {
-        case .rectangle:
-            if config.pointsUp {
-                // TODO: this one is totally wrong. Probably needs to be rotated.
-                grid.origin = Point(x: grid.hexSize.width, y: size.height - grid.hexSize.height)
-            } else {
-                grid.origin = Point(x: grid.hexSize.width, y: size.height - grid.hexSize.height)
-            }
-        case .hexagon:
-            grid.origin = Point(x: size.width / 2.0, y: size.height / 2.0)
-        case .triangle:
-            if config.pointsUp {
-                let y = size.height - grid.hexSize.height
-                grid.origin = Point(x: size.width / 2.0, y: y)
-            } else {
-                // TODO: this doesn't work... not sure why... will need to figure it out
-                grid.origin = Point(x: grid.hexSize.width, y: size.height + grid.hexSize.height)
-            }
+        if config.gridType == .custom {
+            let cellSet: Set<Cell> = try! Set([
+                CubeCoordinates(x:  1, y: -1, z:  0),
+                CubeCoordinates(x:  0, y: -1, z:  1),
+                CubeCoordinates(x:  1, y:  1, z: -2),
+                CubeCoordinates(x: -1, y:  1, z:  0),
+                CubeCoordinates(x:  0, y:  1, z: -1),
+                CubeCoordinates(x:  1, y:  0, z: -1),
+                CubeCoordinates(x:  3, y: -3, z:  0),
+            ].map { Cell($0) })
+            self.grid = HexGrid(
+                cells: cellSet,
+                orientation: orientation,
+                offsetLayout: offset,
+                hexSize: HexSize(width: 100.0, height: 100.0),
+                origin: Point(x: 0.0, y: 0.0)
+            )
+            self.grid.fitGrid(in: size.hexSize)
+        } else {
+            self.grid = HexGrid(
+                shape: shape,
+                pixelSize: size.hexSize,
+                orientation: orientation,
+                offsetLayout: offset
+            )
         }
 
         super.init(size: size)
 
-        backgroundColor = .clear
+        backgroundColor = .systemPink
     }
 
     private func updateCell(cell: Cell) {
@@ -95,9 +100,36 @@ class HexGridScene: SKScene {
                 count: corners.count)
 
             nodesByCell[cell] = shapeNode
-            updateCell(cell: cell)
-
             addChild(shapeNode)
+
+            if config.showsCoordinates != .none {
+                let center = grid.pixelCoordinates(for: cell)
+                var cellText: String
+                switch config.showsCoordinates {
+                case .none:
+                    cellText = ""
+                case .cube:
+                    cellText = "\(cell.coordinates.x), \(cell.coordinates.y)\n  \(cell.coordinates.z)"
+                case .offset:
+                    let offset = cell.coordinates.toOffset(orientation: grid.orientation, offsetLayout: grid.offsetLayout)
+                    cellText = "\(offset.column), \(offset.row)"
+                case .axial:
+                    let axial = cell.coordinates.toAxial()
+                    cellText = "\(axial.q), \(axial.r)"
+                }
+                let label = SKLabelNode(text: cellText)
+                label.fontSize = 10
+                label.fontColor = .black
+                label.numberOfLines = 2
+                label.horizontalAlignmentMode = .center
+                label.verticalAlignmentMode = .center
+                label.position = center.cgPoint
+
+                labelsByCell[cell] = label
+                addChild(label)
+            }
+
+            updateCell(cell: cell)
         }
 
         // Create shape node to use during mouse interaction
@@ -109,8 +141,7 @@ class HexGridScene: SKScene {
             spinnyNode.lineWidth = 2.5
 
 //            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.25),
-                                              SKAction.scale(by: 0.01, duration: 0.5),
+            spinnyNode.run(SKAction.sequence([SKAction.scale(by: 0.01, duration: 0.5),
                                               SKAction.fadeOut(withDuration: 0.5),
                                               SKAction.removeFromParent()]))
         }

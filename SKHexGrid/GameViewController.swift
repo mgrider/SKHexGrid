@@ -26,7 +26,7 @@ class GameViewController: UIViewController {
                     guard let self = self else { return }
                     guard let hostingController = self.hostingController else { return }
                     guard let configView = self.configurationSheetView else { return }
-                    self.presentGridShape()
+                    self.hex = self.presentGridShape(viewData: self.displayData)
                     hostingController.dismiss(animated: true)
             })
             self.configurationSheetView = view
@@ -51,24 +51,38 @@ class GameViewController: UIViewController {
         configButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
 
         if let view = self.view as! SKView? {
-            presentGridShape()
+            hex = presentGridShape(viewData: self.displayData)
             view.ignoresSiblingOrder = true
             view.showsFPS = true
             view.showsNodeCount = true
+
+            let hex2 = SKView(frame: CGRect(x: 10, y: 70, width: 150, height: 150))
+            let hexScene = HexGridScene(
+                config: ConfigurationData(
+                    number: 2,
+                    gridType: .hexagon
+                ),
+                size: CGSize(width: 150, height: 150)
+            )
+            hexScene.scaleMode = .aspectFit
+            hexScene.backgroundColor = .yellow
+            hex2.presentScene(hexScene)
+            view.addSubview(hex2)
         }
     }
 
-    private func presentGridShape() {
-        guard let view = self.view as? SKView else { return }
+    private func presentGridShape(viewData: ConfigurationData) -> HexGridScene? {
+        guard let view = self.view as? SKView else { return nil }
         // make sure our hex scene is square
         let side = min(view.frame.size.height, view.frame.size.width)
         let size = CGSize(width: side, height: side)
-        hex = HexGridScene(
-            config: displayData,
+        let hexScene = HexGridScene(
+            config: viewData,
             size: size
         )
-        hex?.scaleMode = .aspectFit
-        view.presentScene(hex)
+        hexScene.scaleMode = .aspectFit
+        view.presentScene(hexScene)
+        return hexScene
     }
 
     override var shouldAutorotate: Bool {
