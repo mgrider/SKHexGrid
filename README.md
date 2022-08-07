@@ -14,7 +14,6 @@ An example project using [SpriteKit](https://developer.apple.com/spritekit/) and
 
 ## TODO list
 
-* fix (or remove) iPadOS & macOS targets which break when opening the config menu
 * move from using `isHighlighted` to using a state `Int` instead and looping through some (configurable?) state colors
 
 ## History / Release Notes
@@ -22,6 +21,7 @@ An example project using [SpriteKit](https://developer.apple.com/spritekit/) and
 ### pre-v0.2.0
 
 * draws coordinates on top of each grid cell (type is based on the configuration)
+* fixed iPadOS & macOS targets which were crashing when opening the config menu
 
 ### v0.1.0
 

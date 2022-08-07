@@ -31,9 +31,9 @@ class GameViewController: UIViewController {
             })
             self.configurationSheetView = view
             let vc = UIHostingController(rootView: view)
-            vc.modalPresentationStyle = .popover
-            self.present(vc, animated: true)
             self.hostingController = vc
+            vc.modalPresentationStyle = .formSheet
+            self.present(vc, animated: true)
         }, for: .touchUpInside)
         return button
     }()
