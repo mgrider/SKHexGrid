@@ -75,13 +75,8 @@ class HexGridScene: SKScene {
             print("could not find cell")
             return
         }
-        if cell.attributes["isHighlighted"] == true {
-            cellColor = UIColor(red: 0.0, green: 1.0, blue: 1.0, alpha: 1)
-        } else if cell.isBlocked {
-            cellColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1)
-        } else {
-            cellColor = .lightGray
-        }
+        let state = cell.state
+        cellColor = state.color
         shapeNode.fillColor = cellColor
     }
 
@@ -145,8 +140,32 @@ class HexGridScene: SKScene {
                                               SKAction.fadeOut(withDuration: 0.5),
                                               SKAction.removeFromParent()]))
         }
+
+        // add some gesture recognizers
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+        let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(sender:)))
+        view.gestureRecognizers = [tapGesture, dragGesture]
     }
 
+    // MARK: handling input
+
+    /// Note: to support taps as well as drags, we're using gesture recognizers as opposed to
+
+    func tapped(atPoint pos: CGPoint) {
+        if let cell = try? grid.cellAt(pos.hexPoint) {
+            if cell.isBlocked {
+                print( "Cell x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z) is blocked!")
+            } else {
+                print( "Cell tapped - x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z)")
+                if cell.state == .tapped {
+                    cell.setState(to: .empty)
+                } else {
+                    cell.setState(to: .tapped)
+                }
+                updateCell(cell: cell)
+            }
+        }
+    }
 
     func touchDown(atPoint pos : CGPoint) {
         if let cell = try? grid.cellAt(pos.hexPoint) {
@@ -154,11 +173,11 @@ class HexGridScene: SKScene {
                 print( "Cell x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z) is blocked!")
             } else {
                 print( "Cell x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z)")
-                cell.toggleHighlight()
+                cell.setState(to: .touchStarted)
                 updateCell(cell: cell)
             }
         }
-        else if let n = self.spinnyNode?.copy() as! SKShapeNode? {
+        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
             n.position = pos
             n.strokeColor = SKColor.green
             self.addChild(n)
@@ -166,6 +185,13 @@ class HexGridScene: SKScene {
     }
 
     func touchMoved(toPoint pos : CGPoint) {
+        if let cell = try? grid.cellAt(pos.hexPoint),
+           !cell.isBlocked,
+           cell.state != .touchStarted
+        {
+            cell.setState(to: .touchContinued)
+            updateCell(cell: cell)
+        }
         if let n = self.spinnyNode?.copy() as! SKShapeNode? {
             n.position = pos
             n.strokeColor = SKColor.blue
@@ -174,6 +200,10 @@ class HexGridScene: SKScene {
     }
 
     func touchUp(atPoint pos : CGPoint) {
+        if let cell = try? grid.cellAt(pos.hexPoint), !cell.isBlocked {
+            cell.setState(to: .touchEnded)
+            updateCell(cell: cell)
+        }
         if let n = self.spinnyNode?.copy() as! SKShapeNode? {
             n.position = pos
             n.strokeColor = SKColor.red
@@ -181,25 +211,56 @@ class HexGridScene: SKScene {
         }
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    // newer gesture-based input
 
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            let point = sender.location(in: view)
+            let pointInScene = convertPoint(fromView: point)
+            tapped(atPoint: pointInScene)
+        }
     }
 
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+    @objc func handlePan(sender: UIPanGestureRecognizer) {
+        let viewPoint = sender.location(in: view)
+        let point = convertPoint(fromView: viewPoint)
+        if sender.state == .began {
+            touchDown(atPoint: point)
+        } else if sender.state == .changed {
+            touchMoved(toPoint: point)
+        } else if sender.state == .ended {
+            touchUp(atPoint: point)
+        }
     }
 
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
 
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
+    // old way, handling each touch individually
 
+//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+//    }
+//
+//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+//    }
+//
+//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        for t in touches {
+//            if t.tapCount == 1 {
+//                self.tapped(atPoint: t.location(in: self))
+//            } else {
+//                self.touchUp(atPoint: t.location(in: self))
+//            }
+//        }
+//    }
+//
+//    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+//        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+//    }
 
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-    }
+    // MARK: update loop for realtime games
+
+//    override func update(_ currentTime: TimeInterval) {
+//        // Called before each frame is rendered
+//    }
 }

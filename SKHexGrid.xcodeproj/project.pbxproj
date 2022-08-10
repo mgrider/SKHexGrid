@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		850E03D828A061BB00BC5934 /* Cell+State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850E03D728A061BB00BC5934 /* Cell+State.swift */; };
 		85331842288C87230000DB75 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85331841288C87230000DB75 /* AppDelegate.swift */; };
 		85331844288C87230000DB75 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 85331843288C87230000DB75 /* GameScene.sks */; };
 		85331846288C87230000DB75 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 85331845288C87230000DB75 /* Actions.sks */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		850E03D728A061BB00BC5934 /* Cell+State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cell+State.swift"; sourceTree = "<group>"; };
 		8533183E288C87230000DB75 /* SKHexGrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKHexGrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85331841288C87230000DB75 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85331843288C87230000DB75 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				85CD4FFB288C918D00B73468 /* Point+CGPoint.swift */,
 				85CD5001288D99F200B73468 /* HexSize+CGSize.swift */,
 				85CD4FFD288C920E00B73468 /* Cell+Highlight.swift */,
+				850E03D728A061BB00BC5934 /* Cell+State.swift */,
 				85331849288C87230000DB75 /* GameViewController.swift */,
 				85CD5004288F164B00B73468 /* ConfigurationView.swift */,
 			);
@@ -181,6 +184,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				850E03D828A061BB00BC5934 /* Cell+State.swift in Sources */,
 				85CD4FFE288C920E00B73468 /* Cell+Highlight.swift in Sources */,
 				85CD5005288F164B00B73468 /* ConfigurationView.swift in Sources */,
 				85331848288C87230000DB75 /* GameScene.swift in Sources */,
