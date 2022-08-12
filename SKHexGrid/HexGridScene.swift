@@ -127,19 +127,16 @@ class HexGridScene: SKScene {
             updateCell(cell: cell)
         }
 
-        // Create shape node to use during mouse interaction
+        // Create shape node to use during drag interaction
         let w = (self.size.width + self.size.height) * 0.05
-//        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        self.spinnyNode = SKShapeNode(circleOfRadius: w)
-
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-
-//            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.scale(by: 0.01, duration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
-        }
+        let spinnyNode = SKShapeNode(circleOfRadius: w)
+        spinnyNode.lineWidth = 2.5
+        spinnyNode.run(SKAction.sequence([
+            SKAction.scale(by: 0.01, duration: 0.5),
+            SKAction.fadeOut(withDuration: 0.5),
+            SKAction.removeFromParent(),
+        ]))
+        self.spinnyNode = spinnyNode
 
         // add some gesture recognizers
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
@@ -158,9 +155,9 @@ class HexGridScene: SKScene {
             } else {
                 print( "Cell tapped - x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z)")
                 if cell.state == .tapped {
-                    cell.setState(to: .empty)
+                    cell.state = .empty
                 } else {
-                    cell.setState(to: .tapped)
+                    cell.state = .tapped
                 }
                 updateCell(cell: cell)
             }
@@ -173,7 +170,7 @@ class HexGridScene: SKScene {
                 print( "Cell x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z) is blocked!")
             } else {
                 print( "Cell x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z)")
-                cell.setState(to: .touchStarted)
+                cell.state = .touchStarted
                 updateCell(cell: cell)
             }
         }
@@ -189,7 +186,7 @@ class HexGridScene: SKScene {
            !cell.isBlocked,
            cell.state != .touchStarted
         {
-            cell.setState(to: .touchContinued)
+            cell.state = .touchContinued
             updateCell(cell: cell)
         }
         if let n = self.spinnyNode?.copy() as! SKShapeNode? {
@@ -201,7 +198,7 @@ class HexGridScene: SKScene {
 
     func touchUp(atPoint pos : CGPoint) {
         if let cell = try? grid.cellAt(pos.hexPoint), !cell.isBlocked {
-            cell.setState(to: .touchEnded)
+            cell.state = .touchEnded
             updateCell(cell: cell)
         }
         if let n = self.spinnyNode?.copy() as! SKShapeNode? {

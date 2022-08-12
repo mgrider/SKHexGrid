@@ -28,15 +28,16 @@ extension Cell {
         }
     }
 
-    fileprivate var stateInt : Int {
-        return self.attributes[Cell.kStateAttribute]?.value as? Int ?? -1
-    }
-
     var state: State {
-        return State(rawValue: stateInt) ?? .empty
+        get {
+            guard let stateInt = self.attributes[Cell.kStateAttribute]?.value as? Int else {
+                return .empty
+            }
+            return State(rawValue: stateInt) ?? .empty
+        }
+        set (newValue) {
+            self.attributes[Cell.kStateAttribute] = .init(newValue.rawValue)
+        }
     }
 
-    func setState(to: State) {
-        self.attributes[Cell.kStateAttribute] = .init(to.rawValue)
-    }
 }
