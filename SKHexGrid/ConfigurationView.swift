@@ -19,6 +19,7 @@ class ConfigurationData: ObservableObject {
     @Published var gridType: GridType = .hexagon
     @Published var pointsUp = true
     @Published var offsetEven = true
+    @Published var shiftToPositiveXYCoordinates = false
     @Published var showsCoordinates: GridCoordinateType = .cube
 
     init(
@@ -73,6 +74,10 @@ struct ConfigurationSheetView: View {
                 Toggle(isOn: $gameData.offsetEven, label: {
                     let str: String = gameData.offsetEven ? "Offset is Even" : "Offset is Odd"
                     Text(str)
+                })
+
+                Toggle(isOn: $gameData.shiftToPositiveXYCoordinates, label: {
+                    Text("Prefer positive offset coordinates")
                 })
 
                 Spacer()

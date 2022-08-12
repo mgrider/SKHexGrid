@@ -62,8 +62,13 @@ class GameViewController: UIViewController {
                     number: 2,
                     gridType: .hexagon
                 ),
-                size: CGSize(width: 150, height: 150)
-            )
+                size: CGSize(width: 150, height: 150)) { [weak self] coordinates in
+                    guard let self = self else { return }
+                    try? self.hex?.grid.addCoordinatesToCells(coordinateToAdd: coordinates)
+                    // bah...
+                    // what I would need for this to work is to re-present the hex using the custom initializer
+                    self.hex?.updateAllCells()
+                }
             hexScene.scaleMode = .aspectFit
             hexScene.backgroundColor = .yellow
             hex2.presentScene(hexScene)

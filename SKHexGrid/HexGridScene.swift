@@ -6,19 +6,23 @@ class HexGridScene: SKScene {
 
     private var config: ConfigurationData
 
-    private var grid: HexGrid
+    public var grid: HexGrid
 
-    private var nodesByCell = [Cell: SKShapeNode]()
+    private var nodesByCell = [CubeCoordinates: SKShapeNode]()
 
-    private var labelsByCell = [Cell: SKLabelNode]()
+    private var labelsByCell = [CubeCoordinates: SKLabelNode]()
 
     private var spinnyNode : SKShapeNode?
 
+    private var tappedCallback: ((CubeCoordinates) -> Void)?
+
     init(
         config: ConfigurationData,
-        size: CGSize
+        size: CGSize,
+        tappedCallback: ((CubeCoordinates) -> Void)? = nil
     ) {
         self.config = config
+        self.tappedCallback = tappedCallback
 
         let number = Int(config.associatedNumber.rounded())
         var shape: GridShape
@@ -64,20 +68,48 @@ class HexGridScene: SKScene {
             )
         }
 
+        if config.shiftToPositiveXYCoordinates {
+            try? self.grid.shiftXYToPositive()
+            self.grid.fitGrid(in: size.hexSize)
+        }
+
         super.init(size: size)
 
         backgroundColor = .systemPink
     }
 
+    public func updateAllCells() {
+        for cell in grid.cells {
+            updateCell(cell: cell)
+        }
+    }
+
     private func updateCell(cell: Cell) {
         var cellColor: UIColor
-        guard let shapeNode = nodesByCell[cell] else {
+        guard let shapeNode = nodesByCell[cell.coordinates] else {
             print("could not find cell")
             return
         }
         let state = cell.state
         cellColor = state.color
         shapeNode.fillColor = cellColor
+        if config.showsCoordinates != .none,
+            let textNode = labelsByCell[cell.coordinates] {
+            var cellText: String
+            switch config.showsCoordinates {
+            case .none:
+                cellText = ""
+            case .cube:
+                cellText = "\(cell.coordinates.x), \(cell.coordinates.y)\n  \(cell.coordinates.z)"
+            case .offset:
+                let offset = cell.coordinates.toOffset(orientation: grid.orientation, offsetLayout: grid.offsetLayout)
+                cellText = "\(offset.column), \(offset.row)"
+            case .axial:
+                let axial = cell.coordinates.toAxial()
+                cellText = "\(axial.q), \(axial.r)"
+            }
+            textNode.text = cellText
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -94,25 +126,12 @@ class HexGridScene: SKScene {
                 points: &corners,
                 count: corners.count)
 
-            nodesByCell[cell] = shapeNode
+            nodesByCell[cell.coordinates] = shapeNode
             addChild(shapeNode)
 
             if config.showsCoordinates != .none {
                 let center = grid.pixelCoordinates(for: cell)
-                var cellText: String
-                switch config.showsCoordinates {
-                case .none:
-                    cellText = ""
-                case .cube:
-                    cellText = "\(cell.coordinates.x), \(cell.coordinates.y)\n  \(cell.coordinates.z)"
-                case .offset:
-                    let offset = cell.coordinates.toOffset(orientation: grid.orientation, offsetLayout: grid.offsetLayout)
-                    cellText = "\(offset.column), \(offset.row)"
-                case .axial:
-                    let axial = cell.coordinates.toAxial()
-                    cellText = "\(axial.q), \(axial.r)"
-                }
-                let label = SKLabelNode(text: cellText)
+                let label = SKLabelNode(text: "")
                 label.fontSize = 10
                 label.fontColor = .black
                 label.numberOfLines = 2
@@ -120,7 +139,7 @@ class HexGridScene: SKScene {
                 label.verticalAlignmentMode = .center
                 label.position = center.cgPoint
 
-                labelsByCell[cell] = label
+                labelsByCell[cell.coordinates] = label
                 addChild(label)
             }
 
@@ -153,6 +172,7 @@ class HexGridScene: SKScene {
 
     func tapped(atPoint pos: CGPoint) {
         if let cell = try? grid.cellAt(pos.hexPoint) {
+            tappedCallback?(cell.coordinates)
             if cell.isBlocked {
                 print( "Cell x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z) is blocked!")
             } else {
