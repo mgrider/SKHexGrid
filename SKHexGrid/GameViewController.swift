@@ -5,7 +5,6 @@ import UIKit
 
 class GameViewController: UIViewController {
 
-    var configurationSheetView: ConfigurationSheetView?
     var displayData = ConfigurationData()
 
     lazy var configButton: UIButton = {
@@ -25,11 +24,9 @@ class GameViewController: UIViewController {
                 doneButtonCallback: { [weak self] model in
                     guard let self = self else { return }
                     guard let hostingController = self.hostingController else { return }
-                    guard let configView = self.configurationSheetView else { return }
                     self.hex = self.presentGridShape(viewData: self.displayData)
                     hostingController.dismiss(animated: true)
             })
-            self.configurationSheetView = view
             let vc = UIHostingController(rootView: view)
             self.hostingController = vc
             vc.modalPresentationStyle = .formSheet
