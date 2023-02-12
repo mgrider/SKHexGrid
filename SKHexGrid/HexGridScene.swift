@@ -31,6 +31,9 @@ class HexGridScene: SKScene {
             shape = .rectangle(number, secondary)
         case .hexagon:
             shape = .hexagon(number)
+        case .parallelogram:
+            let secondary = Int(config.gridSizeY.rounded())
+            shape = .parallelogram(number, secondary)
         case .triangle:
             shape = .triangle(number)
         }

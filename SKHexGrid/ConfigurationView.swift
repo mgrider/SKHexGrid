@@ -13,6 +13,7 @@ class ConfigurationData: ObservableObject {
         case custom
         case rectangle
         case hexagon
+        case parallelogram
         case triangle
     }
 
@@ -63,8 +64,9 @@ struct ConfigurationSheetView: View {
                     HStack {
                         Picker("View Type", selection: $gameData.gridType, content: {
                             Text("Custom").tag(ConfigurationData.GridType.custom)
-                            Text("Square").tag(ConfigurationData.GridType.rectangle)
-                            Text("Hex").tag(ConfigurationData.GridType.hexagon)
+                            Text("Rectangle").tag(ConfigurationData.GridType.rectangle)
+                            Text("Hexagon").tag(ConfigurationData.GridType.hexagon)
+                            Text("Parallelogram").tag(ConfigurationData.GridType.parallelogram)
                             Text("Triangle").tag(ConfigurationData.GridType.triangle)
                         }).pickerStyle(SegmentedPickerStyle())
                     }
@@ -85,7 +87,7 @@ struct ConfigurationSheetView: View {
                             Text("Size Y: \(gameData.gridSizeY.rounded(), specifier: "%.0f")")
                         }
                         HStack {
-                            Text("(Only applies to Square grids.)").font(.caption)
+                            Text("(Only applies to rectangle and parallelogram grids.)").font(.caption)
                             Spacer()
                         }
                     }
