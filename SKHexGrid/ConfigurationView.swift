@@ -13,6 +13,7 @@ class ConfigurationData: ObservableObject {
         case custom
         case rectangle
         case hexagon
+        case irregularHexagon
         case parallelogram
         case triangle
     }
@@ -26,7 +27,7 @@ class ConfigurationData: ObservableObject {
     @Published var showsCoordinates: GridCoordinateType = .cube
 
     // colors
-    @Published var colorForBackground: Color = Color(UIColor.systemPink)
+    @Published var colorForBackground: Color = .black
     @Published var colorForStateEmpty: Color = Color(UIColor.lightGray)
     @Published var colorForStateTapped: Color = Color(UIColor.systemOrange)
     @Published var colorForStateDragBegan: Color = Color(red: 59/256, green: 172/256, blue: 182/256)
@@ -65,8 +66,9 @@ struct ConfigurationSheetView: View {
                         Picker("View Type", selection: $gameData.gridType, content: {
                             Text("Custom").tag(ConfigurationData.GridType.custom)
                             Text("Rectangle").tag(ConfigurationData.GridType.rectangle)
-                            Text("Hexagon").tag(ConfigurationData.GridType.hexagon)
-                            Text("Parallelogram").tag(ConfigurationData.GridType.parallelogram)
+                            Text("Hex").tag(ConfigurationData.GridType.hexagon)
+                            Text("Odd Hex").tag(ConfigurationData.GridType.irregularHexagon)
+                            Text("Parallel").tag(ConfigurationData.GridType.parallelogram)
                             Text("Triangle").tag(ConfigurationData.GridType.triangle)
                         }).pickerStyle(SegmentedPickerStyle())
                     }
@@ -87,7 +89,7 @@ struct ConfigurationSheetView: View {
                             Text("Size Y: \(gameData.gridSizeY.rounded(), specifier: "%.0f")")
                         }
                         HStack {
-                            Text("(Only applies to rectangle and parallelogram grids.)").font(.caption)
+                            Text("(Only applies to irregular hexagon, rectangle, and parallelogram grids.)").font(.caption)
                             Spacer()
                         }
                     }
