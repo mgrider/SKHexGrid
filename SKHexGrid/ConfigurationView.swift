@@ -20,6 +20,7 @@ class ConfigurationData: ObservableObject {
     @Published var pointsUp = true
     @Published var offsetEven = true
     @Published var showsCoordinates: GridCoordinateType = .cube
+    @Published var showYellowSecondaryGrid = true
 
     init(
         number: Double = 3,
@@ -73,6 +74,10 @@ struct ConfigurationSheetView: View {
                 Toggle(isOn: $gameData.offsetEven, label: {
                     let str: String = gameData.offsetEven ? "Offset is Even" : "Offset is Odd"
                     Text(str)
+                })
+
+                Toggle(isOn: $gameData.showYellowSecondaryGrid, label: {
+                    Text("Show yellow secondary hex2 grid?")
                 })
 
                 Spacer()

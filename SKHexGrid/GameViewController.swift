@@ -25,6 +25,7 @@ class GameViewController: UIViewController {
                     guard let self = self else { return }
                     guard let hostingController = self.hostingController else { return }
                     self.hex = self.presentGridShape(viewData: self.displayData)
+                    self.hexSecondaryView?.isHidden = !model.showYellowSecondaryGrid
                     hostingController.dismiss(animated: true)
             })
             let vc = UIHostingController(rootView: view)
@@ -36,6 +37,8 @@ class GameViewController: UIViewController {
     }()
 
     var hex: HexGridScene?
+
+    var hexSecondaryView: SKView?
 
     var hostingController: UIHostingController<ConfigurationSheetView>?
 
@@ -65,6 +68,7 @@ class GameViewController: UIViewController {
             hexScene.backgroundColor = .yellow
             hex2.presentScene(hexScene)
             view.addSubview(hex2)
+            hexSecondaryView = hex2
         }
     }
 
