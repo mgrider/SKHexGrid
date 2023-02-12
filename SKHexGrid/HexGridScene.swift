@@ -20,14 +20,15 @@ class HexGridScene: SKScene {
     ) {
         self.config = config
 
-        let number = Int(config.associatedNumber.rounded())
+        let number = Int(config.gridSizeX.rounded())
         var shape: GridShape
         switch config.gridType {
         case .custom:
             // this is not used
             shape = .hexagon(2)
         case .rectangle:
-            shape = .rectangle(number, number)
+            let secondary = Int(config.gridSizeY.rounded())
+            shape = .rectangle(number, secondary)
         case .hexagon:
             shape = .hexagon(number)
         case .triangle:
@@ -66,7 +67,7 @@ class HexGridScene: SKScene {
 
         super.init(size: size)
 
-        backgroundColor = .systemPink
+        backgroundColor = UIColor(config.colorForBackground)
     }
 
     private func updateCell(cell: Cell) {
@@ -76,7 +77,18 @@ class HexGridScene: SKScene {
             return
         }
         let state = cell.state
-        cellColor = state.color
+        switch state {
+        case .empty:
+            cellColor = UIColor(config.colorForStateEmpty)
+        case .tapped:
+            cellColor = UIColor(config.colorForStateTapped)
+        case .touchStarted:
+            cellColor = UIColor(config.colorForStateDragBegan)
+        case .touchContinued:
+            cellColor = UIColor(config.colorForStateDragContinued)
+        case .touchEnded:
+            cellColor = UIColor(config.colorForStateDragEnded)
+        }
         shapeNode.fillColor = cellColor
     }
 
@@ -127,6 +139,10 @@ class HexGridScene: SKScene {
             updateCell(cell: cell)
         }
 
+        if config.shouldColorEdgesOfTheBoard {
+            colorEdgeCells()
+        }
+
         // Create shape node to use during drag interaction
         let w = (self.size.width + self.size.height) * 0.05
         let spinnyNode = SKShapeNode(circleOfRadius: w)
@@ -142,6 +158,19 @@ class HexGridScene: SKScene {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(sender:)))
         view.gestureRecognizers = [tapGesture, dragGesture]
+    }
+
+    func colorEdgeCells() {
+        let color: UIColor = UIColor(config.colorForEdgesOfTheBoard)
+        for cell in grid.cells {
+            if let neighbors = try? grid.neighbors(for: cell),
+               neighbors.count != 6 {
+                guard let node = nodesByCell[cell] else {
+                    continue
+                }
+                node.fillColor = color
+            }
+        }
     }
 
     // MARK: handling input
