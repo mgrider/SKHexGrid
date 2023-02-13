@@ -24,10 +24,15 @@ class ConfigurationData: ObservableObject {
     @Published var gridType: GridType = .hexagon
     @Published var pointsUp = true
     @Published var offsetEven = true
+
+    // coordinates
     @Published var showsCoordinates: GridCoordinateType = .cube
+    @Published var colorForCoordinateLabels: Color = .black
+    @Published var coordinateLabelFontSize: Double = 10
 
     // colors
     @Published var colorForBackground: Color = .black
+    @Published var colorForHexagonBorder: Color = .white
     @Published var colorForStateEmpty: Color = Color(UIColor.lightGray)
     @Published var colorForStateTapped: Color = Color(UIColor.systemOrange)
     @Published var colorForStateDragBegan: Color = Color(red: 59/256, green: 172/256, blue: 182/256)
@@ -35,7 +40,7 @@ class ConfigurationData: ObservableObject {
     @Published var colorForStateDragEnded: Color = Color(red: 179/256, green: 232/256, blue: 229/256)
 
     // misc
-    @Published var showYellowSecondaryGrid = true
+    @Published var showYellowSecondaryGrid = false
     @Published var shouldColorEdgesOfTheBoard = false
     @Published var colorForEdgesOfTheBoard: Color = Color(.gray)
 
@@ -94,16 +99,6 @@ struct ConfigurationSheetView: View {
                         }
                     }
 
-                    HStack {
-                        Text("Coordinates")
-                        Picker("Coordinate Type", selection: $gameData.showsCoordinates, content: {
-                            Text("None").tag(ConfigurationData.GridCoordinateType.none)
-                            Text("Cube").tag(ConfigurationData.GridCoordinateType.cube)
-                            Text("Axial").tag(ConfigurationData.GridCoordinateType.axial)
-                            Text("Offset").tag(ConfigurationData.GridCoordinateType.offset)
-                        }).pickerStyle(SegmentedPickerStyle())
-                    }
-
                     Toggle(isOn: $gameData.pointsUp, label: {
                         Text("Hexagon points face up")
                     })
@@ -115,11 +110,43 @@ struct ConfigurationSheetView: View {
 
                 }
 
+                Section("Coordinates") {
+                    HStack {
+                        Text("Coordinates")
+                        Picker("Coordinate Type", selection: $gameData.showsCoordinates, content: {
+                            Text("None").tag(ConfigurationData.GridCoordinateType.none)
+                            Text("Cube").tag(ConfigurationData.GridCoordinateType.cube)
+                            Text("Axial").tag(ConfigurationData.GridCoordinateType.axial)
+                            Text("Offset").tag(ConfigurationData.GridCoordinateType.offset)
+                        }).pickerStyle(SegmentedPickerStyle())
+                    }
+
+                    ColorPicker(
+                        "Coordinate Text Color",
+                        selection: $gameData.colorForCoordinateLabels,
+                        supportsOpacity: false
+                    )
+
+                    HStack {
+                        Text("Font Size: \(gameData.coordinateLabelFontSize, specifier: "%.0f")")
+                        Slider(value: $gameData.coordinateLabelFontSize, in: 6...30) {
+                            Text("Font Size: \(gameData.coordinateLabelFontSize.rounded(), specifier: "%.0f")")
+                        }
+                    }
+
+                }
+
                 Section("Colors") {
 
                     ColorPicker(
                         "Background Color",
                         selection: $gameData.colorForBackground,
+                        supportsOpacity: false
+                    )
+
+                    ColorPicker(
+                        "Border Color",
+                        selection: $gameData.colorForHexagonBorder,
                         supportsOpacity: false
                     )
 

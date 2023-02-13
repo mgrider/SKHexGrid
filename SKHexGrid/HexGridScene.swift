@@ -111,6 +111,7 @@ class HexGridScene: SKScene {
             let shapeNode = SKShapeNode(
                 points: &corners,
                 count: corners.count)
+            shapeNode.strokeColor = UIColor(config.colorForHexagonBorder)
 
             nodesByCell[cell] = shapeNode
             addChild(shapeNode)
@@ -131,8 +132,9 @@ class HexGridScene: SKScene {
                     cellText = "\(axial.q), \(axial.r)"
                 }
                 let label = SKLabelNode(text: cellText)
-                label.fontSize = 10
-                label.fontColor = .black
+                label.fontName = "Helvetica"
+                label.fontSize = config.coordinateLabelFontSize
+                label.fontColor = UIColor(config.colorForCoordinateLabels)
                 label.numberOfLines = 2
                 label.horizontalAlignmentMode = .center
                 label.verticalAlignmentMode = .center

@@ -69,6 +69,7 @@ class GameViewController: UIViewController {
             hex2.presentScene(hexScene)
             view.addSubview(hex2)
             hexSecondaryView = hex2
+            hexSecondaryView?.isHidden = !displayData.showYellowSecondaryGrid
         }
     }
 
