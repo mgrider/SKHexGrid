@@ -48,10 +48,11 @@ class ConfigurationData: ObservableObject {
     @Published var colorForStateDragEnded: Color = Color(red: 179/256, green: 232/256, blue: 229/256)
 
     // misc
-    @Published var showYellowSecondaryGrid = false
+    @Published var borderWidth:Double = 1
     @Published var initialShading: GridInitialShading = .threeColor
     @Published var colorForStateEmptySecondary: Color = Color(.gray)
     @Published var colorForStateEmptyTertiary: Color = Color(red: 0.8, green: 0.8, blue: 0.8)
+    @Published var showYellowSecondaryGrid = false
 
     init(
         number: Double = 3,
@@ -145,13 +146,7 @@ struct ConfigurationSheetView: View {
 
                 }
 
-                Section("Colors") {
-
-                    ColorPicker(
-                        "Background Color",
-                        selection: $gameData.colorForBackground,
-                        supportsOpacity: false
-                    )
+                Section("Outline / Borders") {
 
                     ColorPicker(
                         "Border Color",
@@ -159,11 +154,56 @@ struct ConfigurationSheetView: View {
                         supportsOpacity: false
                     )
 
+                    HStack {
+                        Text("Cell Border width: \(gameData.borderWidth, specifier: "%.0f")")
+                        Slider(value: $gameData.borderWidth, in: 0...30) {
+                            Text("Border width: \(gameData.borderWidth.rounded(), specifier: "%.0f")")
+                        }
+                    }
+                }
+
+                Section("Cell Colors") {
+
                     ColorPicker(
                         "Empty Cell Color",
                         selection: $gameData.colorForStateEmpty,
                         supportsOpacity: false
                     )
+
+                    VStack {
+                        Text("Initial Shading")
+                        HStack {
+                            Picker("Coordinate Type", selection: $gameData.initialShading, content: {
+                                Text("None").tag(ConfigurationData.GridInitialShading.none)
+                                Text("Edges").tag(ConfigurationData.GridInitialShading.edges)
+                                Text("Rings").tag(ConfigurationData.GridInitialShading.rings)
+                                Text("Three color").tag(ConfigurationData.GridInitialShading.threeColor)
+                            }).pickerStyle(SegmentedPickerStyle())
+                        }
+                        HStack {
+                            ColorPicker(
+                                "Secondary empty color",
+                                selection: $gameData.colorForStateEmptySecondary,
+                                supportsOpacity: false
+                            )
+                            ColorPicker(
+                                "Third empty color",
+                                selection: $gameData.colorForStateEmptyTertiary,
+                                supportsOpacity: false
+                            )
+                        }
+                        HStack {
+                            Text("Edges and rings use empty cell color and secondary color.").font(.caption)
+                            Spacer()
+                        }
+                        HStack {
+                            Text("(Warning that ring shading can take a bit of time to compute on large grids.)").font(.caption)
+                            Spacer()
+                        }
+                    }
+                }
+
+                Section("Interactions") {
 
                     ColorPicker(
                         "Tap Color",
@@ -193,41 +233,16 @@ struct ConfigurationSheetView: View {
 
                 Section("Misc") {
 
+                    ColorPicker(
+                        "Screen / Background Color",
+                        selection: $gameData.colorForBackground,
+                        supportsOpacity: false
+                    )
+
                     Toggle(isOn: $gameData.showYellowSecondaryGrid, label: {
                         Text("Show yellow secondary hex2 grid")
                     })
 
-                    VStack {
-                        Text("Initial Shading")
-                        HStack {
-                            Picker("Coordinate Type", selection: $gameData.initialShading, content: {
-                                Text("None").tag(ConfigurationData.GridInitialShading.none)
-                                Text("Edges").tag(ConfigurationData.GridInitialShading.edges)
-                                Text("Rings").tag(ConfigurationData.GridInitialShading.rings)
-                                Text("Three color").tag(ConfigurationData.GridInitialShading.threeColor)
-                            }).pickerStyle(SegmentedPickerStyle())
-                        }
-                        HStack {
-                            ColorPicker(
-                                "Secondary color",
-                                selection: $gameData.colorForStateEmptySecondary,
-                                supportsOpacity: false
-                            )
-                            ColorPicker(
-                                "Third color",
-                                selection: $gameData.colorForStateEmptyTertiary,
-                                supportsOpacity: false
-                            )
-                        }
-                        HStack {
-                            Text("Edges and rings use background color and secondary color.").font(.caption)
-                            Spacer()
-                        }
-                        HStack {
-                            Text("(Warning that rings can take a bit of time to compute on large grids.)").font(.caption)
-                            Spacer()
-                        }
-                    }
                 }
 
             }.padding()

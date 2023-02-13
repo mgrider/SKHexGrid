@@ -7,12 +7,21 @@ An example project using [SpriteKit](https://developer.apple.com/spritekit/) and
 
 1. Download this project
 2. Open the project in Xcode
-3. Pick a deployment target (any iOS simulator should work)
+3. Pick a deployment target (any iOS or iPadOS simulator should work)
 4. Run the project
 5. Use the configuration button (gear icon in upper-right) to switch between different types of grid layout
 
 
 ## History / Release Notes
+
+### v0.3.0
+
+* new grid options for Irregular Hexagons & Parallelograms
+* made most colors customizable
+* added customization of coordinate label color and font size
+* added initial shading options, edges, rings, and tri-color
+* tweaked defaults to not show the secondary overlay grid, picked new colors & shading
+* added an option to change the size of (or remove) the border between cells
 
 ### v0.2.0
 
@@ -31,13 +40,15 @@ Roughly corresponds to HexGrid version 0.4.10.
 ## Backlog / ideas list
 
 * Make additional things configurable
-  - state colors & scene background colors
-  - the coordinates for "custom" generation
-  - the frame of the hexagon(s)
-  - allow toggling on/off the secondary hexagon (currently a yellow background)
-    - or _maybe_ make an array of configuration objects, and allow any number of hexagons to be drawn
-* Allow drawing a border around the edges of the grid
-  - maybe margin values & colors for each `Direction`
+  - arbitrary coordinates for "custom" generation
+  - the frame of the hexagon?
+* Add additional "initial shading" options
+  - two-color edges
+  - three-color rings
+* Add a toggle (& settings section) for drag & associated colors
+* Add an option to add shapes on top of the grid as opposed to fully coloring the tapped cell
+* Add a second tap state, so you can toggle between three colors empty->tap1->tap2
+* Remember the background color for each cell so tapping/dragging doesn't mess up the initial colors
 * Add more visual effects
   - animate the border of a tapped cell
   - screen shake
@@ -46,7 +57,7 @@ Roughly corresponds to HexGrid version 0.4.10.
   - neighboring cells
   - diagonally neighboring cells
   - shortest path to some other cell
-* Add a UINavigationController and additional types of examples.
+* Add a navigation to additional "canned" examples
   - An example drawn with `UIKit`
   - An example that does not "fit" to the screen size, and instead is much larger and scrolls off screen in all directions
   - A fully functioning game example? ([Hex](https://en.wikipedia.org/wiki/Hex_(board_game)) maybe?)

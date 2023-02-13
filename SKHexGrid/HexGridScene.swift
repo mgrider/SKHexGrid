@@ -43,6 +43,9 @@ class HexGridScene: SKScene {
 
         let orientation: Orientation = config.pointsUp ? .pointyOnTop : .flatOnTop
         let offset: OffsetLayout = config.offsetEven ? .even : .odd
+        var hexSize = size.hexSize
+        hexSize.height -= config.borderWidth
+        hexSize.width -= config.borderWidth
 
         if config.gridType == .custom {
             let cellSet: Set<Cell> = try! Set([
@@ -61,11 +64,11 @@ class HexGridScene: SKScene {
                 hexSize: HexSize(width: 100.0, height: 100.0),
                 origin: Point(x: 0.0, y: 0.0)
             )
-            self.grid.fitGrid(in: size.hexSize)
+            self.grid.fitGrid(in: hexSize)
         } else {
             self.grid = HexGrid(
                 shape: shape,
-                pixelSize: size.hexSize,
+                pixelSize: hexSize,
                 orientation: orientation,
                 offsetLayout: offset
             )
@@ -120,6 +123,7 @@ class HexGridScene: SKScene {
                 points: &corners,
                 count: corners.count)
             shapeNode.strokeColor = UIColor(config.colorForHexagonBorder)
+            shapeNode.lineWidth = config.borderWidth.rounded()
 
             nodesByCell[cell] = shapeNode
             addChild(shapeNode)
