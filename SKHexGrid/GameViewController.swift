@@ -3,9 +3,18 @@ import SpriteKit
 import SwiftUI
 import UIKit
 
+class GameBackgroundScene: SKScene {
+    override init(size: CGSize) {
+        super.init(size: size)
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class GameViewController: UIViewController {
 
-    var displayData = ConfigurationData()
+    var background: GameBackgroundScene?
 
     lazy var configButton: UIButton = {
         let button = UIButton()
@@ -24,6 +33,7 @@ class GameViewController: UIViewController {
                 doneButtonCallback: { [weak self] model in
                     guard let self = self else { return }
                     guard let hostingController = self.hostingController else { return }
+                    self.background?.backgroundColor = UIColor(model.colorForBackground)
                     self.hex = self.presentGridShape(viewData: self.displayData)
                     self.hexSecondaryView?.isHidden = !model.showYellowSecondaryGrid
                     hostingController.dismiss(animated: true)
@@ -36,6 +46,10 @@ class GameViewController: UIViewController {
         return button
     }()
 
+    var displayData = ConfigurationData()
+
+    var gameView: SKView?
+
     var hex: HexGridScene?
 
     var hexSecondaryView: SKView?
@@ -45,12 +59,24 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(configButton)
-        configButton.translatesAutoresizingMaskIntoConstraints = false
-        configButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        configButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
-
         if let view = self.view as! SKView? {
+
+            let bgView = SKView(frame: .init(origin: .zero, size: view.frame.size))
+            let bgScene = GameBackgroundScene(size: view.frame.size)
+            bgScene.backgroundColor = UIColor(displayData.colorForBackground)
+            bgView.presentScene(bgScene)
+            view.addSubview(bgView)
+            self.background = bgScene
+
+            let side = min(view.frame.size.height, view.frame.size.width)
+            let gameView = SKView(frame: .init(
+                x: 0,
+                y: (view.frame.size.height - side)/2.0,
+                width: side,
+                height: side))
+            view.addSubview(gameView)
+            self.gameView = gameView
+
             hex = presentGridShape(viewData: self.displayData)
             view.ignoresSiblingOrder = true
             view.showsFPS = true
@@ -70,11 +96,16 @@ class GameViewController: UIViewController {
             view.addSubview(hex2)
             hexSecondaryView = hex2
             hexSecondaryView?.isHidden = !displayData.showYellowSecondaryGrid
+
+            view.addSubview(configButton)
+            configButton.translatesAutoresizingMaskIntoConstraints = false
+            configButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+            configButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         }
     }
 
     private func presentGridShape(viewData: ConfigurationData) -> HexGridScene? {
-        guard let view = self.view as? SKView else { return nil }
+        guard let view = self.gameView else { return nil }
         // make sure our hex scene is square
         let side = min(view.frame.size.height, view.frame.size.width)
         let size = CGSize(width: side, height: side)
