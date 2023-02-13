@@ -84,10 +84,7 @@ class GameViewController: UIViewController {
 
             let hex2 = SKView(frame: CGRect(x: 10, y: 70, width: 150, height: 150))
             let hexScene = HexGridScene(
-                config: ConfigurationData(
-                    number: 2,
-                    gridType: .hexagon
-                ),
+                config: displayData,
                 size: CGSize(width: 150, height: 150)
             )
             hexScene.scaleMode = .aspectFit

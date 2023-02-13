@@ -12,7 +12,7 @@ class ConfigurationData: ObservableObject {
     enum GridType: Hashable {
         case custom
         case rectangle
-        case hexagon
+//        case hexagon
         case irregularHexagon
         case parallelogram
         case triangle
@@ -29,7 +29,7 @@ class ConfigurationData: ObservableObject {
     // grid config
     @Published var gridSizeX: Double = 3
     @Published var gridSizeY: Double = 3
-    @Published var gridType: GridType = .hexagon
+    @Published var gridType: GridType = .irregularHexagon
     @Published var pointsUp = true
     @Published var offsetEven = true
 
@@ -56,7 +56,7 @@ class ConfigurationData: ObservableObject {
 
     init(
         number: Double = 3,
-        gridType: GridType = .hexagon
+        gridType: GridType = .irregularHexagon
     ) {
         self.gridSizeX = number
         self.gridType = gridType
@@ -80,10 +80,9 @@ struct ConfigurationSheetView: View {
                     HStack {
                         Picker("View Type", selection: $gameData.gridType, content: {
                             Text("Custom").tag(ConfigurationData.GridType.custom)
+                            Text("Hexagon").tag(ConfigurationData.GridType.irregularHexagon)
                             Text("Rectangle").tag(ConfigurationData.GridType.rectangle)
-                            Text("Hex").tag(ConfigurationData.GridType.hexagon)
-                            Text("Odd Hex").tag(ConfigurationData.GridType.irregularHexagon)
-                            Text("Parallel").tag(ConfigurationData.GridType.parallelogram)
+                            Text("Parallelogram").tag(ConfigurationData.GridType.parallelogram)
                             Text("Triangle").tag(ConfigurationData.GridType.triangle)
                         }).pickerStyle(SegmentedPickerStyle())
                     }
@@ -104,7 +103,7 @@ struct ConfigurationSheetView: View {
                             Text("Size Y: \(gameData.gridSizeY.rounded(), specifier: "%.0f")")
                         }
                         HStack {
-                            Text("(Only applies to irregular hexagon, rectangle, and parallelogram grids.)").font(.caption)
+                            Text("Size Y only applies to hexagon, rectangle, and parallelogram grids.").font(.caption)
                             Spacer()
                         }
                     }

@@ -45,9 +45,14 @@ Roughly corresponds to HexGrid version 0.4.10.
 * Add additional "initial shading" options
   - two-color edges
   - three-color rings
-* Add a toggle (& settings section) for drag & associated colors
-* Add an option to add shapes on top of the grid as opposed to fully coloring the tapped cell
-* Add a second tap state, so you can toggle between three colors empty->tap1->tap2
+  - 2-color and 3-color border coloring (only on the edges)
+* interaction ideas
+  - Add a toggle (& settings section) for drag & associated colors
+  - Add a second tap state, so you can toggle between three colors empty->tap1->tap2
+  - Add an option to add shapes on top of the grid as opposed to fully coloring the tapped cell, maybe with user-configurable hexagon states:
+    - options might include: color change, add shape of color (square, circle, triangle?)
+    - initially, tap would just toggle through the configured states
+    - this would change drag functionality to move state from one coordinate to another
 * Remember the background color for each cell so tapping/dragging doesn't mess up the initial colors
 * Add more visual effects
   - animate the border of a tapped cell
@@ -61,9 +66,19 @@ Roughly corresponds to HexGrid version 0.4.10.
   - An example drawn with `UIKit`
   - An example that does not "fit" to the screen size, and instead is much larger and scrolls off screen in all directions
   - A fully functioning game example? ([Hex](https://en.wikipedia.org/wiki/Hex_(board_game)) maybe?)
-* allow shifting of all grid coordinates (this has been started in the shifting-coordinates branch)
-  - 1 direction at a time
-  - moving offset coordinate 0,0 all the way to an edge of the grid
+* additional coordinate ideas
+  - allow shifting of all grid coordinates (this has been started in the shifting-coordinates branch)
+    - 1 direction at a time
+    - moving offset coordinate 0,0 all the way to an edge of the grid
+  - allow drawing coordinates as letters
+  - toggle drawing an extra cell in 2 or 3 directions, and only drawing coordinates (for the relevant axis) in that cell
+* Put this on testflight
+  - add an about screen, with links to github, abstractpuzzle.com, and redblobgames original tutorials
+* Allow the user to save their hex grid (possibly including current states)
+* Allow the user to export the current grid
+  - as single image
+  - as PDF, specifying the size of each cell
+
 
 ### Some ideas more suitable for the main hex-grid project
 

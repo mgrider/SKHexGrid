@@ -29,8 +29,6 @@ class HexGridScene: SKScene {
         case .rectangle:
             let secondary = Int(config.gridSizeY.rounded())
             shape = .rectangle(number, secondary)
-        case .hexagon:
-            shape = .hexagon(number)
         case .irregularHexagon:
             let secondary = Int(config.gridSizeY.rounded())
             shape = .irregularHexagon(number, secondary)
