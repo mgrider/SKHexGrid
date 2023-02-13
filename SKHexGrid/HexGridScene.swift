@@ -98,6 +98,14 @@ class HexGridScene: SKScene {
         shapeNode.fillColor = cellColor
     }
 
+    private func updateCellColor(cell: Cell, color: UIColor) {
+        guard let shapeNode = nodesByCell[cell] else {
+            print("could not find cell")
+            return
+        }
+        shapeNode.fillColor = color
+    }
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -147,8 +155,15 @@ class HexGridScene: SKScene {
             updateCell(cell: cell)
         }
 
-        if config.shouldColorEdgesOfTheBoard {
+        switch config.initialShading {
+        case .none:
+            break
+        case .edges:
             colorEdgeCells()
+        case .rings:
+            colorEveryOtherRingOfCells()
+        case .threeColor:
+            colorBoardWithThreeColors()
         }
 
         // Create shape node to use during drag interaction
@@ -169,15 +184,91 @@ class HexGridScene: SKScene {
     }
 
     func colorEdgeCells() {
-        let color: UIColor = UIColor(config.colorForEdgesOfTheBoard)
+        let color: UIColor = UIColor(config.colorForStateEmptySecondary)
         for cell in grid.cells {
             if let neighbors = try? grid.neighbors(for: cell),
                neighbors.count != 6 {
-                guard let node = nodesByCell[cell] else {
-                    continue
-                }
-                node.fillColor = color
+                updateCellColor(cell: cell, color: color)
             }
+        }
+    }
+
+    func colorEveryOtherRingOfCells() {
+        let color1: UIColor = UIColor(config.colorForStateEmptySecondary)
+        let color2: UIColor = UIColor(config.colorForStateEmpty)
+        var neighborsForCell = [Cell: Set<Cell>]()
+        var timeForColor1 = true
+        var color = color1
+        var touchedCells = Set<Cell>()
+        for cell in grid.cells {
+            if let neighbors = try? grid.neighbors(for: cell) {
+                neighborsForCell[cell] = neighbors
+                if neighbors.count != 6 {
+                    updateCellColor(cell: cell, color: color)
+                    touchedCells.insert(cell)
+                }
+            }
+        }
+        // second ring should be cells that touch the edges of the last
+        var ringCells = Set<Cell>(touchedCells)
+        var secondRingCells = Set<Cell>()
+        while touchedCells.count < grid.cells.count {
+            color = timeForColor1 ? color1 : color2
+            for cell in grid.cells {
+                if touchedCells.contains(cell) { continue }
+                if let neighbors = neighborsForCell[cell] {
+                    for nCell in neighbors {
+                        if ringCells.contains(nCell) {
+                            secondRingCells.insert(cell)
+                            updateCellColor(cell: cell, color: color)
+                            break
+                        }
+                    }
+                }
+            }
+            touchedCells.formUnion(ringCells)
+            ringCells.removeAll()
+            ringCells.formUnion(secondRingCells)
+            secondRingCells.removeAll()
+            timeForColor1.toggle()
+        }
+    }
+
+    func colorBoardWithThreeColors() {
+        for cell in grid.cells {
+            let axial = cell.coordinates.toAxial()
+            let modX = axial.r % 3
+            switch modX {
+            case 1, -2:
+                let modY = (axial.q + 2) % 3
+                updateCellColor(cell: cell, color: colorForBoardWithThreeColors(at: modY))
+            case -1, 2:
+                let modY = (axial.q + 1) % 3
+                updateCellColor(cell: cell, color: colorForBoardWithThreeColors(at: modY))
+            default: // should only be case 0
+                let modY = axial.q % 3
+                updateCellColor(cell: cell, color: colorForBoardWithThreeColors(at: modY))
+            }
+        }
+    }
+
+    func colorForBoardWithThreeColors(at index: Int) -> UIColor {
+        if index >= 0, index < 3 {
+            let colors = [
+                UIColor(config.colorForStateEmpty),
+                UIColor(config.colorForStateEmptySecondary),
+                UIColor(config.colorForStateEmptyTertiary),
+            ]
+            return colors[index]
+        } else if index < 0, index > -3 {
+            let colors = [
+                UIColor(config.colorForStateEmptyTertiary),
+                UIColor(config.colorForStateEmptySecondary),
+                UIColor(config.colorForStateEmpty),
+            ]
+            return colors[abs(index)-1]
+        } else {
+            return .systemOrange
         }
     }
 

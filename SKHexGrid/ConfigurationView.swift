@@ -17,6 +17,14 @@ class ConfigurationData: ObservableObject {
         case parallelogram
         case triangle
     }
+    enum GridInitialShading: Hashable {
+        case none
+        case edges
+//        case edgesTwoColor
+        case rings
+//        case ringsTwoColor
+        case threeColor
+    }
 
     // grid config
     @Published var gridSizeX: Double = 3
@@ -26,7 +34,7 @@ class ConfigurationData: ObservableObject {
     @Published var offsetEven = true
 
     // coordinates
-    @Published var showsCoordinates: GridCoordinateType = .cube
+    @Published var showsCoordinates: GridCoordinateType = .axial
     @Published var colorForCoordinateLabels: Color = .black
     @Published var coordinateLabelFontSize: Double = 10
 
@@ -41,8 +49,9 @@ class ConfigurationData: ObservableObject {
 
     // misc
     @Published var showYellowSecondaryGrid = false
-    @Published var shouldColorEdgesOfTheBoard = false
-    @Published var colorForEdgesOfTheBoard: Color = Color(.gray)
+    @Published var initialShading: GridInitialShading = .threeColor
+    @Published var colorForStateEmptySecondary: Color = Color(.gray)
+    @Published var colorForStateEmptyTertiary: Color = Color(red: 0.8, green: 0.8, blue: 0.8)
 
     init(
         number: Double = 3,
@@ -188,15 +197,36 @@ struct ConfigurationSheetView: View {
                         Text("Show yellow secondary hex2 grid")
                     })
 
-                    HStack {
-                        Toggle(isOn: $gameData.shouldColorEdgesOfTheBoard, label: {
-                            Text("Color edges of the board")
-                        })
-                        ColorPicker(
-                            "",
-                            selection: $gameData.colorForEdgesOfTheBoard,
-                            supportsOpacity: false
-                        )
+                    VStack {
+                        Text("Initial Shading")
+                        HStack {
+                            Picker("Coordinate Type", selection: $gameData.initialShading, content: {
+                                Text("None").tag(ConfigurationData.GridInitialShading.none)
+                                Text("Edges").tag(ConfigurationData.GridInitialShading.edges)
+                                Text("Rings").tag(ConfigurationData.GridInitialShading.rings)
+                                Text("Three color").tag(ConfigurationData.GridInitialShading.threeColor)
+                            }).pickerStyle(SegmentedPickerStyle())
+                        }
+                        HStack {
+                            ColorPicker(
+                                "Secondary color",
+                                selection: $gameData.colorForStateEmptySecondary,
+                                supportsOpacity: false
+                            )
+                            ColorPicker(
+                                "Third color",
+                                selection: $gameData.colorForStateEmptyTertiary,
+                                supportsOpacity: false
+                            )
+                        }
+                        HStack {
+                            Text("Edges and rings use background color and secondary color.").font(.caption)
+                            Spacer()
+                        }
+                        HStack {
+                            Text("(Warning that rings can take a bit of time to compute on large grids.)").font(.caption)
+                            Spacer()
+                        }
                     }
                 }
 
