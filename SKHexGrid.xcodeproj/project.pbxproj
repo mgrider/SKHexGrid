@@ -22,6 +22,9 @@
 		85CD4FFE288C920E00B73468 /* Cell+Highlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD4FFD288C920E00B73468 /* Cell+Highlight.swift */; };
 		85CD5002288D99F200B73468 /* HexSize+CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD5001288D99F200B73468 /* HexSize+CGSize.swift */; };
 		85CD5005288F164B00B73468 /* ConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD5004288F164B00B73468 /* ConfigurationView.swift */; };
+		85EC1D70299D33AB003E7297 /* SaveMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D6F299D33AB003E7297 /* SaveMenuView.swift */; };
+		85EC1D72299D3A32003E7297 /* UIColor+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D71299D3A32003E7297 /* UIColor+Codable.swift */; };
+		85EC1D74299D3ABD003E7297 /* ConfigurationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +45,10 @@
 		85CD4FFD288C920E00B73468 /* Cell+Highlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Cell+Highlight.swift"; sourceTree = "<group>"; };
 		85CD5001288D99F200B73468 /* HexSize+CGSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HexSize+CGSize.swift"; sourceTree = "<group>"; };
 		85CD5004288F164B00B73468 /* ConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationView.swift; sourceTree = "<group>"; };
+		85EC1D6629995B3B003E7297 /* hex-grid */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "hex-grid"; path = "../hex-grid"; sourceTree = "<group>"; };
+		85EC1D6F299D33AB003E7297 /* SaveMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveMenuView.swift; sourceTree = "<group>"; };
+		85EC1D71299D3A32003E7297 /* UIColor+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Codable.swift"; sourceTree = "<group>"; };
+		85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +66,7 @@
 		85331835288C87230000DB75 = {
 			isa = PBXGroup;
 			children = (
+				85EC1D6629995B3B003E7297 /* hex-grid */,
 				85331840288C87230000DB75 /* SKHexGrid */,
 				8533183F288C87230000DB75 /* Products */,
 			);
@@ -85,6 +93,9 @@
 				850E03D728A061BB00BC5934 /* Cell+State.swift */,
 				85331849288C87230000DB75 /* GameViewController.swift */,
 				85CD5004288F164B00B73468 /* ConfigurationView.swift */,
+				85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */,
+				85EC1D6F299D33AB003E7297 /* SaveMenuView.swift */,
+				85EC1D71299D3A32003E7297 /* UIColor+Codable.swift */,
 			);
 			path = SKHexGrid;
 			sourceTree = "<group>";
@@ -184,10 +195,13 @@
 			files = (
 				850E03D828A061BB00BC5934 /* Cell+State.swift in Sources */,
 				85CD4FFE288C920E00B73468 /* Cell+Highlight.swift in Sources */,
+				85EC1D70299D33AB003E7297 /* SaveMenuView.swift in Sources */,
 				85CD5005288F164B00B73468 /* ConfigurationView.swift in Sources */,
 				85331848288C87230000DB75 /* GameScene.swift in Sources */,
 				85CD4FFC288C918E00B73468 /* Point+CGPoint.swift in Sources */,
 				8533184A288C87230000DB75 /* GameViewController.swift in Sources */,
+				85EC1D72299D3A32003E7297 /* UIColor+Codable.swift in Sources */,
+				85EC1D74299D3ABD003E7297 /* ConfigurationData.swift in Sources */,
 				85CD4FF7288C891100B73468 /* HexGridScene.swift in Sources */,
 				85331842288C87230000DB75 /* AppDelegate.swift in Sources */,
 				85CD5002288D99F200B73468 /* HexSize+CGSize.swift in Sources */,
@@ -339,6 +353,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 39KKZG3UU3;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Required to save hex grids to your photo library";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -349,7 +364,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abstractpuzzle.skhexgrid;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -367,6 +382,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 39KKZG3UU3;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Required to save hex grids to your photo library";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -377,7 +393,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abstractpuzzle.skhexgrid;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

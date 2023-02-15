@@ -32,19 +32,19 @@ class GameViewController: UIViewController {
                 gameData: self.displayData,
                 doneButtonCallback: { [weak self] model in
                     guard let self = self else { return }
-                    guard let hostingController = self.hostingController else { return }
-                    self.background?.backgroundColor = UIColor(model.colorForBackground)
-                    self.hex = self.presentGridShape(viewData: self.displayData)
-                    self.hexSecondaryView?.isHidden = !model.showYellowSecondaryGrid
+                    guard let hostingController = self.configHostingController else { return }
+                    self.updateGridFromModel(model: model)
                     hostingController.dismiss(animated: true)
             })
             let vc = UIHostingController(rootView: view)
-            self.hostingController = vc
+            self.configHostingController = vc
             vc.modalPresentationStyle = .formSheet
             self.present(vc, animated: true)
         }, for: .touchUpInside)
         return button
     }()
+
+    var configHostingController: UIHostingController<ConfigurationSheetView>?
 
     var displayData = ConfigurationData()
 
@@ -54,7 +54,41 @@ class GameViewController: UIViewController {
 
     var hexSecondaryView: SKView?
 
-    var hostingController: UIHostingController<ConfigurationSheetView>?
+    lazy var saveMenuButton: UIButton = {
+        let button = UIButton()
+        var config = UIButton.Configuration.plain()
+        var background = UIBackgroundConfiguration.clear()
+        background.cornerRadius = 8
+        background.backgroundColor = .white.withAlphaComponent(0.75)
+        config.background = background
+        config.image = UIImage(systemName: "square.and.arrow.down")
+        button.configuration = config
+        button.addAction(UIAction { [weak self] _ in
+            guard let self = self else { return }
+            // open save menu
+            let view = SaveMenuView(gameData: SaveData()) { [weak self] saveData in
+                guard let self = self else { return }
+                guard let hostingController = self.saveMenuHostingController else { return }
+                if saveData.wantsSaveAsImage {
+                    self.saveImage()
+                }
+                if let wantsConfig = saveData.wantsPresetLoad {
+                    switch wantsConfig {
+                    case .defaultGray:
+                        self.updateGridFromModel(model: ConfigurationData())
+                    }
+                }
+                hostingController.dismiss(animated: true)
+            }
+            let vc = UIHostingController(rootView: view)
+            self.saveMenuHostingController = vc
+            vc.modalPresentationStyle = .formSheet
+            self.present(vc, animated: true)
+        }, for: .touchUpInside)
+        return button
+    }()
+
+    var saveMenuHostingController: UIHostingController<SaveMenuView>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,8 +130,13 @@ class GameViewController: UIViewController {
 
             view.addSubview(configButton)
             configButton.translatesAutoresizingMaskIntoConstraints = false
-            configButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-            configButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+            configButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+            configButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+
+            view.addSubview(saveMenuButton)
+            saveMenuButton.translatesAutoresizingMaskIntoConstraints = false
+            saveMenuButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+            saveMenuButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         }
     }
 
@@ -129,5 +168,55 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+
+    // MARK: updating the current grid
+
+    func updateGridFromModel(model: ConfigurationData) {
+        displayData = model
+        background?.backgroundColor = UIColor(model.colorForBackground)
+        hex = presentGridShape(viewData: model)
+        hexSecondaryView?.isHidden = !model.showYellowSecondaryGrid
+    }
+
+    // MARK: saving to image
+
+    func saveImage() {
+        guard let view = self.gameView else { return }
+        let selector = #selector(self.onImageSaved(_:error:contextInfo:))
+        view.takeSnapshot()?.saveToPhotoLibrary(self, selector)
+    }
+
+    @objc private func onImageSaved(_ image: UIImage, error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        } else {
+            let ac = UIAlertController(title: "Saved!", message: "The current grid has been saved to your photo library.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        }
+    }
+}
+
+extension UIView {
+
+    func takeSnapshot() -> UIImage? {
+        UIGraphicsBeginImageContext(CGSize(width: self.frame.size.width, height: self.frame.size.height))
+        let rect = CGRect(x: 0.0, y: 0.0, width: self.frame.size.width, height: self.frame.size.height)
+        drawHierarchy(in: rect, afterScreenUpdates: true)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+}
+
+extension UIImage {
+
+    func saveToPhotoLibrary(_ completionTarget: Any?, _ completionSelector: Selector?) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            UIImageWriteToSavedPhotosAlbum(self, completionTarget, completionSelector, nil)
+        }
     }
 }

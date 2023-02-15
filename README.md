@@ -14,6 +14,12 @@ An example project using [SpriteKit](https://developer.apple.com/spritekit/) and
 
 ## History / Release Notes
 
+### v0.3.1
+
+* added save menu
+* possible to save the view to the photos library
+* possible to load the default grid again from the save menu
+
 ### v0.3.0
 
 * new grid options for Irregular Hexagons & Parallelograms
