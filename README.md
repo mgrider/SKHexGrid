@@ -19,7 +19,7 @@ An example project using [SpriteKit](https://developer.apple.com/spritekit/) and
 * new grid options for Irregular Hexagons & Parallelograms
 * made most colors customizable
 * added customization of coordinate label color and font size
-* added initial shading options, edges, rings, and tri-color
+* added initial shading options, edges, 2-color edges, rings, and tri-color
 * tweaked defaults to not show the secondary overlay grid, picked new colors & shading
 * added an option to change the size of (or remove) the border between cells
 
@@ -43,7 +43,6 @@ Roughly corresponds to HexGrid version 0.4.10.
   - arbitrary coordinates for "custom" generation
   - the frame of the hexagon?
 * Add additional "initial shading" options
-  - two-color edges
   - three-color rings
   - 2-color and 3-color border coloring (only on the edges)
 * interaction ideas
@@ -66,6 +65,7 @@ Roughly corresponds to HexGrid version 0.4.10.
   - An example drawn with `UIKit`
   - An example that does not "fit" to the screen size, and instead is much larger and scrolls off screen in all directions
   - A fully functioning game example? ([Hex](https://en.wikipedia.org/wiki/Hex_(board_game)) maybe?)
+  - Could just be lots of different configurations.
 * additional coordinate ideas
   - allow shifting of all grid coordinates (this has been started in the shifting-coordinates branch)
     - 1 direction at a time

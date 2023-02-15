@@ -20,7 +20,7 @@ class ConfigurationData: ObservableObject {
     enum GridInitialShading: Hashable {
         case none
         case edges
-//        case edgesTwoColor
+        case edgesTwoColor
         case rings
 //        case ringsTwoColor
         case threeColor
@@ -173,8 +173,9 @@ struct ConfigurationSheetView: View {
                         Text("Initial Shading")
                         HStack {
                             Picker("Coordinate Type", selection: $gameData.initialShading, content: {
-                                Text("None").tag(ConfigurationData.GridInitialShading.none)
+                                Text("Empty").tag(ConfigurationData.GridInitialShading.none)
                                 Text("Edges").tag(ConfigurationData.GridInitialShading.edges)
+                                Text("Two Edges").tag(ConfigurationData.GridInitialShading.edgesTwoColor)
                                 Text("Rings").tag(ConfigurationData.GridInitialShading.rings)
                                 Text("Three color").tag(ConfigurationData.GridInitialShading.threeColor)
                             }).pickerStyle(SegmentedPickerStyle())

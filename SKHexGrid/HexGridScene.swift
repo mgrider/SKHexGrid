@@ -162,6 +162,8 @@ class HexGridScene: SKScene {
             break
         case .edges:
             colorEdgeCells()
+        case .edgesTwoColor:
+            colorEdgeCellsWithTwoColors()
         case .rings:
             colorEveryOtherRingOfCells()
         case .threeColor:
@@ -191,6 +193,33 @@ class HexGridScene: SKScene {
             if let neighbors = try? grid.neighbors(for: cell),
                neighbors.count != 6 {
                 updateCellColor(cell: cell, color: color)
+            }
+        }
+    }
+
+    func colorEdgeCellsWithTwoColors() {
+        let color: UIColor = UIColor(config.colorForStateEmptySecondary)
+        let color2: UIColor = UIColor(config.colorForStateEmptyTertiary)
+        var neighborsForCell = [Cell: Set<Cell>]()
+        var edgeCells = Set<Cell>()
+        for cell in grid.cells {
+            if let neighbors = try? grid.neighbors(for: cell) {
+                neighborsForCell[cell] = neighbors
+                if neighbors.count < 6 {
+                    updateCellColor(cell: cell, color: color)
+                    edgeCells.insert(cell)
+                }
+            }
+        }
+        for cell in grid.cells {
+            if edgeCells.contains(cell) { continue }
+            if let neighbors = neighborsForCell[cell] {
+                for nCell in neighbors {
+                    if edgeCells.contains(nCell) {
+                        updateCellColor(cell: cell, color: color2)
+                        break
+                    }
+                }
             }
         }
     }
