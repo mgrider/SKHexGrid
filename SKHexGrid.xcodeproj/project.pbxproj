@@ -26,6 +26,7 @@
 		85EC1D74299D3ABD003E7297 /* ConfigurationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */; };
 		85EC1D7C299DD1F1003E7297 /* SimpleHexGridScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D7B299DD1F1003E7297 /* SimpleHexGridScene.swift */; };
 		85EC1D7F29A15754003E7297 /* SaveMenuViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D7E29A15754003E7297 /* SaveMenuViewData.swift */; };
+		85EC1D8129A169E3003E7297 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D8029A169E3003E7297 /* AboutView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationData.swift; sourceTree = "<group>"; };
 		85EC1D7B299DD1F1003E7297 /* SimpleHexGridScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleHexGridScene.swift; sourceTree = "<group>"; };
 		85EC1D7E29A15754003E7297 /* SaveMenuViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveMenuViewData.swift; sourceTree = "<group>"; };
+		85EC1D8029A169E3003E7297 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */,
 				85EC1D6F299D33AB003E7297 /* SaveMenuView.swift */,
 				85EC1D7E29A15754003E7297 /* SaveMenuViewData.swift */,
+				85EC1D8029A169E3003E7297 /* AboutView.swift */,
 			);
 			path = SKHexGrid;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				85CD4FFC288C918E00B73468 /* Point+CGPoint.swift in Sources */,
 				8533184A288C87230000DB75 /* GameViewController.swift in Sources */,
 				85EC1D72299D3A32003E7297 /* UIColor+Codable.swift in Sources */,
+				85EC1D8129A169E3003E7297 /* AboutView.swift in Sources */,
 				85EC1D74299D3ABD003E7297 /* ConfigurationData.swift in Sources */,
 				85CD4FF7288C891100B73468 /* HexGridScene.swift in Sources */,
 				85EC1D7F29A15754003E7297 /* SaveMenuViewData.swift in Sources */,

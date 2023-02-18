@@ -14,6 +14,34 @@ class GameBackgroundScene: SKScene {
 
 class GameViewController: UIViewController {
 
+    lazy var aboutButton: UIButton = {
+        let button = UIButton()
+        var config = UIButton.Configuration.plain()
+        var background = UIBackgroundConfiguration.clear()
+        background.cornerRadius = 8
+        background.backgroundColor = .white.withAlphaComponent(0.75)
+        config.background = background
+        config.image = UIImage(systemName: "questionmark.circle")
+        button.configuration = config
+        button.addAction(UIAction { [weak self] _ in
+            guard let self = self else { return }
+            // open config
+            let view = AboutView(
+                doneButtonCallback: { [weak self] in
+                    guard let self = self else { return }
+                    guard let hostingController = self.aboutHostingController else { return }
+                    hostingController.dismiss(animated: true)
+                })
+            let vc = UIHostingController(rootView: view)
+            self.aboutHostingController = vc
+            vc.modalPresentationStyle = .formSheet
+            self.present(vc, animated: true)
+        }, for: .touchUpInside)
+        return button
+    }()
+
+    var aboutHostingController: UIHostingController<AboutView>?
+
     var background: GameBackgroundScene?
 
     lazy var configButton: UIButton = {
@@ -138,7 +166,12 @@ class GameViewController: UIViewController {
             view.addSubview(saveMenuButton)
             saveMenuButton.translatesAutoresizingMaskIntoConstraints = false
             saveMenuButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-            saveMenuButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+            saveMenuButton.rightAnchor.constraint(equalTo: configButton.leftAnchor, constant: -20).isActive = true
+
+            view.addSubview(aboutButton)
+            aboutButton.translatesAutoresizingMaskIntoConstraints = false
+            aboutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+            aboutButton.rightAnchor.constraint(equalTo: saveMenuButton.leftAnchor, constant: -20).isActive = true
         }
     }
 
