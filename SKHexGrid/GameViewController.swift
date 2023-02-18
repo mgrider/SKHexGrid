@@ -66,7 +66,7 @@ class GameViewController: UIViewController {
         button.addAction(UIAction { [weak self] _ in
             guard let self = self else { return }
             // open save menu
-            let view = SaveMenuView(gameData: SaveData()) { [weak self] saveData in
+            let view = SaveMenuView(gameData: SaveMenuViewData()) { [weak self] saveData in
                 guard let self = self else { return }
                 guard let hostingController = self.saveMenuHostingController else { return }
                 if saveData.wantsSaveAsImage {
@@ -74,8 +74,10 @@ class GameViewController: UIViewController {
                 }
                 if let wantsConfig = saveData.wantsPresetLoad {
                     switch wantsConfig {
-                    case .defaultGray:
-                        self.updateGridFromModel(model: ConfigurationData())
+                    case .simpleExample:
+                        self.presentSimpleGridExample()
+                    default:
+                        self.updateGridFromModel(model: saveData.config(for: wantsConfig))
                     }
                 }
                 hostingController.dismiss(animated: true)
@@ -152,6 +154,21 @@ class GameViewController: UIViewController {
         hexScene.scaleMode = .aspectFit
         view.presentScene(hexScene)
         return hexScene
+    }
+
+    private func presentSimpleGridExample() {
+        guard let view = self.gameView else { return }
+        // default background color and hidden state of secondary grid
+        self.background?.backgroundColor = .black
+        hexSecondaryView?.isHidden = true
+        // make sure our hex scene is square
+        let side = min(view.frame.size.height, view.frame.size.width)
+        let size = CGSize(width: side, height: side)
+        let hexScene = SimpleHexGridScene(
+            size: size
+        )
+        hexScene.scaleMode = .aspectFit
+        view.presentScene(hexScene)
     }
 
     override var shouldAutorotate: Bool {

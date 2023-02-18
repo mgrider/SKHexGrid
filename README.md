@@ -2,23 +2,53 @@
 
 An example project using [SpriteKit](https://developer.apple.com/spritekit/) and [HexGrid](https://github.com/fananek/hex-grid) to draw hexagonal grids in various configurations.
 
+This project contains (at present) two distinct examples.
+
+1. The simplest possible SpriteKit Scene that initializes and renders the cells of a HexGrid. See this example by running the project and selecting "Load simple grid example" in the Load/Save menu. See the code for that example in [`SimpleHexGridScene.swift`](SKHexGrid/SimpleHexGridScene.swift).
+
+2. The second example is a highly-configurable and rather complex scene that shows off the power of all the built-in hex-grid generator functions. Use the configuration menu in the upper-right corner of the screen to customize the look and behavior of the grid, including display of the various types of coordinate systems built into the library.
+
 
 ## How to use this project
 
-1. Download this project
-2. Open the project in Xcode
-3. Pick a deployment target (any iOS or iPadOS simulator should work)
-4. Run the project
-5. Use the configuration button (gear icon in upper-right) to switch between different types of grid layout
+### Setup
+
+For now, you'll need to run the project yourself in Xcode:
+
+1. Download this repository
+2. Open the `SKHexGrid.project` file with Xcode
+3. Run the project
+    - Optionally pick a deployment target first (any iOS or iPadOS simulator should work)
+
+### Load various preset examples
+
+Use the save/load button (in the upper-left) to find a list of preset examples you can view. Once you've loaded a preset, you can feel free to play with its properties using the configuration button.
+
+### Configure the grid
+
+Use the configuration button (gear icon in upper-right) to switch between different types of grid layouts, color schemes, coordinate display types, allowed interactions and state changes, and much more.
+
+### Save an image of the grid
+
+Back in the save/load menu, you can also save an image of the current grid to your photo library. 
 
 
 ## History / Release Notes
 
+### v0.3.2
+
+* revamped README & instructions
+* added a few more preset grid types (and made it easier to add more)
+* fixed a bug with large borders getting cut off
+* fixed menu pickers with lots of options getting truncated
+
 ### v0.3.1
 
-* added save menu
-* possible to save the view to the photos library
-* possible to load the default grid again from the save menu
+* added the save/load menu
+* made it possible to save an image of the view to the photos library
+* made it possible to load the default grid again from the save menu
+* added `SimpleHexGridScene.swift`, and button to load it from the save/load menu
+* added option for random initial colors
 
 ### v0.3.0
 

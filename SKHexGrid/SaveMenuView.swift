@@ -1,28 +1,30 @@
 import SwiftUI
-import HexGrid
-
-class SaveData: ObservableObject {
-
-    enum PresetLoadType: String, CaseIterable {
-        case defaultGray
-    }
-
-    @Published var wantsSaveAsImage = false
-    @Published var wantsPresetLoad: PresetLoadType? = nil
-
-}
 
 struct SaveMenuView: View {
 
-    @StateObject public var gameData = SaveData()
+    @StateObject public var gameData = SaveMenuViewData()
 
-    var doneButtonCallback: ((SaveData) -> Void)?
+    var doneButtonCallback: ((SaveMenuViewData) -> Void)?
 
     var body: some View {
 
         NavigationView {
 
             List {
+
+                Section("Load Preset Grid") {
+
+                    VStack {
+                        ForEach(gameData.presets, id: \.presetType) { preset in
+                            Button(preset.name) {
+                                gameData.wantsPresetLoad = preset.presetType
+                                doneButtonCallback?(gameData)
+                            }.buttonStyle(.bordered)
+                        }
+                        Text("WARNING: This will reset all configuration options.").font(.caption)
+                    }
+
+                }
 
                 Section("Save to Photo Library") {
 
@@ -32,18 +34,6 @@ struct SaveMenuView: View {
                             gameData.wantsSaveAsImage = true
                             doneButtonCallback?(gameData)
                         }.buttonStyle(.bordered)
-                    }
-
-                }
-
-                Section("Load Preset Grid") {
-
-                    VStack {
-                        Button("Load default grid") {
-                            gameData.wantsPresetLoad = .defaultGray
-                            doneButtonCallback?(gameData)
-                        }.buttonStyle(.bordered)
-                        Text("WARNING: This will reset all configuration options.").font(.caption)
                     }
 
                 }

@@ -24,7 +24,7 @@ class HexGridScene: SKScene {
         var shape: GridShape
         switch config.gridType {
         case .custom:
-            // this is not used
+            // this shape value is not used
             shape = .hexagon(2)
         case .rectangle:
             let secondary = Int(config.gridSizeY.rounded())
@@ -41,9 +41,11 @@ class HexGridScene: SKScene {
 
         let orientation: Orientation = config.pointsUp ? .pointyOnTop : .flatOnTop
         let offset: OffsetLayout = config.offsetEven ? .even : .odd
+
+        // need to subtract the border width from our total grid size
         var hexSize = size.hexSize
-        hexSize.height -= config.borderWidth
-        hexSize.width -= config.borderWidth
+        hexSize.height -= (config.borderWidth * 2)
+        hexSize.width -= (config.borderWidth * 2)
 
         if config.gridType == .custom {
             let cellSet: Set<Cell> = try! Set([
@@ -72,9 +74,15 @@ class HexGridScene: SKScene {
             )
         }
 
+        // need to offset the "origin" AFTER initial grid setup,
+        // so all our pixel calculations are correct while drawing the border.
+        grid.origin = grid.origin.offset(by: .init(x: config.borderWidth, y: config.borderWidth))
+
         super.init(size: size)
 
         backgroundColor = UIColor(config.colorForBackground)
+
+        // see `didMove(to view: SKView)` for actual drawing
     }
 
     private func updateCell(cell: Cell) {
@@ -116,7 +124,7 @@ class HexGridScene: SKScene {
         for cell in grid.cells {
             let polyCorners = grid.polygonCorners(for: cell)
             var corners: [CGPoint] = polyCorners.map { $0.cgPoint }
-            corners.append(polyCorners[0].cgPoint)
+            corners.append(corners[0])
             let shapeNode = SKShapeNode(
                 points: &corners,
                 count: corners.count)
@@ -164,6 +172,8 @@ class HexGridScene: SKScene {
             colorEdgeCells()
         case .edgesTwoColor:
             colorEdgeCellsWithTwoColors()
+        case .random:
+            colorCellsRandomly()
         case .rings:
             colorEveryOtherRingOfCells()
         case .threeColor:
@@ -185,6 +195,16 @@ class HexGridScene: SKScene {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(sender:)))
         view.gestureRecognizers = [tapGesture, dragGesture]
+    }
+
+    override func willMove(from view: SKView) {
+        view.gestureRecognizers?.removeAll()
+    }
+
+    func colorCellsRandomly() {
+        for cell in grid.cells {
+            updateCellColor(cell: cell, color: .random())
+        }
     }
 
     func colorEdgeCells() {

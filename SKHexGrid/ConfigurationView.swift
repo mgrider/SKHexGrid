@@ -22,7 +22,7 @@ struct ConfigurationSheetView: View {
                             Text("Rectangle").tag(ConfigurationData.GridType.rectangle)
                             Text("Parallelogram").tag(ConfigurationData.GridType.parallelogram)
                             Text("Triangle").tag(ConfigurationData.GridType.triangle)
-                        }).pickerStyle(SegmentedPickerStyle())
+                        })//.pickerStyle(SegmentedPickerStyle())
                     }
 
                     VStack {
@@ -59,13 +59,12 @@ struct ConfigurationSheetView: View {
 
                 Section("Coordinates") {
                     HStack {
-                        Text("Coordinates")
-                        Picker("Coordinate Type", selection: $gameData.showsCoordinates, content: {
+                        Picker("Coordinate Display", selection: $gameData.showsCoordinates, content: {
                             Text("None").tag(ConfigurationData.GridCoordinateType.none)
                             Text("Cube").tag(ConfigurationData.GridCoordinateType.cube)
                             Text("Axial").tag(ConfigurationData.GridCoordinateType.axial)
                             Text("Offset").tag(ConfigurationData.GridCoordinateType.offset)
-                        }).pickerStyle(SegmentedPickerStyle())
+                        })//.pickerStyle(SegmentedPickerStyle())
                     }
 
                     ColorPicker(
@@ -108,28 +107,28 @@ struct ConfigurationSheetView: View {
                     )
 
                     VStack {
-                        Text("Initial Shading")
                         HStack {
-                            Picker("Coordinate Type", selection: $gameData.initialShading, content: {
-                                Text("Empty").tag(ConfigurationData.GridInitialShading.none)
-                                Text("Edges").tag(ConfigurationData.GridInitialShading.edges)
-                                Text("Two Edges").tag(ConfigurationData.GridInitialShading.edgesTwoColor)
-                                Text("Rings").tag(ConfigurationData.GridInitialShading.rings)
-                                Text("Three color").tag(ConfigurationData.GridInitialShading.threeColor)
-                            }).pickerStyle(SegmentedPickerStyle())
+                            Text("Initial (Empty Cell) Shading")
+                            Spacer()
                         }
-                        HStack {
-                            ColorPicker(
-                                "Secondary empty color",
-                                selection: $gameData.colorForStateEmptySecondary,
-                                supportsOpacity: false
-                            )
-                            ColorPicker(
-                                "Third empty color",
-                                selection: $gameData.colorForStateEmptyTertiary,
-                                supportsOpacity: false
-                            )
-                        }
+                        Picker("Shading Type", selection: $gameData.initialShading, content: {
+                            Text("Empty").tag(ConfigurationData.GridInitialShading.none)
+                            Text("Edges").tag(ConfigurationData.GridInitialShading.edges)
+                            Text("Two Edges").tag(ConfigurationData.GridInitialShading.edgesTwoColor)
+                            Text("Rings").tag(ConfigurationData.GridInitialShading.rings)
+                            Text("Random").tag(ConfigurationData.GridInitialShading.random)
+                            Text("Three color").tag(ConfigurationData.GridInitialShading.threeColor)
+                        })//.pickerStyle(SegmentedPickerStyle())
+                        ColorPicker(
+                            "Secondary empty color",
+                            selection: $gameData.colorForStateEmptySecondary,
+                            supportsOpacity: false
+                        )
+                        ColorPicker(
+                            "Third empty color",
+                            selection: $gameData.colorForStateEmptyTertiary,
+                            supportsOpacity: false
+                        )
                         HStack {
                             Text("Edges and rings use empty cell color and secondary color.").font(.caption)
                             Spacer()
