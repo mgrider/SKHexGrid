@@ -24,6 +24,16 @@ extension UIColor: Codable { }
 
 extension UIColor {
     static func random() -> UIColor {
+        // decent bright colors
+        return UIColor(hue: .random(in: 0.0..<1.0), saturation: 0.7, brightness: 0.9, alpha: 1.0)
+        // light
+//        return UIColor(hue: .random(in: 0.0..<1.0), saturation: 0.4, brightness: 1.0, alpha: 1.0)
+        // dark
+//        return UIColor(hue: .random(in: 0.0..<1.0), saturation: 0.6, brightness: 0.6, alpha: 1.0)
+
+    }
+
+    static func trulyRandom() -> UIColor {
         return UIColor(
             red: CGFloat(arc4random()) / CGFloat(UInt32.max),
             green: CGFloat(arc4random()) / CGFloat(UInt32.max),
