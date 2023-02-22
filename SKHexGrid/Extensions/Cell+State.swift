@@ -8,6 +8,7 @@ extension Cell {
     public enum State: Int {
         case empty
         case tapped
+        case tappedASecondTime
         case touchStarted
         case touchContinued
         case touchEnded

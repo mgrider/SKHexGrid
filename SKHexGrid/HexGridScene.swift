@@ -6,6 +6,8 @@ class HexGridScene: SKScene {
 
     private var config: ConfigurationData
 
+    private var emptyColorsByCell = [Cell: UIColor]()
+
     private var grid: HexGrid
 
     private var nodesByCell = [Cell: SKShapeNode]()
@@ -32,6 +34,9 @@ class HexGridScene: SKScene {
         case .irregularHexagon:
             let secondary = Int(config.gridSizeY.rounded())
             shape = .irregularHexagon(number, secondary)
+        case .extendedHexagon:
+            let secondary = Int(config.gridSizeY.rounded())
+            shape = .elongatedHexagon(number, secondary)
         case .parallelogram:
             let secondary = Int(config.gridSizeY.rounded())
             shape = .parallelogram(number, secondary)
@@ -82,7 +87,7 @@ class HexGridScene: SKScene {
 
         backgroundColor = UIColor(config.colorForBackground)
 
-        // see `didMove(to view: SKView)` for actual drawing
+        // see `didMove(to view: SKView)` for generation of nodes
     }
 
     private func updateCell(cell: Cell) {
@@ -94,9 +99,11 @@ class HexGridScene: SKScene {
         let state = cell.state
         switch state {
         case .empty:
-            cellColor = UIColor(config.colorForStateEmpty)
+            cellColor = emptyColorsByCell[cell] ?? UIColor(config.colorForStateEmpty)
         case .tapped:
             cellColor = UIColor(config.colorForStateTapped)
+        case .tappedASecondTime:
+            cellColor = UIColor(config.colorForStateTapped2)
         case .touchStarted:
             cellColor = UIColor(config.colorForStateDragBegan)
         case .touchContinued:
@@ -162,7 +169,9 @@ class HexGridScene: SKScene {
                 addChild(label)
             }
 
-            updateCell(cell: cell)
+            if config.initialShading == .none {
+                emptyColorsByCell[cell] = UIColor(config.colorForStateEmpty)
+            }
         }
 
         switch config.initialShading {
@@ -175,9 +184,15 @@ class HexGridScene: SKScene {
         case .random:
             colorCellsRandomly()
         case .rings:
-            colorEveryOtherRingOfCells()
+            colorEveryOtherRingOfCells(useThreeColors: false)
+        case .ringsThreeColor:
+            colorEveryOtherRingOfCells(useThreeColors: true)
         case .threeColor:
             colorBoardWithThreeColors()
+        }
+
+        for cell in grid.cells {
+            updateCell(cell: cell)
         }
 
         // Create shape node to use during drag interaction
@@ -203,7 +218,9 @@ class HexGridScene: SKScene {
 
     func colorCellsRandomly() {
         for cell in grid.cells {
-            updateCellColor(cell: cell, color: .random())
+            let color: UIColor = .random()
+            emptyColorsByCell[cell] = color
+            updateCellColor(cell: cell, color: color)
         }
     }
 
@@ -212,6 +229,7 @@ class HexGridScene: SKScene {
         for cell in grid.cells {
             if let neighbors = try? grid.neighbors(for: cell),
                neighbors.count != 6 {
+                emptyColorsByCell[cell] = color
                 updateCellColor(cell: cell, color: color)
             }
         }
@@ -226,6 +244,7 @@ class HexGridScene: SKScene {
             if let neighbors = try? grid.neighbors(for: cell) {
                 neighborsForCell[cell] = neighbors
                 if neighbors.count < 6 {
+                    emptyColorsByCell[cell] = color
                     updateCellColor(cell: cell, color: color)
                     edgeCells.insert(cell)
                 }
@@ -236,6 +255,7 @@ class HexGridScene: SKScene {
             if let neighbors = neighborsForCell[cell] {
                 for nCell in neighbors {
                     if edgeCells.contains(nCell) {
+                        emptyColorsByCell[cell] = color2
                         updateCellColor(cell: cell, color: color2)
                         break
                     }
@@ -244,33 +264,42 @@ class HexGridScene: SKScene {
         }
     }
 
-    func colorEveryOtherRingOfCells() {
-        let color1: UIColor = UIColor(config.colorForStateEmptySecondary)
-        let color2: UIColor = UIColor(config.colorForStateEmpty)
+    func colorEveryOtherRingOfCells(useThreeColors: Bool) {
+        var colors: [UIColor] = [
+            UIColor(config.colorForStateEmptySecondary),
+            UIColor(config.colorForStateEmpty),
+        ]
+        if useThreeColors {
+            colors.insert(UIColor(config.colorForStateEmptyTertiary), at: 1)
+        }
         var neighborsForCell = [Cell: Set<Cell>]()
-        var timeForColor1 = true
-        var color = color1
+        var colorIndex = 0
+        var color = colors[colorIndex]
         var touchedCells = Set<Cell>()
         for cell in grid.cells {
             if let neighbors = try? grid.neighbors(for: cell) {
                 neighborsForCell[cell] = neighbors
                 if neighbors.count != 6 {
+                    emptyColorsByCell[cell] = color
                     updateCellColor(cell: cell, color: color)
                     touchedCells.insert(cell)
                 }
             }
         }
+        // something about this logic is wrong, I think, but this seems to work
+//        colorIndex += 1
         // second ring should be cells that touch the edges of the last
         var ringCells = Set<Cell>(touchedCells)
         var secondRingCells = Set<Cell>()
         while touchedCells.count < grid.cells.count {
-            color = timeForColor1 ? color1 : color2
+            color = colors[colorIndex]
             for cell in grid.cells {
                 if touchedCells.contains(cell) { continue }
                 if let neighbors = neighborsForCell[cell] {
                     for nCell in neighbors {
                         if ringCells.contains(nCell) {
                             secondRingCells.insert(cell)
+                            emptyColorsByCell[cell] = color
                             updateCellColor(cell: cell, color: color)
                             break
                         }
@@ -281,7 +310,8 @@ class HexGridScene: SKScene {
             ringCells.removeAll()
             ringCells.formUnion(secondRingCells)
             secondRingCells.removeAll()
-            timeForColor1.toggle()
+            colorIndex += 1
+            if colorIndex == colors.count { colorIndex = 0 }
         }
     }
 
@@ -292,13 +322,19 @@ class HexGridScene: SKScene {
             switch modX {
             case 1, -2:
                 let modY = (axial.q + 2) % 3
-                updateCellColor(cell: cell, color: colorForBoardWithThreeColors(at: modY))
+                let color = colorForBoardWithThreeColors(at: modY)
+                emptyColorsByCell[cell] = color
+                updateCellColor(cell: cell, color: color)
             case -1, 2:
                 let modY = (axial.q + 1) % 3
-                updateCellColor(cell: cell, color: colorForBoardWithThreeColors(at: modY))
+                let color = colorForBoardWithThreeColors(at: modY)
+                emptyColorsByCell[cell] = color
+                updateCellColor(cell: cell, color: color)
             default: // should only be case 0
                 let modY = axial.q % 3
-                updateCellColor(cell: cell, color: colorForBoardWithThreeColors(at: modY))
+                let color = colorForBoardWithThreeColors(at: modY)
+                emptyColorsByCell[cell] = color
+                updateCellColor(cell: cell, color: color)
             }
         }
     }
@@ -325,7 +361,7 @@ class HexGridScene: SKScene {
 
     // MARK: handling input
 
-    /// Note: to support taps as well as drags, we're using gesture recognizers as opposed to
+    /// Note: to support taps as well as drags, we're using gesture recognizers as opposed to `touchesBegan`, etc.
 
     func tapped(atPoint pos: CGPoint) {
         if let cell = try? grid.cellAt(pos.hexPoint) {
@@ -333,10 +369,31 @@ class HexGridScene: SKScene {
                 print( "Cell x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z) is blocked!")
             } else {
                 print( "Cell tapped - x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z)")
-                if cell.state == .tapped {
-                    cell.state = .empty
-                } else {
-                    cell.state = .tapped
+                switch config.interactionTapType {
+                case .none:
+                    return
+                case .colorChange:
+                    switch cell.state {
+                    case .tapped:
+                        switch config.interactionTap2Type {
+                        case .none:
+                            cell.state = .empty
+                        case .colorChange:
+                            cell.state = .tappedASecondTime
+                        case .shapeAdd:
+                            // todo:
+                            break
+                        }
+                    case .tappedASecondTime:
+                        cell.state = .empty
+                    case .empty:
+                        cell.state = .tapped
+                    case .touchStarted, .touchContinued, .touchEnded:
+                        cell.state = .tapped
+                    }
+                case .shapeAdd:
+                    // TODO: do this
+                    break
                 }
                 updateCell(cell: cell)
             }
@@ -344,13 +401,22 @@ class HexGridScene: SKScene {
     }
 
     func touchDown(atPoint pos : CGPoint) {
+        guard config.interactionDragType != .none else { return }
         if let cell = try? grid.cellAt(pos.hexPoint) {
             if cell.isBlocked {
                 print( "Cell x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z) is blocked!")
             } else {
                 print( "Cell x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z)")
-                cell.state = .touchStarted
-                updateCell(cell: cell)
+                switch config.interactionDragType {
+                case .none:
+                    break // handled in guard above
+                case .colorChange:
+                    cell.state = .touchStarted
+                    updateCell(cell: cell)
+                case .dragExistingState:
+                    // TODO: do this
+                    break
+                }
             }
         }
         if let n = self.spinnyNode?.copy() as! SKShapeNode? {
@@ -361,6 +427,7 @@ class HexGridScene: SKScene {
     }
 
     func touchMoved(toPoint pos : CGPoint) {
+        guard config.interactionDragType != .none else { return }
         if let cell = try? grid.cellAt(pos.hexPoint),
            !cell.isBlocked,
            cell.state != .touchStarted
@@ -376,6 +443,7 @@ class HexGridScene: SKScene {
     }
 
     func touchUp(atPoint pos : CGPoint) {
+        guard config.interactionDragType != .none else { return }
         if let cell = try? grid.cellAt(pos.hexPoint), !cell.isBlocked {
             cell.state = .touchEnded
             updateCell(cell: cell)

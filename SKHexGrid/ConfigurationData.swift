@@ -13,8 +13,8 @@ class ConfigurationData: ObservableObject {
     enum GridType: String, Hashable, Codable {
         case custom
         case rectangle
-        //        case hexagon
         case irregularHexagon
+        case extendedHexagon
         case parallelogram
         case triangle
     }
@@ -24,8 +24,29 @@ class ConfigurationData: ObservableObject {
         case edgesTwoColor
         case random
         case rings
-        //        case ringsTwoColor
+        case ringsThreeColor
         case threeColor
+    }
+    enum GridCellTapInteractionType: String, Hashable, Codable {
+        case none
+        case colorChange
+        case shapeAdd
+        // TODO: flush this out by looking at HexGrid API
+        // showNeighbors
+        // showLineOfSight
+        // showGroups(?)
+    }
+    enum GridCellStateShape: String, Hashable, Codable {
+        case none
+        case circle
+        case square
+        case triangle
+        case stone
+    }
+    enum GridCellDragInteractionType: String, Hashable, Codable {
+        case none
+        case colorChange
+        case dragExistingState
     }
 
     // grid config
@@ -43,8 +64,15 @@ class ConfigurationData: ObservableObject {
     // colors
     @Published var colorForBackground: Color = .black
     @Published var colorForHexagonBorder: Color = .white
-    @Published var colorForStateEmpty: Color = Color(UIColor.lightGray)
+
+    // interactions
+    @Published var interactionTapType: GridCellTapInteractionType = .colorChange
+    @Published var interactionTapShape: GridCellStateShape = .none
     @Published var colorForStateTapped: Color = Color(UIColor.systemOrange)
+    @Published var interactionTap2Type: GridCellTapInteractionType = .none
+    @Published var interactionTap2Shape: GridCellStateShape = .none
+    @Published var colorForStateTapped2: Color = Color(UIColor.systemPurple)
+    @Published var interactionDragType: GridCellDragInteractionType = .none
     @Published var colorForStateDragBegan: Color = Color(red: 59/256, green: 172/256, blue: 182/256)
     @Published var colorForStateDragContinued: Color = Color(red: 130/256, green: 219/256, blue: 216/256)
     @Published var colorForStateDragEnded: Color = Color(red: 179/256, green: 232/256, blue: 229/256)
@@ -52,6 +80,7 @@ class ConfigurationData: ObservableObject {
     // misc
     @Published var borderWidth:Double = 1
     @Published var initialShading: GridInitialShading = .threeColor
+    @Published var colorForStateEmpty: Color = Color(UIColor.lightGray)
     @Published var colorForStateEmptySecondary: Color = Color(.gray)
     @Published var colorForStateEmptyTertiary: Color = Color(red: 0.8, green: 0.8, blue: 0.8)
     @Published var showYellowSecondaryGrid = false

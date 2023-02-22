@@ -17,11 +17,12 @@ struct ConfigurationSheetView: View {
 
                     HStack {
                         Picker("View Type", selection: $gameData.gridType, content: {
-                            Text("Custom").tag(ConfigurationData.GridType.custom)
                             Text("Hexagon").tag(ConfigurationData.GridType.irregularHexagon)
+                            Text("Extended Hexagon").tag(ConfigurationData.GridType.extendedHexagon)
                             Text("Rectangle").tag(ConfigurationData.GridType.rectangle)
                             Text("Parallelogram").tag(ConfigurationData.GridType.parallelogram)
                             Text("Triangle").tag(ConfigurationData.GridType.triangle)
+                            Text("Custom").tag(ConfigurationData.GridType.custom)
                         })//.pickerStyle(SegmentedPickerStyle())
                     }
 
@@ -114,8 +115,9 @@ struct ConfigurationSheetView: View {
                         Picker("Shading Type", selection: $gameData.initialShading, content: {
                             Text("Empty").tag(ConfigurationData.GridInitialShading.none)
                             Text("Edges").tag(ConfigurationData.GridInitialShading.edges)
-                            Text("Two Edges").tag(ConfigurationData.GridInitialShading.edgesTwoColor)
+                            Text("Two-color Edges").tag(ConfigurationData.GridInitialShading.edgesTwoColor)
                             Text("Rings").tag(ConfigurationData.GridInitialShading.rings)
+                            Text("Three-color Rings").tag(ConfigurationData.GridInitialShading.ringsThreeColor)
                             Text("Random").tag(ConfigurationData.GridInitialShading.random)
                             Text("Three color").tag(ConfigurationData.GridInitialShading.threeColor)
                         })//.pickerStyle(SegmentedPickerStyle())
@@ -142,11 +144,39 @@ struct ConfigurationSheetView: View {
 
                 Section("Interactions") {
 
+                    // MARK: tap 1
+
+                    Picker("Tap Effect", selection: $gameData.interactionTapType, content: {
+                        Text("None").tag(ConfigurationData.GridCellTapInteractionType.none)
+                        Text("Color Change").tag(ConfigurationData.GridCellTapInteractionType.colorChange)
+//                        Text("Add Shape").tag(ConfigurationData.GridCellTapInteractionType.shapeAdd)
+                    })
                     ColorPicker(
-                        "Tap Color",
+                        "Tap Effect Color",
                         selection: $gameData.colorForStateTapped,
                         supportsOpacity: false
                     )
+
+                    // MARK: tap 2
+
+                    Picker("Second Tap Effect", selection: $gameData.interactionTap2Type, content: {
+                        Text("None").tag(ConfigurationData.GridCellTapInteractionType.none)
+                        Text("Color Change").tag(ConfigurationData.GridCellTapInteractionType.colorChange)
+                        //                        Text("Add Shape").tag(ConfigurationData.GridCellTapInteractionType.shapeAdd)
+                    })
+                    ColorPicker(
+                        "Second Tap Effect Color",
+                        selection: $gameData.colorForStateTapped2,
+                        supportsOpacity: false
+                    )
+
+                    // MARK: drag
+
+                    Picker("Drag Effect", selection: $gameData.interactionDragType, content: {
+                        Text("None").tag(ConfigurationData.GridCellDragInteractionType.none)
+                        Text("Color Change").tag(ConfigurationData.GridCellDragInteractionType.colorChange)
+//                        Text("Add Shape").tag(ConfigurationData.GridCellDragInteractionType.)
+                    })
 
                     ColorPicker(
                         "Drag Color",

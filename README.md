@@ -35,6 +35,19 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 
 ## History / Release Notes
 
+### v0.3.3
+
+* added support for `extendedHexagon` generator type
+* added more shading options:
+  - 2-color edges
+  - three-color rings
+* Remember the background color for each cell so tapping/dragging doesn't mess up the initial colors
+* Added a second tap state, so you can toggle between three colors empty->tap1->tap2->empty->etc...
+* Added a type for tap and tap2, so these can be customized further in the future
+* Added a type for drag interaction (turned off by default)
+* added an about screen, with links to github, abstractpuzzle.com, and redblobgames original tutorial
+* added an app icon
+
 ### v0.3.2
 
 * revamped README & instructions
@@ -78,25 +91,24 @@ Roughly corresponds to HexGrid version 0.4.10.
 * Make additional things configurable
   - arbitrary coordinates for "custom" generation
   - the frame of the hexagon?
-* Add additional "initial shading" options
-  - three-color rings
-  - 2-color and 3-color border coloring (only on the edges)
 * interaction ideas
-  - Add a toggle (& settings section) for drag & associated colors
-  - Add a second tap state, so you can toggle between three colors empty->tap1->tap2
-  - Add an option to add shapes on top of the grid as opposed to fully coloring the tapped cell, maybe with user-configurable hexagon states:
-    - options might include: color change, add shape of color (square, circle, triangle?)
-    - initially, tap would just toggle through the configured states
-    - this would change drag functionality to move state from one coordinate to another
-* Remember the background color for each cell so tapping/dragging doesn't mess up the initial colors
+  - Add an option to add shapes on top of the grid
+    - options might include: square, circle, triangle
+  - add option to change drag behavior to drag existing state or shape
+  - add long-press gesture and associated action type enum
+* add concept of "cell highlight"
+  - a type enum might include: border change (color and/or width), color change, some kind of overlay (maybe?)
+  - add `highlightCells` case to drag type enum, tap type enums
+  - add tap type options to highlight various cells relative to the tapped cell:
+    - neighboring cells
+    - diagonally neighboring cells
+    - path(s) to other tapped cells(?)
+    - (The idea here would be to expose more of the HexGrid API in the demo, so look at API for ideas.)
+  - whenever highlighting any cells, remove previously highlighted cells first
 * Add more visual effects
   - animate the border of a tapped cell
   - screen shake
   - growing and shrinking of cells
-* Add the concept of a "current cell", and buttons to highlight various cells relative to that cell. (The idea here would be to expose more of the HexGrid API in the demo.)
-  - neighboring cells
-  - diagonally neighboring cells
-  - shortest path to some other cell
 * Add a navigation to additional "canned" examples
   - An example drawn with `UIKit`
   - An example that does not "fit" to the screen size, and instead is much larger and scrolls off screen in all directions
@@ -109,7 +121,6 @@ Roughly corresponds to HexGrid version 0.4.10.
   - allow drawing coordinates as letters
   - toggle drawing an extra cell in 2 or 3 directions, and only drawing coordinates (for the relevant axis) in that cell
 * Put this on testflight
-  - add an about screen, with links to github, abstractpuzzle.com, and redblobgames original tutorials
 * Allow the user to save their hex grid (possibly including current states)
 * Allow the user to export the current grid
   - as single image
