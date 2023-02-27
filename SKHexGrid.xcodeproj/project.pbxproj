@@ -41,6 +41,7 @@
 		85331851288C87240000DB75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8536B108289D9439005CDF87 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		8536B109289D961D005CDF87 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		85AFCB5529AD2AA4000028EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85CD4FF6288C891100B73468 /* HexGridScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexGridScene.swift; sourceTree = "<group>"; };
 		85CD4FFB288C918D00B73468 /* Point+CGPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Point+CGPoint.swift"; sourceTree = "<group>"; };
 		85CD4FFD288C920E00B73468 /* Cell+Highlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Cell+Highlight.swift"; sourceTree = "<group>"; };
@@ -106,6 +107,7 @@
 		85CD5003288D9A1700B73468 /* application */ = {
 			isa = PBXGroup;
 			children = (
+				85AFCB5529AD2AA4000028EF /* Info.plist */,
 				85331843288C87230000DB75 /* GameScene.sks */,
 				85331845288C87230000DB75 /* Actions.sks */,
 				8533184B288C87230000DB75 /* Main.storyboard */,
@@ -369,6 +371,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R5R7CPRD56;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SKHexGrid/application/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Hexagons;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Required to save hex grids to your photo library";
@@ -400,6 +403,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = R5R7CPRD56;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SKHexGrid/application/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Hexagons;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Required to save hex grids to your photo library";
