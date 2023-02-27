@@ -8,6 +8,7 @@ class SaveMenuViewData: ObservableObject {
         case defaultGray
         case randomColorSquare
         case whiteBorderlessEdges
+        case blueExtendedTall
         case pinkTriangle
 
         func buttonName() -> String {
@@ -20,6 +21,8 @@ class SaveMenuViewData: ObservableObject {
                 return "Load random rectangle grid"
             case .whiteBorderlessEdges:
                 return "Load elegant white grid"
+            case .blueExtendedTall:
+                return "Load blue extended tall"
             case .pinkTriangle:
                 return "Load pink triangle"
             }
@@ -69,6 +72,19 @@ class SaveMenuViewData: ObservableObject {
             config.colorForHexagonBorder = .white
             config.colorForBackground = .white
             config.showsCoordinates = .none
+        case .blueExtendedTall:
+            config.gridType = .extendedHexagon
+            config.gridSizeX = 5
+            config.gridSizeY = 12
+            config.pointsUp = false
+            config.showsCoordinates = .none
+            config.borderWidth = 10
+            config.colorForHexagonBorder = Color(red: 47/256, green: 108/256, blue: 140/256)
+            config.colorForStateEmpty = Color(red: 210/256, green: 239/256, blue: 253/256)
+            config.initialShading = .edgesTwoColor
+            config.colorForStateEmptySecondary = Color(red: 61/256, green: 138/256, blue: 176/256)
+            config.colorForStateEmptyTertiary = Color(red: 90/256, green: 196/256, blue: 247/256)
+            config.colorForBackground = Color(red: 214/256, green: 214/256, blue: 214/256)
         case .pinkTriangle:
             config.gridType = .triangle
             config.gridSizeX = 13

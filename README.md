@@ -22,7 +22,7 @@ For now, you'll need to run the project yourself in Xcode:
 
 ### Load various preset examples
 
-Use the save/load button (in the upper-left) to find a list of preset examples you can view. Once you've loaded a preset, you can feel free to play with its properties using the configuration button.
+Use the save/load button (the middle button) to find a list of preset examples you can view. Once you've loaded a preset, you can feel free to play with its properties using the configuration button.
 
 ### Configure the grid
 
