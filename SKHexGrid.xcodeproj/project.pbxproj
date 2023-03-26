@@ -15,6 +15,8 @@
 		8533184D288C87230000DB75 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8533184B288C87230000DB75 /* Main.storyboard */; };
 		8533184F288C87240000DB75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8533184E288C87240000DB75 /* Assets.xcassets */; };
 		85331852288C87240000DB75 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85331850288C87240000DB75 /* LaunchScreen.storyboard */; };
+		856A7CB829CC2C89003DD486 /* SKShapeNode+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856A7CB729CC2C89003DD486 /* SKShapeNode+extension.swift */; };
+		856A7CC329D0A3C4003DD486 /* HexGridSceneDragCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856A7CC229D0A3C4003DD486 /* HexGridSceneDragCoordinator.swift */; };
 		85CD4FF7288C891100B73468 /* HexGridScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD4FF6288C891100B73468 /* HexGridScene.swift */; };
 		85CD4FFA288C8A1200B73468 /* HexGrid in Frameworks */ = {isa = PBXBuildFile; productRef = 85CD4FF9288C8A1200B73468 /* HexGrid */; };
 		85CD4FFC288C918E00B73468 /* Point+CGPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD4FFB288C918D00B73468 /* Point+CGPoint.swift */; };
@@ -41,6 +43,8 @@
 		85331851288C87240000DB75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8536B108289D9439005CDF87 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		8536B109289D961D005CDF87 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		856A7CB729CC2C89003DD486 /* SKShapeNode+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKShapeNode+extension.swift"; sourceTree = "<group>"; };
+		856A7CC229D0A3C4003DD486 /* HexGridSceneDragCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexGridSceneDragCoordinator.swift; sourceTree = "<group>"; };
 		85AFCB5529AD2AA4000028EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85CD4FF6288C891100B73468 /* HexGridScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexGridScene.swift; sourceTree = "<group>"; };
 		85CD4FFB288C918D00B73468 /* Point+CGPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Point+CGPoint.swift"; sourceTree = "<group>"; };
@@ -92,11 +96,12 @@
 				8536B108289D9439005CDF87 /* README.md */,
 				85CD5003288D9A1700B73468 /* application */,
 				85CD4FF6288C891100B73468 /* HexGridScene.swift */,
+				856A7CC229D0A3C4003DD486 /* HexGridSceneDragCoordinator.swift */,
 				85EC1D7B299DD1F1003E7297 /* SimpleHexGridScene.swift */,
 				85EC1D7D29A14350003E7297 /* Extensions */,
 				85331849288C87230000DB75 /* GameViewController.swift */,
-				85CD5004288F164B00B73468 /* ConfigurationView.swift */,
 				85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */,
+				85CD5004288F164B00B73468 /* ConfigurationView.swift */,
 				85EC1D6F299D33AB003E7297 /* SaveMenuView.swift */,
 				85EC1D7E29A15754003E7297 /* SaveMenuViewData.swift */,
 				85EC1D8029A169E3003E7297 /* AboutView.swift */,
@@ -121,10 +126,11 @@
 		85EC1D7D29A14350003E7297 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				85CD4FFB288C918D00B73468 /* Point+CGPoint.swift */,
-				85CD5001288D99F200B73468 /* HexSize+CGSize.swift */,
 				85CD4FFD288C920E00B73468 /* Cell+Highlight.swift */,
 				850E03D728A061BB00BC5934 /* Cell+State.swift */,
+				85CD5001288D99F200B73468 /* HexSize+CGSize.swift */,
+				85CD4FFB288C918D00B73468 /* Point+CGPoint.swift */,
+				856A7CB729CC2C89003DD486 /* SKShapeNode+extension.swift */,
 				85EC1D71299D3A32003E7297 /* UIColor+Codable.swift */,
 			);
 			path = Extensions;
@@ -214,6 +220,8 @@
 				85EC1D7C299DD1F1003E7297 /* SimpleHexGridScene.swift in Sources */,
 				85EC1D70299D33AB003E7297 /* SaveMenuView.swift in Sources */,
 				85CD5005288F164B00B73468 /* ConfigurationView.swift in Sources */,
+				856A7CC329D0A3C4003DD486 /* HexGridSceneDragCoordinator.swift in Sources */,
+				856A7CB829CC2C89003DD486 /* SKShapeNode+extension.swift in Sources */,
 				85CD4FFC288C918E00B73468 /* Point+CGPoint.swift in Sources */,
 				8533184A288C87230000DB75 /* GameViewController.swift in Sources */,
 				85EC1D72299D3A32003E7297 /* UIColor+Codable.swift in Sources */,
@@ -385,7 +393,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.3;
+				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abstractpuzzle.hexagons;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -417,7 +425,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.3.3;
+				MARKETING_VERSION = 0.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abstractpuzzle.hexagons;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

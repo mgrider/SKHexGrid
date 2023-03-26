@@ -35,6 +35,14 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 
 ## History / Release Notes
 
+### v0.4.0
+
+* allow pinch/zoom gesture and 2-finger drag to translate the hexagon grid
+* allow drag gesture to move the existing cell's interaction state
+* moved the drag-handling code into a helper class (`HexGridSceneDragCoordinator`)
+* added the ability for tap gestures to add "stone like" shapes to the board
+* added button to reset view after pinch/zooming
+
 ### v0.3.3
 
 * added support for `extendedHexagon` generator type
@@ -94,7 +102,6 @@ Roughly corresponds to HexGrid version 0.4.10.
 * interaction ideas
   - Add an option to add shapes on top of the grid
     - options might include: square, circle, triangle
-  - add option to change drag behavior to drag existing state or shape
   - add long-press gesture and associated action type enum
 * add concept of "cell highlight"
   - a type enum might include: border change (color and/or width), color change, some kind of overlay (maybe?)
@@ -120,11 +127,11 @@ Roughly corresponds to HexGrid version 0.4.10.
     - moving offset coordinate 0,0 all the way to an edge of the grid
   - allow drawing coordinates as letters
   - toggle drawing an extra cell in 2 or 3 directions, and only drawing coordinates (for the relevant axis) in that cell
-* Put this on testflight
 * Allow the user to save their hex grid (possibly including current states)
 * Allow the user to export the current grid
-  - as single image
   - as PDF, specifying the size of each cell
+* Add some way to visualize/change to drawing the lines between the cells center point
+  - this could be another border type 
 
 
 ### Some ideas more suitable for the main hex-grid project

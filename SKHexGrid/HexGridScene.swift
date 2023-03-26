@@ -4,17 +4,23 @@ import HexGrid
 
 class HexGridScene: SKScene {
 
-    private var config: ConfigurationData
+    // MARK: scene properties
+
+    private(set) var config: ConfigurationData
+
+    private var dragCoordinator: HexGridSceneDragCoordinator?
 
     private var emptyColorsByCell = [Cell: UIColor]()
 
-    private var grid: HexGrid
-
-    private var nodesByCell = [Cell: SKShapeNode]()
+    private(set) var grid: HexGrid
 
     private var labelsByCell = [Cell: SKLabelNode]()
 
-    private var spinnyNode : SKShapeNode?
+    private var nodesByCell = [Cell: SKShapeNode]()
+
+    private var nodesOnTopOfCell = [Cell: SKShapeNode]()
+
+    // MARK: init
 
     init(
         config: ConfigurationData,
@@ -83,14 +89,53 @@ class HexGridScene: SKScene {
         // so all our pixel calculations are correct while drawing the border.
         grid.origin = grid.origin.offset(by: .init(x: config.borderWidth, y: config.borderWidth))
 
+        print("HexGrid setup complete, \(grid.cells.count) cells")
+
         super.init(size: size)
 
         backgroundColor = UIColor(config.colorForBackground)
+        dragCoordinator = HexGridSceneDragCoordinator(forScene: self)
 
         // see `didMove(to view: SKView)` for generation of nodes
     }
 
-    private func updateCell(cell: Cell) {
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: updating cell states
+
+    private func addOrUpdateNodeOnTopOfCell(cell: Cell, tap2: Bool) {
+        let color = tap2 ? UIColor(config.colorForStateTapped2) : UIColor(config.colorForStateTapped)
+        if let stone = nodesOnTopOfCell[cell] {
+            stone.fillColor = color
+        } else {
+            let newType = tap2 ? config.interactionTap2Type : config.interactionTapType
+            switch newType {
+            case .shapeAddStone:
+                let newNode = SKShapeNode.stoneNode(withRadius: grid.hexSize.height / 2)
+                newNode.position = grid.pixelCoordinates(for: cell).cgPoint
+                newNode.fillColor = color
+                self.addChild(newNode)
+                nodesOnTopOfCell[cell] = newNode
+            case .colorChange, .none:
+                break
+            }
+        }
+    }
+
+    private func removeNodeOnTopOfCell(cell: Cell) {
+        guard let node = nodesOnTopOfCell[cell] else {
+            return
+        }
+        node.run(SKAction.sequence([
+            SKAction.fadeOut(withDuration: 0.25),
+            SKAction.removeFromParent(),
+        ]))
+        nodesOnTopOfCell[cell] = nil
+    }
+
+    func updateCell(cell: Cell) {
         var cellColor: UIColor
         guard let shapeNode = nodesByCell[cell] else {
             print("could not find cell")
@@ -100,10 +145,35 @@ class HexGridScene: SKScene {
         switch state {
         case .empty:
             cellColor = emptyColorsByCell[cell] ?? UIColor(config.colorForStateEmpty)
+            if let stone = nodesOnTopOfCell[cell] {
+                stone.run(SKAction.sequence([
+                    SKAction.fadeOut(withDuration: 0.25),
+                    SKAction.removeFromParent(),
+                ]))
+                nodesOnTopOfCell[cell] = nil
+            }
         case .tapped:
-            cellColor = UIColor(config.colorForStateTapped)
+            switch config.interactionTapType {
+            case .none:
+                return
+            case .colorChange:
+                cellColor = UIColor(config.colorForStateTapped)
+                removeNodeOnTopOfCell(cell: cell)
+            case .shapeAddStone:
+                addOrUpdateNodeOnTopOfCell(cell: cell, tap2: false)
+                cellColor = emptyColorsByCell[cell] ?? UIColor(config.colorForStateEmpty)
+            }
         case .tappedASecondTime:
-            cellColor = UIColor(config.colorForStateTapped2)
+            switch config.interactionTap2Type {
+            case .none:
+                return
+            case .colorChange:
+                cellColor = UIColor(config.colorForStateTapped2)
+                removeNodeOnTopOfCell(cell: cell)
+            case .shapeAddStone:
+                addOrUpdateNodeOnTopOfCell(cell: cell, tap2: true)
+                cellColor = emptyColorsByCell[cell] ?? UIColor(config.colorForStateEmpty)
+            }
         case .touchStarted:
             cellColor = UIColor(config.colorForStateDragBegan)
         case .touchContinued:
@@ -122,9 +192,7 @@ class HexGridScene: SKScene {
         shapeNode.fillColor = color
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    // MARK: scene overrides
 
     override func didMove(to view: SKView) {
 
@@ -195,26 +263,17 @@ class HexGridScene: SKScene {
             updateCell(cell: cell)
         }
 
-        // Create shape node to use during drag interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        let spinnyNode = SKShapeNode(circleOfRadius: w)
-        spinnyNode.lineWidth = 2.5
-        spinnyNode.run(SKAction.sequence([
-            SKAction.scale(by: 0.01, duration: 0.5),
-            SKAction.fadeOut(withDuration: 0.5),
-            SKAction.removeFromParent(),
-        ]))
-        self.spinnyNode = spinnyNode
-
         // add some gesture recognizers
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
-        let dragGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(sender:)))
+        guard let dragGesture = dragCoordinator?.dragGesture else { return }
         view.gestureRecognizers = [tapGesture, dragGesture]
     }
 
     override func willMove(from view: SKView) {
         view.gestureRecognizers?.removeAll()
     }
+
+    // MARK: empty cell colors and shading
 
     func colorCellsRandomly() {
         for cell in grid.cells {
@@ -364,98 +423,32 @@ class HexGridScene: SKScene {
     /// Note: to support taps as well as drags, we're using gesture recognizers as opposed to `touchesBegan`, etc.
 
     func tapped(atPoint pos: CGPoint) {
+        guard config.interactionTapType != .none else { return }
         if let cell = try? grid.cellAt(pos.hexPoint) {
             if cell.isBlocked {
                 print( "Cell x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z) is blocked!")
             } else {
                 print( "Cell tapped - x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z)")
-                switch config.interactionTapType {
-                case .none:
-                    return
-                case .colorChange:
-                    switch cell.state {
-                    case .tapped:
-                        switch config.interactionTap2Type {
-                        case .none:
-                            cell.state = .empty
-                        case .colorChange:
-                            cell.state = .tappedASecondTime
-                        case .shapeAdd:
-                            // todo:
-                            break
-                        }
-                    case .tappedASecondTime:
+                switch cell.state {
+                case .tapped:
+                    if config.interactionTap2Type == .none {
                         cell.state = .empty
-                    case .empty:
-                        cell.state = .tapped
-                    case .touchStarted, .touchContinued, .touchEnded:
-                        cell.state = .tapped
+                    } else {
+                        cell.state = .tappedASecondTime
                     }
-                case .shapeAdd:
-                    // TODO: do this
-                    break
+                case .tappedASecondTime:
+                    cell.state = .empty
+                case .empty:
+                    cell.state = .tapped
+                case .touchStarted, .touchContinued, .touchEnded:
+                    cell.state = .tapped
                 }
                 updateCell(cell: cell)
             }
         }
     }
 
-    func touchDown(atPoint pos : CGPoint) {
-        guard config.interactionDragType != .none else { return }
-        if let cell = try? grid.cellAt(pos.hexPoint) {
-            if cell.isBlocked {
-                print( "Cell x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z) is blocked!")
-            } else {
-                print( "Cell x: \(cell.coordinates.x), y: \(cell.coordinates.y), z: \(cell.coordinates.z)")
-                switch config.interactionDragType {
-                case .none:
-                    break // handled in guard above
-                case .colorChange:
-                    cell.state = .touchStarted
-                    updateCell(cell: cell)
-                case .dragExistingState:
-                    // TODO: do this
-                    break
-                }
-            }
-        }
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
-        }
-    }
-
-    func touchMoved(toPoint pos : CGPoint) {
-        guard config.interactionDragType != .none else { return }
-        if let cell = try? grid.cellAt(pos.hexPoint),
-           !cell.isBlocked,
-           cell.state != .touchStarted
-        {
-            cell.state = .touchContinued
-            updateCell(cell: cell)
-        }
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
-        }
-    }
-
-    func touchUp(atPoint pos : CGPoint) {
-        guard config.interactionDragType != .none else { return }
-        if let cell = try? grid.cellAt(pos.hexPoint), !cell.isBlocked {
-            cell.state = .touchEnded
-            updateCell(cell: cell)
-        }
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
-    }
-
-    // newer gesture-based input
+    // MARK: gesture input handlers
 
     @objc func handleTap(sender: UITapGestureRecognizer) {
         if sender.state == .ended {
@@ -465,46 +458,4 @@ class HexGridScene: SKScene {
         }
     }
 
-    @objc func handlePan(sender: UIPanGestureRecognizer) {
-        let viewPoint = sender.location(in: view)
-        let point = convertPoint(fromView: viewPoint)
-        if sender.state == .began {
-            touchDown(atPoint: point)
-        } else if sender.state == .changed {
-            touchMoved(toPoint: point)
-        } else if sender.state == .ended {
-            touchUp(atPoint: point)
-        }
-    }
-
-
-    // old way, handling each touch individually
-
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-//    }
-//
-//    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
-//    }
-//
-//    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        for t in touches {
-//            if t.tapCount == 1 {
-//                self.tapped(atPoint: t.location(in: self))
-//            } else {
-//                self.touchUp(atPoint: t.location(in: self))
-//            }
-//        }
-//    }
-//
-//    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-//    }
-
-    // MARK: update loop for realtime games
-
-//    override func update(_ currentTime: TimeInterval) {
-//        // Called before each frame is rendered
-//    }
 }

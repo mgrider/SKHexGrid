@@ -6,10 +6,11 @@ class SaveMenuViewData: ObservableObject {
     enum PresetLoadType: String, CaseIterable {
         case simpleExample
         case defaultGray
-        case randomColorSquare
+        case randomColorParallelogram
         case whiteBorderlessEdges
         case blueExtendedTall
         case pinkTriangle
+        case goBoardSquare
 
         func buttonName() -> String {
             switch self {
@@ -17,14 +18,16 @@ class SaveMenuViewData: ObservableObject {
                 return "Load simple grid example"
             case .defaultGray:
                 return "Load default gray grid"
-            case .randomColorSquare:
-                return "Load random rectangle grid"
+            case .randomColorParallelogram:
+                return "Load random color parallelogram"
             case .whiteBorderlessEdges:
                 return "Load elegant white grid"
             case .blueExtendedTall:
                 return "Load blue extended tall"
             case .pinkTriangle:
                 return "Load pink triangle"
+            case .goBoardSquare:
+                return "Load 13x13 hex Go board"
             }
         }
     }
@@ -54,8 +57,8 @@ class SaveMenuViewData: ObservableObject {
             break
         case .defaultGray:
             break
-        case .randomColorSquare:
-            config.gridType = .rectangle
+        case .randomColorParallelogram:
+            config.gridType = .parallelogram
             config.pointsUp = false
             config.gridSizeX = 15
             config.gridSizeY = 14
@@ -95,6 +98,22 @@ class SaveMenuViewData: ObservableObject {
             config.colorForStateEmptyTertiary = Color(red: 255/256, green: 140/256, blue: 130/256)
             config.borderWidth = 10
             config.colorForHexagonBorder = Color(red: 249/256, green: 211/256, blue: 224/256)
+        case .goBoardSquare:
+            config.gridType = .rectangle
+            config.gridSizeX = 13
+            config.gridSizeY = 13
+            config.pointsUp = false
+            config.showsCoordinates = .none
+            config.borderWidth = 1
+            config.colorForHexagonBorder = .black
+            config.colorForStateEmpty = Color(red: 251/256, green: 232/256, blue: 108/256)
+            config.initialShading = .none
+            config.interactionTapType = .shapeAddStone
+            config.colorForStateTapped = Color(red: 235/256, green: 235/256, blue: 235/256)
+            config.interactionTap2Type = .shapeAddStone
+            config.colorForStateTapped2 = Color(red: 51/256, green: 51/256, blue: 51/256)
+            config.interactionDragType = .none
+            config.colorForBackground = .white
         }
         return config
     }

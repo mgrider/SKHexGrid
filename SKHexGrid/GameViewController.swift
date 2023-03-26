@@ -61,6 +61,7 @@ class GameViewController: UIViewController {
                 doneButtonCallback: { [weak self] model in
                     guard let self = self else { return }
                     guard let hostingController = self.configHostingController else { return }
+                    self.gameView?.transform = .identity
                     self.updateGridFromModel(model: model)
                     hostingController.dismiss(animated: true)
             })
@@ -81,6 +82,24 @@ class GameViewController: UIViewController {
     var hex: HexGridScene?
 
     var hexSecondaryView: SKView?
+
+    lazy var resetTransformButton: UIButton = {
+        let button = UIButton()
+        var config = UIButton.Configuration.plain()
+        var background = UIBackgroundConfiguration.clear()
+        background.cornerRadius = 8
+        background.backgroundColor = .white.withAlphaComponent(0.75)
+        config.background = background
+        config.image = UIImage(systemName: "arrowshape.turn.up.backward")
+        button.configuration = config
+        button.addAction(UIAction { [weak self] _ in
+            guard let self = self else { return }
+            guard let gameView = self.gameView else { return }
+            gameView.transform = .identity
+            self.resetTransformButton.isHidden = true
+        }, for: .touchUpInside)
+        return button
+    }()
 
     lazy var saveMenuButton: UIButton = {
         let button = UIButton()
@@ -107,6 +126,7 @@ class GameViewController: UIViewController {
                     default:
                         self.updateGridFromModel(model: saveData.config(for: wantsConfig))
                     }
+                    self.gameView?.transform = .identity
                 }
                 hostingController.dismiss(animated: true)
             }
@@ -172,7 +192,23 @@ class GameViewController: UIViewController {
             aboutButton.translatesAutoresizingMaskIntoConstraints = false
             aboutButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
             aboutButton.rightAnchor.constraint(equalTo: saveMenuButton.leftAnchor, constant: -20).isActive = true
+
+            view.addSubview(resetTransformButton)
+            resetTransformButton.translatesAutoresizingMaskIntoConstraints = false
+            resetTransformButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+            resetTransformButton.rightAnchor.constraint(equalTo: aboutButton.leftAnchor, constant: -20).isActive = true
+            resetTransformButton.isHidden = true
+
+            let pinch = UIPinchGestureRecognizer(target: self, action: #selector(didReceivePinchGesture))
+            view.addGestureRecognizer(pinch)
+
+            let drag = UIPanGestureRecognizer(target: self, action: #selector(didReceivePanGesture(sender:)))
+            drag.minimumNumberOfTouches = 2
+            drag.maximumNumberOfTouches = 2
+            drag.delegate = self
+            view.addGestureRecognizer(drag)
         }
+
     }
 
     private func presentGridShape(viewData: ConfigurationData) -> HexGridScene? {
@@ -218,6 +254,26 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+
+    // MARK: pinch/zoom
+
+    @objc func didReceivePinchGesture(sender: UIPinchGestureRecognizer) {
+        guard displayData.isInteractionPinchZoomAllowed else { return }
+        guard let gameView = self.gameView else { return }
+        gameView.transform = gameView.transform.scaledBy(x: sender.scale, y: sender.scale)
+        sender.scale = 1
+        resetTransformButton.isHidden = false
+    }
+
+    @objc func didReceivePanGesture(sender: UIPanGestureRecognizer) {
+        guard displayData.isInteractionTwoFingerDragGridAllowed else { return }
+        guard let gameView = self.gameView else { return }
+        guard sender.numberOfTouches == 2 else { return }
+        let translation = sender.translation(in: view)
+        sender.setTranslation(.zero, in: view)
+        gameView.transform = gameView.transform.translatedBy(x: translation.x, y: translation.y)
+        resetTransformButton.isHidden = false
     }
 
     // MARK: updating the current grid
@@ -268,5 +324,14 @@ extension UIImage {
         DispatchQueue.global(qos: .userInitiated).async {
             UIImageWriteToSavedPhotosAlbum(self, completionTarget, completionSelector, nil)
         }
+    }
+}
+
+extension GameViewController: UIGestureRecognizerDelegate {
+    public func gestureRecognizer(
+        _ gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer
+    ) -> Bool {
+        return true
     }
 }

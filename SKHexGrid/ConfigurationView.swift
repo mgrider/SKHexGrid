@@ -51,11 +51,6 @@ struct ConfigurationSheetView: View {
                         Text("Hexagon points face up")
                     })
 
-                    Toggle(isOn: $gameData.offsetEven, label: {
-                        let str: String = gameData.offsetEven ? "Offset is Even" : "Offset is Odd"
-                        Text(str)
-                    })
-
                 }
 
                 Section("Coordinates") {
@@ -80,6 +75,11 @@ struct ConfigurationSheetView: View {
                             Text("Font Size: \(gameData.coordinateLabelFontSize.rounded(), specifier: "%.0f")")
                         }
                     }
+
+                    Toggle(isOn: $gameData.offsetEven, label: {
+                        let str: String = gameData.offsetEven ? "Offset is Even" : "Offset is Odd"
+                        Text(str)
+                    })
 
                 }
 
@@ -149,7 +149,7 @@ struct ConfigurationSheetView: View {
                     Picker("Tap Effect", selection: $gameData.interactionTapType, content: {
                         Text("None").tag(ConfigurationData.GridCellTapInteractionType.none)
                         Text("Color Change").tag(ConfigurationData.GridCellTapInteractionType.colorChange)
-//                        Text("Add Shape").tag(ConfigurationData.GridCellTapInteractionType.shapeAdd)
+                        Text("Add Stone").tag(ConfigurationData.GridCellTapInteractionType.shapeAddStone)
                     })
                     ColorPicker(
                         "Tap Effect Color",
@@ -162,7 +162,7 @@ struct ConfigurationSheetView: View {
                     Picker("Second Tap Effect", selection: $gameData.interactionTap2Type, content: {
                         Text("None").tag(ConfigurationData.GridCellTapInteractionType.none)
                         Text("Color Change").tag(ConfigurationData.GridCellTapInteractionType.colorChange)
-                        //                        Text("Add Shape").tag(ConfigurationData.GridCellTapInteractionType.shapeAdd)
+                        Text("Add Stone").tag(ConfigurationData.GridCellTapInteractionType.shapeAddStone)
                     })
                     ColorPicker(
                         "Second Tap Effect Color",
@@ -175,7 +175,7 @@ struct ConfigurationSheetView: View {
                     Picker("Drag Effect", selection: $gameData.interactionDragType, content: {
                         Text("None").tag(ConfigurationData.GridCellDragInteractionType.none)
                         Text("Color Change").tag(ConfigurationData.GridCellDragInteractionType.colorChange)
-//                        Text("Add Shape").tag(ConfigurationData.GridCellDragInteractionType.)
+                        Text("Move Existing").tag(ConfigurationData.GridCellDragInteractionType.dragExistingState)
                     })
 
                     ColorPicker(
@@ -195,6 +195,16 @@ struct ConfigurationSheetView: View {
                         selection: $gameData.colorForStateDragEnded,
                         supportsOpacity: false
                     )
+
+                    // MARK: pinch/zoom
+
+                    Toggle(isOn: $gameData.isInteractionPinchZoomAllowed, label: {
+                        Text("Pinch to change zoom-level of the grid")
+                    })
+
+                    Toggle(isOn: $gameData.isInteractionTwoFingerDragGridAllowed, label: {
+                        Text("Two-finger drag to move the grid")
+                    })
 
                 }
 

@@ -30,18 +30,10 @@ class ConfigurationData: ObservableObject {
     enum GridCellTapInteractionType: String, Hashable, Codable {
         case none
         case colorChange
-        case shapeAdd
-        // TODO: flush this out by looking at HexGrid API
-        // showNeighbors
-        // showLineOfSight
-        // showGroups(?)
-    }
-    enum GridCellStateShape: String, Hashable, Codable {
-        case none
-        case circle
-        case square
-        case triangle
-        case stone
+//        case shapeAddCircle
+//        case shapeAddSquare
+        case shapeAddStone
+//        case shapeAddTriangle
     }
     enum GridCellDragInteractionType: String, Hashable, Codable {
         case none
@@ -61,24 +53,26 @@ class ConfigurationData: ObservableObject {
     @Published var colorForCoordinateLabels: Color = .black
     @Published var coordinateLabelFontSize: Double = 10
 
-    // colors
+    // entire scene background color
     @Published var colorForBackground: Color = .black
+
+    // cell borders
+    @Published var borderWidth:Double = 1
     @Published var colorForHexagonBorder: Color = .white
 
     // interactions
     @Published var interactionTapType: GridCellTapInteractionType = .colorChange
-    @Published var interactionTapShape: GridCellStateShape = .none
     @Published var colorForStateTapped: Color = Color(UIColor.systemOrange)
     @Published var interactionTap2Type: GridCellTapInteractionType = .none
-    @Published var interactionTap2Shape: GridCellStateShape = .none
     @Published var colorForStateTapped2: Color = Color(UIColor.systemPurple)
     @Published var interactionDragType: GridCellDragInteractionType = .none
     @Published var colorForStateDragBegan: Color = Color(red: 59/256, green: 172/256, blue: 182/256)
     @Published var colorForStateDragContinued: Color = Color(red: 130/256, green: 219/256, blue: 216/256)
     @Published var colorForStateDragEnded: Color = Color(red: 179/256, green: 232/256, blue: 229/256)
+    @Published var isInteractionPinchZoomAllowed = true
+    @Published var isInteractionTwoFingerDragGridAllowed = true
 
     // misc
-    @Published var borderWidth:Double = 1
     @Published var initialShading: GridInitialShading = .threeColor
     @Published var colorForStateEmpty: Color = Color(UIColor.lightGray)
     @Published var colorForStateEmptySecondary: Color = Color(.gray)
