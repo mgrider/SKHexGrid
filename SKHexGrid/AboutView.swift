@@ -4,6 +4,10 @@ struct AboutView: View {
 
     var doneButtonCallback: (() -> Void)?
 
+    var versionString: String = {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.0.x"
+    }()
+
     var body: some View {
 
         NavigationView {
@@ -47,7 +51,7 @@ HexGrid was heavily influenced by (and in many cases based on) the work of Amit 
 """)
 
             }.padding()
-                .navigationBarTitle(Text("About this app"), displayMode: .inline)
+                .navigationBarTitle(Text("About this app - v.\(versionString)"), displayMode: .inline)
                 .navigationBarItems(
                     trailing: Button(
                         action: {

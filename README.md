@@ -35,6 +35,12 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 
 ## History / Release Notes
 
+### v0.4.1
+
+* added the option to draw dots in the center of each cell
+* added center point grid example
+* added version string in the about screen's navigation title
+
 ### v0.4.0
 
 * allow pinch/zoom gesture and 2-finger drag to translate the hexagon grid
@@ -130,8 +136,7 @@ Roughly corresponds to HexGrid version 0.4.10.
 * Allow the user to save their hex grid (possibly including current states)
 * Allow the user to export the current grid
   - as PDF, specifying the size of each cell
-* Add some way to visualize/change to drawing the lines between the cells center point
-  - this could be another border type 
+* Add option to draw lines between the center points of adjacent cells
 
 
 ### Some ideas more suitable for the main hex-grid project

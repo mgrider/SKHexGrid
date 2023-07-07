@@ -86,15 +86,35 @@ struct ConfigurationSheetView: View {
                 Section("Outline / Borders") {
 
                     ColorPicker(
-                        "Border Color",
+                        "Border color",
                         selection: $gameData.colorForHexagonBorder,
                         supportsOpacity: false
                     )
 
                     HStack {
-                        Text("Cell Border width: \(gameData.borderWidth, specifier: "%.0f")")
+                        Text("Cell border width: \(gameData.borderWidth, specifier: "%.0f")")
                         Slider(value: $gameData.borderWidth, in: 0...30) {
                             Text("Border width: \(gameData.borderWidth.rounded(), specifier: "%.0f")")
+                        }
+                    }
+                }
+
+                Section("Center Points") {
+
+                    Toggle(isOn: $gameData.drawCenterPoint, label:{
+                        Text("Draw center point")
+                    })
+
+                    ColorPicker(
+                        "Center point color",
+                        selection: $gameData.drawCenterPointColor,
+                        supportsOpacity: true
+                    )
+
+                    HStack {
+                        Text("Center point diameter: \(gameData.drawCenterPointDiameter, specifier: "%.0f")")
+                        Slider(value: $gameData.drawCenterPointDiameter, in: 0...100) {
+                            Text("Center point diameter: \(gameData.drawCenterPointDiameter, specifier: "%.0f")")
                         }
                     }
                 }

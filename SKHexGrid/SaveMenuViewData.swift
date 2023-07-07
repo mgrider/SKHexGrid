@@ -11,6 +11,7 @@ class SaveMenuViewData: ObservableObject {
         case blueExtendedTall
         case pinkTriangle
         case goBoardSquare
+        case centerPoints
 
         func buttonName() -> String {
             switch self {
@@ -28,6 +29,8 @@ class SaveMenuViewData: ObservableObject {
                 return "Load pink triangle"
             case .goBoardSquare:
                 return "Load 13x13 hex Go board"
+            case .centerPoints:
+                return "Load center points"
             }
         }
     }
@@ -114,6 +117,15 @@ class SaveMenuViewData: ObservableObject {
             config.colorForStateTapped2 = Color(red: 51/256, green: 51/256, blue: 51/256)
             config.interactionDragType = .none
             config.colorForBackground = .white
+        case .centerPoints:
+            config.drawCenterPoint = true
+            config.drawCenterPointColor = Color(red: 235/256, green: 235/256, blue: 235/256)
+            config.drawCenterPointDiameter = 20
+            config.borderWidth = 0.0
+            config.colorForStateEmpty = Color(red: 51/256, green: 51/256, blue: 51/256)
+            config.colorForStateEmptySecondary = Color(red: 61/256, green: 61/256, blue: 61/256)
+            config.colorForStateEmptyTertiary = Color(red: 71/256, green: 71/256, blue: 71/256)
+            config.interactionTap2Type = .colorChange
         }
         return config
     }

@@ -60,6 +60,11 @@ class ConfigurationData: ObservableObject {
     @Published var borderWidth:Double = 1
     @Published var colorForHexagonBorder: Color = .white
 
+    // drawing center points
+    @Published var drawCenterPoint: Bool = false
+    @Published var drawCenterPointColor: Color = .black
+    @Published var drawCenterPointDiameter: Double = 3.0
+
     // interactions
     @Published var interactionTapType: GridCellTapInteractionType = .colorChange
     @Published var colorForStateTapped: Color = Color(UIColor.systemOrange)
