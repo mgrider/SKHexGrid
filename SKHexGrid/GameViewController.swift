@@ -6,6 +6,7 @@ import UIKit
 class GameBackgroundScene: SKScene {
     override init(size: CGSize) {
         super.init(size: size)
+        self.scaleMode = .fill
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -150,6 +151,11 @@ class GameViewController: UIViewController {
             bgScene.backgroundColor = UIColor(displayData.colorForBackground)
             bgView.presentScene(bgScene)
             view.addSubview(bgView)
+            bgView.translatesAutoresizingMaskIntoConstraints = false
+            bgView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+            bgView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+            bgView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+            bgView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
             self.background = bgScene
 
             let side = min(view.frame.size.height, view.frame.size.width)
@@ -159,6 +165,7 @@ class GameViewController: UIViewController {
                 width: side,
                 height: side))
             view.addSubview(gameView)
+            setupConstraints(forGameView: gameView, relativeTo: view)
             self.gameView = gameView
 
             hex = presentGridShape(viewData: self.displayData)
@@ -209,6 +216,22 @@ class GameViewController: UIViewController {
             view.addGestureRecognizer(drag)
         }
 
+    }
+
+    private func setupConstraints(forGameView gameView: UIView, relativeTo view: UIView) {
+//            gameView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        gameView.translatesAutoresizingMaskIntoConstraints = false
+        var gameViewConstraints: [NSLayoutConstraint] = []
+        gameViewConstraints.append(gameView.topAnchor.constraint(greaterThanOrEqualTo: view.topAnchor))
+        gameViewConstraints.append(gameView.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor))
+        gameViewConstraints.append(gameView.leftAnchor.constraint(greaterThanOrEqualTo: view.leftAnchor))
+        gameViewConstraints.append(gameView.rightAnchor.constraint(lessThanOrEqualTo: view.rightAnchor))
+        let sidesEqual = gameView.widthAnchor.constraint(equalTo: gameView.heightAnchor, multiplier: 1)
+        sidesEqual.priority = .defaultHigh
+        gameViewConstraints.append(gameView.centerXAnchor.constraint(equalTo: view.centerXAnchor))
+        gameViewConstraints.append(gameView.centerYAnchor.constraint(equalTo: view.centerYAnchor))
+        gameViewConstraints.append(sidesEqual)
+        NSLayoutConstraint.activate(gameViewConstraints)
     }
 
     private func presentGridShape(viewData: ConfigurationData) -> HexGridScene? {
@@ -280,6 +303,7 @@ class GameViewController: UIViewController {
 
     func updateGridFromModel(model: ConfigurationData) {
         displayData = model
+        self.view.backgroundColor = UIColor(model.colorForBackground)
         background?.backgroundColor = UIColor(model.colorForBackground)
         hex = presentGridShape(viewData: model)
         hexSecondaryView?.isHidden = !model.showYellowSecondaryGrid
