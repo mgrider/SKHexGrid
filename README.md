@@ -35,6 +35,13 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 
 ## History / Release Notes
 
+### v0.4.2
+
+* fixed layout issues when running on macOS
+* Add option to draw lines between the center points of adjacent cells
+* added a new preset for lines between cells, minor changes to some existing presets
+* updated the "about this app" contents a bit
+
 ### v0.4.1
 
 * added the option to draw dots in the center of each cell
@@ -102,13 +109,16 @@ Roughly corresponds to HexGrid version 0.4.10.
 
 ## Backlog / ideas list
 
+* Make it clearer which configuration options are from `HexGrid` and which are unique to this project.
+  - write clear explainations for each configuration option, both in the View, and in code
 * Make additional things configurable
   - arbitrary coordinates for "custom" generation
-  - the frame of the hexagon?
+  - the frame of the hexagon? (just padding?)
 * interaction ideas
   - Add an option to add shapes on top of the grid
     - options might include: square, circle, triangle
   - add long-press gesture and associated action type enum
+  - make tap-types into an array of arbitrary length
 * add concept of "cell highlight"
   - a type enum might include: border change (color and/or width), color change, some kind of overlay (maybe?)
   - add `highlightCells` case to drag type enum, tap type enums
@@ -136,7 +146,8 @@ Roughly corresponds to HexGrid version 0.4.10.
 * Allow the user to save their hex grid (possibly including current states)
 * Allow the user to export the current grid
   - as PDF, specifying the size of each cell
-* Add option to draw lines between the center points of adjacent cells
+* Add option to choose a woodgrain background
+* Add the possibility for arbitrary text annotations
 
 
 ### Some ideas more suitable for the main hex-grid project

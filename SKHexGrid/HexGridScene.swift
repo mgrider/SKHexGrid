@@ -267,6 +267,10 @@ class HexGridScene: SKScene {
             colorBoardWithThreeColors()
         }
 
+        if config.drawLinesBetweenCells {
+            drawLinesBetweenCells()
+        }
+
         for cell in grid.cells {
             updateCell(cell: cell)
         }
@@ -423,6 +427,34 @@ class HexGridScene: SKScene {
             return colors[abs(index)-1]
         } else {
             return .systemOrange
+        }
+    }
+
+    // MARK: drawing lines between cells
+
+    func drawLinesBetweenCells() {
+        var points: [CGPoint] = []
+        var alreadyDrawnPoints: [CGPoint] = []
+        var cellPoint: CGPoint
+        for cell in grid.cells {
+            cellPoint = grid.pixelCoordinates(for: cell).cgPoint
+            if let neighbors = try? grid.neighbors(for: cell) {
+                for nCell in neighbors {
+                    points.removeAll(keepingCapacity: true)
+                    points.append(cellPoint)
+                    let nPoint = grid.pixelCoordinates(for: nCell).cgPoint
+                    if alreadyDrawnPoints.contains(nPoint) {
+                        continue
+                    }
+                    points.append(nPoint)
+                    let linearShapeNode = SKShapeNode(points: &points,
+                                                      count: points.count)
+                    linearShapeNode.strokeColor = UIColor(config.drawLinesBetweenCellsColor)
+                    linearShapeNode.lineWidth = config.drawLinesBetweenCellsWidth
+                    addChild(linearShapeNode)
+                }
+            }
+            alreadyDrawnPoints.append(cellPoint)
         }
     }
 

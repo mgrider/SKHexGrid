@@ -77,7 +77,7 @@ struct ConfigurationSheetView: View {
                     }
 
                     Toggle(isOn: $gameData.offsetEven, label: {
-                        let str: String = gameData.offsetEven ? "Offset is Even" : "Offset is Odd"
+                        let str: String = gameData.offsetEven ? "Offset: Even" : "Offset: Odd"
                         Text(str)
                     })
 
@@ -115,6 +115,26 @@ struct ConfigurationSheetView: View {
                         Text("Center point diameter: \(gameData.drawCenterPointDiameter, specifier: "%.0f")")
                         Slider(value: $gameData.drawCenterPointDiameter, in: 0...100) {
                             Text("Center point diameter: \(gameData.drawCenterPointDiameter, specifier: "%.0f")")
+                        }
+                    }
+                }
+
+                Section("Lines between cells") {
+
+                    Toggle(isOn: $gameData.drawLinesBetweenCells, label:{
+                        Text("Draw lines between cells")
+                    })
+
+                    ColorPicker(
+                        "Color for lines between cells",
+                        selection: $gameData.drawLinesBetweenCellsColor,
+                        supportsOpacity: true
+                    )
+
+                    HStack {
+                        Text("Line width: \(gameData.drawLinesBetweenCellsWidth, specifier: "%.0f")")
+                        Slider(value: $gameData.drawLinesBetweenCellsWidth, in: 0...100) {
+                            Text("Line width: \(gameData.drawLinesBetweenCellsWidth, specifier: "%.0f")")
                         }
                     }
                 }

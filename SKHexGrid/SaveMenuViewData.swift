@@ -12,6 +12,7 @@ class SaveMenuViewData: ObservableObject {
         case pinkTriangle
         case goBoardSquare
         case centerPoints
+        case centerPointsAndLines
 
         func buttonName() -> String {
             switch self {
@@ -24,13 +25,15 @@ class SaveMenuViewData: ObservableObject {
             case .whiteBorderlessEdges:
                 return "Load elegant white grid"
             case .blueExtendedTall:
-                return "Load blue extended tall"
+                return "Load blue extended tall grid with thick borders"
             case .pinkTriangle:
                 return "Load pink triangle"
             case .goBoardSquare:
                 return "Load 13x13 hex Go board"
             case .centerPoints:
-                return "Load center points"
+                return "Load dark irregular-sided hexagon grid with center points"
+            case .centerPointsAndLines:
+                return "Load green rectangular grid with red lines between cells"
             }
         }
     }
@@ -99,7 +102,7 @@ class SaveMenuViewData: ObservableObject {
             config.colorForStateEmpty = Color(red: 255/256, green: 181/256, blue: 175/256)
             config.colorForStateEmptySecondary = Color(red: 244/256, green: 164/256, blue: 192/256)
             config.colorForStateEmptyTertiary = Color(red: 255/256, green: 140/256, blue: 130/256)
-            config.borderWidth = 10
+            config.borderWidth = 2
             config.colorForHexagonBorder = Color(red: 249/256, green: 211/256, blue: 224/256)
         case .goBoardSquare:
             config.gridType = .rectangle
@@ -121,11 +124,35 @@ class SaveMenuViewData: ObservableObject {
             config.drawCenterPoint = true
             config.drawCenterPointColor = Color(red: 235/256, green: 235/256, blue: 235/256)
             config.drawCenterPointDiameter = 20
+            config.gridSizeX = 3
+            config.gridSizeY = 4
             config.borderWidth = 0.0
             config.colorForStateEmpty = Color(red: 51/256, green: 51/256, blue: 51/256)
             config.colorForStateEmptySecondary = Color(red: 61/256, green: 61/256, blue: 61/256)
             config.colorForStateEmptyTertiary = Color(red: 71/256, green: 71/256, blue: 71/256)
             config.interactionTap2Type = .colorChange
+            config.showsCoordinates = .none
+        case .centerPointsAndLines:
+            config.drawLinesBetweenCells = true
+            config.drawLinesBetweenCellsColor = .red
+            config.drawLinesBetweenCellsWidth = 4.0
+            config.drawCenterPoint = true
+            config.drawCenterPointColor = .red
+            config.drawCenterPointDiameter = 12
+            config.borderWidth = 4.0
+            config.colorForHexagonBorder = Color(red: 210/256, green: 231/256, blue: 186/256)
+            config.colorForBackground = Color(red: 210/256, green: 231/256, blue: 186/256)
+            config.initialShading = .edgesTwoColor
+            config.colorForStateEmpty = Color(red: 248/256, green: 250/256, blue: 222/256)
+            config.colorForStateEmptySecondary = Color(red: 186/256, green: 220/256, blue: 148/256)
+            config.colorForStateEmptyTertiary = Color(red: 226/256, green: 238/256, blue: 214/256)
+            config.interactionTap2Type = .colorChange
+            config.showsCoordinates = .none
+            config.gridType = .rectangle
+            config.gridSizeX = 6
+            config.gridSizeY = 5
+            config.pointsUp = false
+            config.offsetEven = false
         }
         return config
     }

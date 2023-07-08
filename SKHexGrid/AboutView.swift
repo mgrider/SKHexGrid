@@ -27,7 +27,17 @@ SKHexGrid is an [open source](https://github.com/mgrider/skhexgrid) project, sho
 
                 Text("""
 
-There are a couple of primary uses imagined for this application (outside of its use as an open-source "example project"):
+\(Image(systemName: "square.and.arrow.down")) save / load menu
+
+Press the \(Image(systemName: "square.and.arrow.down")) button to load a preset grids, or to save the current grid to your photos library. Looking at the presets is a great way to see some of the things that are possible with this application.
+
+\(Image(systemName: "gear")) configuration menu
+
+Pressing the \(Image(systemName: "gear")) button will let you see (and change!) the current grid's configuration. There are lots of options in here. Feel free to play around with them!
+
+\(Image(systemName: "questionmark.app")) other uses
+
+There are a couple of other uses imagined for this application (outside of serving as a nice example for the `HexGrid` library):
 
 1. You can **configure** and then **Save** images of hexagonal grids for use elsewhere. (For example, you might configure a grid for a [board game played on a hexagonal grid](https://boardgamegeek.com/boardgamemechanic/2026/hexagon-grid), save it, then find it in your photos library and print it from there.)
 

@@ -65,6 +65,11 @@ class ConfigurationData: ObservableObject {
     @Published var drawCenterPointColor: Color = .black
     @Published var drawCenterPointDiameter: Double = 3.0
 
+    // drawing lines between cell center points
+    @Published var drawLinesBetweenCells: Bool = false
+    @Published var drawLinesBetweenCellsColor: Color = .black
+    @Published var drawLinesBetweenCellsWidth: Double = 3.0
+
     // interactions
     @Published var interactionTapType: GridCellTapInteractionType = .colorChange
     @Published var colorForStateTapped: Color = Color(UIColor.systemOrange)
