@@ -11,14 +11,19 @@ This project contains (at present) two distinct examples.
 
 ## How to use this project
 
-### Setup
+### Get it running first
 
-For now, you'll need to run the project yourself in Xcode:
+#### From the App Store
 
-1. Download this repository
-2. Open the `SKHexGrid.project` file with Xcode
-3. Run the project
-    - Optionally pick a deployment target first (any iOS or iPadOS simulator should work)
+This project has been published in the iOS App Store, where it is called [Hexagon Grid Generator](https://apps.apple.com/us/app/hexagon-grid-generator/id6445898427). If you just want to use the project, and don't care about modifying or seeing the source code, then that's your best bet. You'll need a device with iOS, iPadOS, or macOS. It's a free download.
+
+#### Build it yourself from source
+
+1. First off, you'll need a version of Xcode
+2. Download this repository
+3. Open the `SKHexGrid.project` file with Xcode
+4. Build and run the project
+    - Optionally pick a deployment target first (any iOS, iPadOS, or macOS should work)
 
 ### Load various preset examples
 
