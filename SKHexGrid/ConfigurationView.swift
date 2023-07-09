@@ -13,12 +13,12 @@ struct ConfigurationSheetView: View {
 
             List {
 
-                Section("Grid") {
+                Section("Generated grid") {
 
                     HStack {
-                        Picker("View Type", selection: $gameData.gridType, content: {
+                        Picker("Grid type", selection: $gameData.gridType, content: {
                             Text("Hexagon").tag(ConfigurationData.GridType.irregularHexagon)
-                            Text("Extended Hexagon").tag(ConfigurationData.GridType.extendedHexagon)
+                            Text("Extended hexagon").tag(ConfigurationData.GridType.extendedHexagon)
                             Text("Rectangle").tag(ConfigurationData.GridType.rectangle)
                             Text("Parallelogram").tag(ConfigurationData.GridType.parallelogram)
                             Text("Triangle").tag(ConfigurationData.GridType.triangle)
@@ -29,17 +29,15 @@ struct ConfigurationSheetView: View {
                     VStack {
                         HStack {
                             Text("Size x: \(gameData.gridSizeX, specifier: "%.0f")")
-                            Spacer()
-                        }
-                        Slider(value: $gameData.gridSizeX, in: 1...30) {
-                            Text("Size: \(gameData.gridSizeX.rounded(), specifier: "%.0f")")
+                            Slider(value: $gameData.gridSizeX, in: 1...30) {
+                                Text("Size: \(gameData.gridSizeX.rounded(), specifier: "%.0f")")
+                            }
                         }
                         HStack {
                             Text("Size Y: \(gameData.gridSizeY, specifier: "%.0f")")
-                            Spacer()
-                        }
-                        Slider(value: $gameData.gridSizeY, in: 1...30) {
-                            Text("Size Y: \(gameData.gridSizeY.rounded(), specifier: "%.0f")")
+                            Slider(value: $gameData.gridSizeY, in: 1...30) {
+                                Text("Size Y: \(gameData.gridSizeY.rounded(), specifier: "%.0f")")
+                            }
                         }
                         HStack {
                             Text("Size Y only applies to hexagon, rectangle, and parallelogram grids.").font(.caption)
@@ -53,9 +51,9 @@ struct ConfigurationSheetView: View {
 
                 }
 
-                Section("Coordinates") {
+                Section("Cell coordinates") {
                     HStack {
-                        Picker("Coordinate Display", selection: $gameData.showsCoordinates, content: {
+                        Picker("Coordinate display", selection: $gameData.showsCoordinates, content: {
                             Text("None").tag(ConfigurationData.GridCoordinateType.none)
                             Text("Cube").tag(ConfigurationData.GridCoordinateType.cube)
                             Text("Axial").tag(ConfigurationData.GridCoordinateType.axial)
@@ -64,15 +62,15 @@ struct ConfigurationSheetView: View {
                     }
 
                     ColorPicker(
-                        "Coordinate Text Color",
+                        "Coordinate text color",
                         selection: $gameData.colorForCoordinateLabels,
                         supportsOpacity: false
                     )
 
                     HStack {
-                        Text("Font Size: \(gameData.coordinateLabelFontSize, specifier: "%.0f")")
+                        Text("Font size: \(gameData.coordinateLabelFontSize, specifier: "%.0f")")
                         Slider(value: $gameData.coordinateLabelFontSize, in: 6...30) {
-                            Text("Font Size: \(gameData.coordinateLabelFontSize.rounded(), specifier: "%.0f")")
+                            Text("Font size: \(gameData.coordinateLabelFontSize.rounded(), specifier: "%.0f")")
                         }
                     }
 
@@ -83,7 +81,7 @@ struct ConfigurationSheetView: View {
 
                 }
 
-                Section("Outline / Borders") {
+                Section("Outlines and borders") {
 
                     ColorPicker(
                         "Border color",
@@ -99,7 +97,7 @@ struct ConfigurationSheetView: View {
                     }
                 }
 
-                Section("Center Points") {
+                Section("Center points") {
 
                     Toggle(isOn: $gameData.drawCenterPoint, label:{
                         Text("Draw center point")
@@ -116,6 +114,11 @@ struct ConfigurationSheetView: View {
                         Slider(value: $gameData.drawCenterPointDiameter, in: 0...100) {
                             Text("Center point diameter: \(gameData.drawCenterPointDiameter, specifier: "%.0f")")
                         }
+                    }
+
+                    HStack {
+                        Text("Note that center points will be drawn underneath coordinates, but they are both drawn in the middle of the cell, so should be considered together.").font(.caption)
+                        Spacer()
                     }
                 }
 
@@ -139,99 +142,103 @@ struct ConfigurationSheetView: View {
                     }
                 }
 
-                Section("Cell Colors") {
+                Section("Cell colors") {
+
+                    Picker("Cell shading type", selection: $gameData.initialShading, content: {
+                        Text("Single color").tag(ConfigurationData.GridInitialShading.none)
+                        Text("Edges").tag(ConfigurationData.GridInitialShading.edges)
+                        Text("Two-color Edges").tag(ConfigurationData.GridInitialShading.edgesTwoColor)
+                        Text("Rings").tag(ConfigurationData.GridInitialShading.rings)
+                        Text("Three-color Rings").tag(ConfigurationData.GridInitialShading.ringsThreeColor)
+                        Text("Random").tag(ConfigurationData.GridInitialShading.random)
+                        Text("Three color").tag(ConfigurationData.GridInitialShading.threeColor)
+                    })//.pickerStyle(SegmentedPickerStyle())
 
                     ColorPicker(
-                        "Empty Cell Color",
+                        "Default (first) cell shading color",
                         selection: $gameData.colorForStateEmpty,
                         supportsOpacity: false
                     )
 
-                    VStack {
-                        HStack {
-                            Text("Initial (Empty Cell) Shading")
-                            Spacer()
-                        }
-                        Picker("Shading Type", selection: $gameData.initialShading, content: {
-                            Text("Empty").tag(ConfigurationData.GridInitialShading.none)
-                            Text("Edges").tag(ConfigurationData.GridInitialShading.edges)
-                            Text("Two-color Edges").tag(ConfigurationData.GridInitialShading.edgesTwoColor)
-                            Text("Rings").tag(ConfigurationData.GridInitialShading.rings)
-                            Text("Three-color Rings").tag(ConfigurationData.GridInitialShading.ringsThreeColor)
-                            Text("Random").tag(ConfigurationData.GridInitialShading.random)
-                            Text("Three color").tag(ConfigurationData.GridInitialShading.threeColor)
-                        })//.pickerStyle(SegmentedPickerStyle())
-                        ColorPicker(
-                            "Secondary empty color",
-                            selection: $gameData.colorForStateEmptySecondary,
-                            supportsOpacity: false
-                        )
-                        ColorPicker(
-                            "Third empty color",
-                            selection: $gameData.colorForStateEmptyTertiary,
-                            supportsOpacity: false
-                        )
-                        HStack {
-                            Text("Edges and rings use empty cell color and secondary color.").font(.caption)
-                            Spacer()
-                        }
-                        HStack {
-                            Text("(Warning that ring shading can take a bit of time to compute on large grids.)").font(.caption)
-                            Spacer()
-                        }
-                    }
+                    ColorPicker(
+                        "Secondary cell shading color",
+                        selection: $gameData.colorForStateEmptySecondary,
+                        supportsOpacity: false
+                    )
+
+                    ColorPicker(
+                        "Third cell shading color",
+                        selection: $gameData.colorForStateEmptyTertiary,
+                        supportsOpacity: false
+                    )
+
+                    Text("""
+Edges and rings use default and secondary colors. The third color is only used for Two-color-edges and Three-color-ring styles. Random shading will be different every time the grid is generated. (Which means every time this menu is opened.)
+
+Warning that ring shading can take a bit of time to compute on larger grid sizes.
+""").font(.caption)
+
+                }
+
+                Section("Background") {
+
+                    ColorPicker(
+                        "Screen / window background color",
+                        selection: $gameData.colorForBackground,
+                        supportsOpacity: false
+                    )
                 }
 
                 Section("Interactions") {
 
                     // MARK: tap 1
 
-                    Picker("Tap Effect", selection: $gameData.interactionTapType, content: {
+                    Picker("Tap effect", selection: $gameData.interactionTapType, content: {
                         Text("None").tag(ConfigurationData.GridCellTapInteractionType.none)
-                        Text("Color Change").tag(ConfigurationData.GridCellTapInteractionType.colorChange)
-                        Text("Add Stone").tag(ConfigurationData.GridCellTapInteractionType.shapeAddStone)
+                        Text("Color change").tag(ConfigurationData.GridCellTapInteractionType.colorChange)
+                        Text("Add stone").tag(ConfigurationData.GridCellTapInteractionType.shapeAddStone)
                     })
                     ColorPicker(
-                        "Tap Effect Color",
+                        "Tap effect color",
                         selection: $gameData.colorForStateTapped,
                         supportsOpacity: false
                     )
 
                     // MARK: tap 2
 
-                    Picker("Second Tap Effect", selection: $gameData.interactionTap2Type, content: {
+                    Picker("Second tap effect", selection: $gameData.interactionTap2Type, content: {
                         Text("None").tag(ConfigurationData.GridCellTapInteractionType.none)
-                        Text("Color Change").tag(ConfigurationData.GridCellTapInteractionType.colorChange)
-                        Text("Add Stone").tag(ConfigurationData.GridCellTapInteractionType.shapeAddStone)
+                        Text("Color change").tag(ConfigurationData.GridCellTapInteractionType.colorChange)
+                        Text("Add stone").tag(ConfigurationData.GridCellTapInteractionType.shapeAddStone)
                     })
                     ColorPicker(
-                        "Second Tap Effect Color",
+                        "Second tap effect color",
                         selection: $gameData.colorForStateTapped2,
                         supportsOpacity: false
                     )
 
                     // MARK: drag
 
-                    Picker("Drag Effect", selection: $gameData.interactionDragType, content: {
+                    Picker("Drag effect", selection: $gameData.interactionDragType, content: {
                         Text("None").tag(ConfigurationData.GridCellDragInteractionType.none)
-                        Text("Color Change").tag(ConfigurationData.GridCellDragInteractionType.colorChange)
-                        Text("Move Existing").tag(ConfigurationData.GridCellDragInteractionType.dragExistingState)
+                        Text("Color change").tag(ConfigurationData.GridCellDragInteractionType.colorChange)
+                        Text("Move existing tap effect").tag(ConfigurationData.GridCellDragInteractionType.dragExistingState)
                     })
 
                     ColorPicker(
-                        "Drag Color",
+                        "Drag color",
                         selection: $gameData.colorForStateDragContinued,
                         supportsOpacity: false
                     )
 
                     ColorPicker(
-                        "Drag Start Color",
+                        "Drag start color",
                         selection: $gameData.colorForStateDragBegan,
                         supportsOpacity: false
                     )
 
                     ColorPicker(
-                        "Drag End Color",
+                        "Drag end color",
                         selection: $gameData.colorForStateDragEnded,
                         supportsOpacity: false
                     )
@@ -249,12 +256,6 @@ struct ConfigurationSheetView: View {
                 }
 
                 Section("Misc") {
-
-                    ColorPicker(
-                        "Screen / Background Color",
-                        selection: $gameData.colorForBackground,
-                        supportsOpacity: false
-                    )
 
                     Toggle(isOn: $gameData.showYellowSecondaryGrid, label: {
                         Text("Show yellow secondary hex2 grid")

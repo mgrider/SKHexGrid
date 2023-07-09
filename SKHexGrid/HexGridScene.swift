@@ -210,6 +210,15 @@ class HexGridScene: SKScene {
             addChild(shapeNode)
 
             let center = grid.pixelCoordinates(for: cell)
+
+            if config.drawCenterPoint {
+                let pointNode = SKShapeNode(circleOfRadius: CGFloat(config.drawCenterPointDiameter / 2.0))
+                pointNode.fillColor = UIColor(config.drawCenterPointColor)
+                pointNode.lineWidth = 0
+                pointNode.position = center.cgPoint
+                addChild(pointNode)
+            }
+
             if config.showsCoordinates != .none {
                 var cellText: String
                 switch config.showsCoordinates {
@@ -239,14 +248,6 @@ class HexGridScene: SKScene {
 
             if config.initialShading == .none {
                 emptyColorsByCell[cell] = UIColor(config.colorForStateEmpty)
-            }
-
-            if config.drawCenterPoint {
-                let pointNode = SKShapeNode(circleOfRadius: CGFloat(config.drawCenterPointDiameter / 2.0))
-                pointNode.fillColor = UIColor(config.drawCenterPointColor)
-                pointNode.lineWidth = 0
-                pointNode.position = center.cgPoint
-                addChild(pointNode)
             }
         }
 

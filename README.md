@@ -40,6 +40,16 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 
 ## History / Release Notes
 
+### v0.4.3
+
+* added reference to the App Store to this README
+* moved center point drawing beneath coordinate labels
+* configuration UI:
+  * no longer references "empty" cells
+  * moved screen background color above the interaction section
+  * added various help text blocks at the bottom of some sections (could use more)
+  * more consistency of capitalization throughout
+
 ### v0.4.2
 
 * fixed layout issues when running on macOS
