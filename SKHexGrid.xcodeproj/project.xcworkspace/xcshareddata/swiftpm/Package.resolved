@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "hex-grid",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/fananek/hex-grid.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "0fb45eb4671ffb537a4a3f5dd20385779b032a72"
+      }
+    }
+  ],
+  "version" : 2
+}
