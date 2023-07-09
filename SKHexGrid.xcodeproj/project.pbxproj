@@ -51,7 +51,6 @@
 		85CD4FFD288C920E00B73468 /* Cell+Highlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Cell+Highlight.swift"; sourceTree = "<group>"; };
 		85CD5001288D99F200B73468 /* HexSize+CGSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HexSize+CGSize.swift"; sourceTree = "<group>"; };
 		85CD5004288F164B00B73468 /* ConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationView.swift; sourceTree = "<group>"; };
-		85EC1D6629995B3B003E7297 /* hex-grid */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "hex-grid"; path = "../hex-grid"; sourceTree = "<group>"; };
 		85EC1D6F299D33AB003E7297 /* SaveMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveMenuView.swift; sourceTree = "<group>"; };
 		85EC1D71299D3A32003E7297 /* UIColor+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Codable.swift"; sourceTree = "<group>"; };
 		85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationData.swift; sourceTree = "<group>"; };
@@ -75,7 +74,6 @@
 		85331835288C87230000DB75 = {
 			isa = PBXGroup;
 			children = (
-				85EC1D6629995B3B003E7297 /* hex-grid */,
 				85331840288C87230000DB75 /* SKHexGrid */,
 				8533183F288C87230000DB75 /* Products */,
 			);
@@ -462,8 +460,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/fananek/hex-grid.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.6;
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
