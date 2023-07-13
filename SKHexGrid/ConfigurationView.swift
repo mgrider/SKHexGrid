@@ -22,7 +22,7 @@ struct ConfigurationSheetView: View {
                             Text("Rectangle").tag(ConfigurationData.GridType.rectangle)
                             Text("Parallelogram").tag(ConfigurationData.GridType.parallelogram)
                             Text("Triangle").tag(ConfigurationData.GridType.triangle)
-                            Text("Custom").tag(ConfigurationData.GridType.custom)
+//                            Text("Custom").tag(ConfigurationData.GridType.custom)
                         })//.pickerStyle(SegmentedPickerStyle())
                     }
 

@@ -43,12 +43,14 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 ### v0.4.3
 
 * added reference to the App Store to this README
-* moved center point drawing beneath coordinate labels
+* moved center point drawing to happen before (thus underneath) coordinate labels
 * configuration UI:
   * no longer references "empty" cells
   * moved screen background color above the interaction section
   * added various help text blocks at the bottom of some sections (could use more)
   * more consistency of capitalization throughout
+* fixed one of the geeklist links on the About screen
+* commented out the "Custom" grid type (until I get around to implementing custom cell array)
 
 ### v0.4.2
 
@@ -147,7 +149,7 @@ Roughly corresponds to HexGrid version 0.4.10.
   - animate the border of a tapped cell
   - screen shake
   - growing and shrinking of cells
-* Add a navigation to additional "canned" examples
+* additional "canned" examples
   - An example drawn with `UIKit`
   - An example that does not "fit" to the screen size, and instead is much larger and scrolls off screen in all directions
   - A fully functioning game example? ([Hex](https://en.wikipedia.org/wiki/Hex_(board_game)) maybe?)
@@ -163,6 +165,8 @@ Roughly corresponds to HexGrid version 0.4.10.
   - as PDF, specifying the size of each cell
 * Add option to choose a woodgrain background
 * Add the possibility for arbitrary text annotations
+* Add a periodic shading type, that uses the secondary color only every 2 or 3 cells
+  (The 2-away version would be similar to 3-color, just only using 2-colors.)
 
 
 ### Some ideas more suitable for the main hex-grid project

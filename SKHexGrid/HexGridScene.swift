@@ -89,7 +89,7 @@ class HexGridScene: SKScene {
         // so all our pixel calculations are correct while drawing the border.
         grid.origin = grid.origin.offset(by: .init(x: config.borderWidth, y: config.borderWidth))
 
-        print("HexGrid setup complete, \(grid.cells.count) cells")
+//        print("HexGrid setup complete, \(grid.cells.count) cells")
 
         super.init(size: size)
 

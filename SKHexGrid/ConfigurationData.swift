@@ -11,7 +11,7 @@ class ConfigurationData: ObservableObject {
         case axial
     }
     enum GridType: String, Hashable, Codable {
-        case custom
+//        case custom
         case rectangle
         case irregularHexagon
         case extendedHexagon

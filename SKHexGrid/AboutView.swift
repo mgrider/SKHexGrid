@@ -44,7 +44,7 @@ There are a couple of other uses imagined for this application (outside of servi
 2. You could also use a grid to play some basic games pass-and-play right here inside the app. There are many games on Board Game Geek playable on a hex grid without much necessary equipment. Here are links to a couple of lists:
 
     • [games played on a hexagonal grid (of any size), with single color markers/pieces/tokens](https://boardgamegeek.com/geeklist/228019/single-color-hexagons)
-    • [hexagonal territorial games with placement/capture but no movement](https://boardgamegeek.com/boardgamemechanic/2026/hexagon-grid)
+    • [hexagonal territorial games with placement/capture but no movement](https://boardgamegeek.com/geeklist/278592/hexagonal-territorial-games-placementcapture-no-mo)
 
 """)
 
