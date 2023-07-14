@@ -131,7 +131,6 @@ Roughly corresponds to HexGrid version 0.4.10.
 * Make additional things configurable
   - arbitrary coordinates for "custom" generation type
   - the frame of the hexagon? (or just inset/padding, maybe?)
-  - toggle between "fitting the grid on the screen" and "select a radius for each cell"
 * interaction ideas
   - Add an option to add shapes on cell tap
     - options might include: square, circle, triangle
@@ -154,12 +153,9 @@ Roughly corresponds to HexGrid version 0.4.10.
   - growing and shrinking of cells
 * additional "canned" examples
   - An example drawn with `UIKit`
-  - An example that does not "fit" to the screen size, and instead is much larger and scrolls off-screen in all directions
   - A fully functioning game example? ([Hex](https://en.wikipedia.org/wiki/Hex_(board_game)) maybe?)
-  - A option that "tiles" the configured grid (only some configurations will tile perfectly)
-  - As much as possible, these should be implemented as different configurations
 * additional coordinate ideas
-  - allow shifting of all grid coordinates (this has been started in the shifting-coordinates branch)
+  - allow shifting of all grid coordinates (there is a start for this in the `shifting-coordinates` branch)
     - 1 direction at a time
     - moving offset coordinate 0,0 all the way to an edge of the grid
   - allow drawing coordinates as letters
@@ -172,10 +168,16 @@ Roughly corresponds to HexGrid version 0.4.10.
 * Add a periodic shading type, that uses the secondary color only every 2 or 3 cells
   (The 2-away version would be similar to 3-color, just only using 2-colors.)
 * Allow for coloring the edges of the board
-
+* Ideas & issues that involve grids that scroll off the edge of the screen (without using the transform)
+  - fix resolution "blurriness" when zooming in on large grids
+  - An example that does not "fit" to the screen size, and instead is much larger and scrolls off-screen in all directions
+  - An option that "tiles" the configured grid (only some configurations will tile perfectly)
+  - Allow toggling between "fitting the grid on the screen" and "select a radius for each cell"
+    - see ["drawing the grid"](https://github.com/fananek/hex-grid#drawing-the-grid) in the hex-grid README
+  - one idea for this has been started on the `anchor-position` branch
 
 ### Some ideas more suitable for the main hex-grid project
 
 * remove `Cell` `isOpaque` and `isBlocked` properties in favor of attributes with the same names
   - write optional "where" clauses for all the functions that use them instead. (This would allow the API to return all cells neighboring a cell _where_ an attribute is true, or to find a path of cells sharing an attribute, similar.)
-* move each of the shading-type algorithms to functions on hex-grid 
+* move each of the shading-type algorithms to functions on `hex-grid`
