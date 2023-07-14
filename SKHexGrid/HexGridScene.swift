@@ -76,22 +76,36 @@ class HexGridScene: SKScene {
                 origin: Point(x: 0.0, y: 0.0)
             )
             self.grid.fitGrid(in: hexSize)
+            grid.origin = grid.origin.offset(by: .init(x: config.borderWidth, y: config.borderWidth))
         } else {
-            self.grid = HexGrid(
-                shape: shape,
-                pixelSize: hexSize,
-                orientation: orientation,
-                offsetLayout: offset
-            )
+            if false {
+                self.grid = HexGrid(
+                    shape: shape,
+                    pixelSize: hexSize,
+                    orientation: orientation,
+                    offsetLayout: offset
+                )
+                grid.origin = grid.origin.offset(by: .init(x: config.borderWidth, y: config.borderWidth))
+            } else {
+                self.grid = HexGrid(
+                    shape: shape,
+                    orientation: orientation,
+                    offsetLayout: offset,
+                    hexSize: HexSize(width: 100, height: 100),
+                    origin: Point(x: 0.0, y: 0.0)
+                )
+            }
         }
 
         // need to offset the "origin" AFTER initial grid setup,
         // so all our pixel calculations are correct while drawing the border.
-        grid.origin = grid.origin.offset(by: .init(x: config.borderWidth, y: config.borderWidth))
+//        grid.origin = grid.origin.offset(by: .init(x: config.borderWidth, y: config.borderWidth))
 
 //        print("HexGrid setup complete, \(grid.cells.count) cells")
 
-        super.init(size: size)
+        let trueSize: CGSize = grid.pixelSize.cgSize
+        super.init(size: trueSize)
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
 
         backgroundColor = UIColor(config.colorForBackground)
         dragCoordinator = HexGridSceneDragCoordinator(forScene: self)

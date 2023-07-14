@@ -98,6 +98,7 @@ class GameViewController: UIViewController {
             guard let gameView = self.gameView else { return }
             gameView.transform = .identity
             self.resetTransformButton.isHidden = true
+            gameView.scene?.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         }, for: .touchUpInside)
         return button
     }()
@@ -287,6 +288,10 @@ class GameViewController: UIViewController {
         guard displayData.isInteractionPinchZoomAllowed else { return }
         guard let gameView = self.gameView else { return }
         gameView.transform = gameView.transform.scaledBy(x: sender.scale, y: sender.scale)
+        if let scene = gameView.scene {
+            // TODO: set the scale on the scene here
+//            scene.setScale()
+        }
         sender.scale = 1
         resetTransformButton.isHidden = false
     }
@@ -297,7 +302,14 @@ class GameViewController: UIViewController {
         guard sender.numberOfTouches == 2 else { return }
         let translation = sender.translation(in: view)
         sender.setTranslation(.zero, in: view)
-        gameView.transform = gameView.transform.translatedBy(x: translation.x, y: translation.y)
+//        gameView.transform = gameView.transform.translatedBy(x: translation.x, y: translation.y)
+        // this technique is only available after iOS 16, anchor point is a %
+        if let width = gameView.scene?.size.width,
+           let height = gameView.scene?.size.height,
+           case let widthPercent = translation.x / width,
+           case let heightPercent = translation.y / height {
+            gameView.anchorPoint = .init(x: gameView.anchorPoint.x-widthPercent, y: gameView.anchorPoint.y-heightPercent)
+        }
         resetTransformButton.isHidden = false
     }
 
