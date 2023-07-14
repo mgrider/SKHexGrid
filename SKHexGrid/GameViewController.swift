@@ -173,6 +173,8 @@ class GameViewController: UIViewController {
             view.showsFPS = true
             view.showsNodeCount = true
 
+            // This really has no purpose other than to show that you can have
+            // an arbitrary number of grids shown on the screen at once.
             let hex2 = SKView(frame: CGRect(x: 10, y: 70, width: 150, height: 150))
             let hexScene = HexGridScene(
                 config: displayData,

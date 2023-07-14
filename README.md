@@ -40,7 +40,7 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 
 ## History / Release Notes
 
-### v0.4.3
+### v0.4.3 (pending)
 
 * added reference to the App Store to this README
 * moved center point drawing to happen before (thus underneath) coordinate labels
@@ -50,7 +50,7 @@ Back in the save/load menu, you can also save an image of the current grid to yo
   * added various help text blocks at the bottom of some sections (could use more)
   * more consistency of capitalization throughout
 * fixed one of the geeklist links on the About screen
-* commented out the "Custom" grid type (until I get around to implementing custom cell array)
+* commented out the "Custom" grid type (until I get around to implementing custom cells as an array)
 
 ### v0.4.2
 
@@ -127,15 +127,17 @@ Roughly corresponds to HexGrid version 0.4.10.
 ## Backlog / ideas list
 
 * Make it clearer which configuration options are from `HexGrid` and which are unique to this project.
-  - write clear explainations for each configuration option, both in the View, and in code
+  - write clear explanations for each configuration option, both in the View, and in code
 * Make additional things configurable
-  - arbitrary coordinates for "custom" generation
-  - the frame of the hexagon? (just padding?)
+  - arbitrary coordinates for "custom" generation type
+  - the frame of the hexagon? (or just inset/padding, maybe?)
 * interaction ideas
-  - Add an option to add shapes on top of the grid
+  - Add an option to add shapes on cell tap
     - options might include: square, circle, triangle
   - add long-press gesture and associated action type enum
   - make tap-types into an array of arbitrary length
+  - add rotate gesture
+  - add menu with buttons for zoom/scroll/rotate/reset (macOS version needs this especially)
 * add concept of "cell highlight"
   - a type enum might include: border change (color and/or width), color change, some kind of overlay (maybe?)
   - add `highlightCells` case to drag type enum, tap type enums
@@ -151,16 +153,17 @@ Roughly corresponds to HexGrid version 0.4.10.
   - growing and shrinking of cells
 * additional "canned" examples
   - An example drawn with `UIKit`
-  - An example that does not "fit" to the screen size, and instead is much larger and scrolls off screen in all directions
+  - An example that does not "fit" to the screen size, and instead is much larger and scrolls off-screen in all directions
   - A fully functioning game example? ([Hex](https://en.wikipedia.org/wiki/Hex_(board_game)) maybe?)
-  - Could just be lots of different configurations.
+  - A option that "tiles" the configured grid (only some configurations will tile perfectly)
+  - As much as possible, these should be implemented as different configurations
 * additional coordinate ideas
   - allow shifting of all grid coordinates (this has been started in the shifting-coordinates branch)
     - 1 direction at a time
     - moving offset coordinate 0,0 all the way to an edge of the grid
   - allow drawing coordinates as letters
   - toggle drawing an extra cell in 2 or 3 directions, and only drawing coordinates (for the relevant axis) in that cell
-* Allow the user to save their hex grid (possibly including current states)
+* Allow the user to save their hex grid (including any current states)
 * Allow the user to export the current grid
   - as PDF, specifying the size of each cell
 * Add option to choose a woodgrain background
@@ -173,3 +176,4 @@ Roughly corresponds to HexGrid version 0.4.10.
 
 * remove `Cell` `isOpaque` and `isBlocked` properties in favor of attributes with the same names
   - write optional "where" clauses for all the functions that use them instead. (This would allow the API to return all cells neighboring a cell _where_ an attribute is true, or to find a path of cells sharing an attribute, similar.)
+* move each of the shading-type algorithms to functions on hex-grid 

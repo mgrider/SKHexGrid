@@ -258,8 +258,12 @@ Warning that ring shading can take a bit of time to compute on larger grid sizes
                 Section("Misc") {
 
                     Toggle(isOn: $gameData.showYellowSecondaryGrid, label: {
-                        Text("Show yellow secondary hex2 grid")
+                        Text("Show yellow secondary grid")
                     })
+
+                    Text("""
+This really has no purpose other than to show how you can have an arbitrary number of grids shown on the screen at once.
+""").font(.caption)
 
                 }
 
