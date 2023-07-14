@@ -131,6 +131,7 @@ Roughly corresponds to HexGrid version 0.4.10.
 * Make additional things configurable
   - arbitrary coordinates for "custom" generation type
   - the frame of the hexagon? (or just inset/padding, maybe?)
+  - toggle between "fitting the grid on the screen" and "select a radius for each cell"
 * interaction ideas
   - Add an option to add shapes on cell tap
     - options might include: square, circle, triangle
@@ -170,6 +171,7 @@ Roughly corresponds to HexGrid version 0.4.10.
 * Add the possibility for arbitrary text annotations
 * Add a periodic shading type, that uses the secondary color only every 2 or 3 cells
   (The 2-away version would be similar to 3-color, just only using 2-colors.)
+* Allow for coloring the edges of the board
 
 
 ### Some ideas more suitable for the main hex-grid project
