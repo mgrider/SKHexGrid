@@ -40,17 +40,19 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 
 ## History / Release Notes
 
-### v0.4.3 (pending)
+### v0.4.3
 
 * added reference to the App Store to this README
 * moved center point drawing to happen before (thus underneath) coordinate labels
-* configuration UI:
+* configuration UI (ConfigurationView) changes:
   * no longer references "empty" cells
   * moved screen background color above the interaction section
   * added various help text blocks at the bottom of some sections (could use more)
   * more consistency of capitalization throughout
 * fixed one of the geeklist links on the About screen
 * commented out the "Custom" grid type (until I get around to implementing custom cells as an array)
+* added random configuration button
+* overhauled the SaveMenuView: moved the presets into a Menu
 
 ### v0.4.2
 

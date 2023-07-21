@@ -13,32 +13,35 @@ class SaveMenuViewData: ObservableObject {
         case goBoardSquare
         case centerPoints
         case centerPointsAndLines
+        case completelyRandomConfiguration
 
         func buttonName() -> String {
             switch self {
             case .simpleExample:
-                return "Load simple grid example"
+                return "A simple grid example"
             case .defaultGray:
-                return "Load default gray grid"
+                return "the default gray grid"
             case .randomColorParallelogram:
-                return "Load random color parallelogram"
+                return "a random color parallelogram"
             case .whiteBorderlessEdges:
-                return "Load elegant white grid"
+                return "an elegant white grid"
             case .blueExtendedTall:
-                return "Load blue extended tall grid with thick borders"
+                return "blue extended tall grid with thick borders"
             case .pinkTriangle:
-                return "Load pink triangle"
+                return "a pink triangle"
             case .goBoardSquare:
-                return "Load 13x13 hex Go board"
+                return "a 13x13 hex Go board"
             case .centerPoints:
-                return "Load dark irregular-sided hexagon grid with center points"
+                return "dark irregular-sided hexagon grid with center points"
             case .centerPointsAndLines:
-                return "Load green rectangular grid with red lines between cells"
+                return "green rectangular grid with red lines between cells"
+            case .completelyRandomConfiguration:
+                return "completely random configuration"
             }
         }
     }
 
-    struct Preset {
+    struct Preset: Hashable {
         let name: String
         let presetType: PresetLoadType
     }
@@ -47,6 +50,10 @@ class SaveMenuViewData: ObservableObject {
     static func loadPresets() -> [Preset] {
         var presets = [Preset]()
         for type in PresetLoadType.allCases {
+            if type == .simpleExample || type == .completelyRandomConfiguration {
+                // these are treated as separate options in the SaveMenuView
+                continue
+            }
             presets.append(Preset(name: type.buttonName(), presetType: type))
         }
         return presets
@@ -153,7 +160,44 @@ class SaveMenuViewData: ObservableObject {
             config.gridSizeY = 5
             config.pointsUp = false
             config.offsetEven = false
+        case .completelyRandomConfiguration:
+            return randomConfiguration()
         }
         return config
     }
+
+    private func randomConfiguration() -> ConfigurationData {
+        let config = ConfigurationData()
+        config.gridSizeX = Double.random(in: 2..<10)
+        config.gridSizeY = Double.random(in: 2..<10)
+        if config.gridSizeX > 7 && config.gridSizeY > 7 {
+            config.gridSizeX = Double.random(in: 8..<30)
+            config.gridSizeY = Double.random(in: 8..<30)
+        }
+        config.gridType = ConfigurationData.GridType.allCases.randomElement() ?? .irregularHexagon
+        while config.gridType == .custom {
+            config.gridType = ConfigurationData.GridType.allCases.randomElement() ?? .irregularHexagon
+        }
+        config.pointsUp = Bool.random()
+        config.offsetEven = Bool.random()
+        config.showsCoordinates = .none
+//        config.showsCoordinates = ConfigurationData.GridCoordinateType.allCases.randomElement() ?? .none
+//        config.colorForCoordinateLabels = Color(UIColor.random())
+//        config.coordinateLabelFontSize = Double.random(in: 6..<30)
+        config.colorForBackground = Color(UIColor.random())
+        config.borderWidth = Double.random(in: 0..<10)
+        config.colorForHexagonBorder = Color(UIColor.random())
+        config.drawCenterPoint = Bool.random()
+        config.drawCenterPointColor = Color(UIColor.random())
+        config.drawCenterPointDiameter = Double.random(in: 1..<10)
+        config.drawLinesBetweenCells = Bool.random()
+        config.drawLinesBetweenCellsColor = Color(UIColor.random())
+        config.drawLinesBetweenCellsWidth = Double.random(in: 1..<10)
+        config.initialShading = ConfigurationData.GridInitialShading.allCases.randomElement() ?? .rings
+        config.colorForStateEmpty = Color(UIColor.random())
+        config.colorForStateEmptySecondary = Color(UIColor.random())
+        config.colorForStateEmptyTertiary = Color(UIColor.random())
+        return config
+    }
+
 }

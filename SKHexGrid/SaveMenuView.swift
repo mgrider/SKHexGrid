@@ -12,29 +12,60 @@ struct SaveMenuView: View {
 
             List {
 
-                Section("Load Preset Grid") {
+                Section("Load grid configuration") {
 
-                    VStack {
-                        ForEach(gameData.presets, id: \.presetType) { preset in
-                            Button(preset.name) {
-                                gameData.wantsPresetLoad = preset.presetType
-                                doneButtonCallback?(gameData)
-                            }.buttonStyle(.bordered)
+                    HStack {
+                        Menu("Pick a preset") {
+                            ForEach(gameData.presets, id: \.presetType) { preset in
+                                Button(preset.name) {
+                                    gameData.wantsPresetLoad = preset.presetType
+                                    doneButtonCallback?(gameData)
+                                }
+                            }
                         }
-                        Text("WARNING: This will reset all configuration options.").font(.caption)
+                        Spacer()
                     }
+
+                    HStack {
+                        Button("Configure a random grid") {
+                            gameData.wantsPresetLoad = .completelyRandomConfiguration
+                            doneButtonCallback?(gameData)
+                        }.buttonStyle(.borderless)
+                        Spacer()
+                    }
+
+                    Text("WARNING: This will reset the currently configured grid options.").font(.caption)
 
                 }
 
-                Section("Save to Photo Library") {
+                Section("Load simple grid example") {
 
-                    VStack {
-                        Text("These options will save the image to your photo library.").font(.caption)
+                    HStack {
+                        Button("Load simple grid example") {
+                            gameData.wantsPresetLoad = .simpleExample
+                            doneButtonCallback?(gameData)
+                        }.buttonStyle(.borderless)
+                        Spacer()
+                    }
+
+                    Text("This example is not configurable.").font(.caption)
+
+                }
+
+                Section("Save to photo library") {
+
+                    HStack {
                         Button("Save grid at current screen size") {
                             gameData.wantsSaveAsImage = true
                             doneButtonCallback?(gameData)
-                        }.buttonStyle(.bordered)
+                        }.buttonStyle(.borderless)
+                        Spacer()
                     }
+                    Text("""
+This will save an image of the currently configured grid to your photo library.
+
+Note that, for now, the size of the image will be a square in the size of the smaller dimension (width or height) of your screen.
+""").font(.caption)
 
                 }
 

@@ -4,13 +4,13 @@ import HexGrid
 
 class ConfigurationData: ObservableObject {
 
-    enum GridCoordinateType: String, Hashable, Codable {
+    enum GridCoordinateType: String, Hashable, Codable, CaseIterable {
         case none
         case cube
         case offset
         case axial
     }
-    enum GridType: String, Hashable, Codable {
+    enum GridType: String, Hashable, Codable, CaseIterable {
         case custom
         case rectangle
         case irregularHexagon
@@ -18,7 +18,7 @@ class ConfigurationData: ObservableObject {
         case parallelogram
         case triangle
     }
-    enum GridInitialShading: String, Hashable, Codable {
+    enum GridInitialShading: String, Hashable, Codable, CaseIterable {
         case none
         case edges
         case edgesTwoColor
