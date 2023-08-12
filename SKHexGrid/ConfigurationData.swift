@@ -4,6 +4,11 @@ import HexGrid
 
 class ConfigurationData: ObservableObject {
 
+    struct GridCoordinateItem: Identifiable {
+        var id = UUID()
+        var coordinateQ: Int
+        var coordinateR: Int
+    }
     enum GridCoordinateType: String, Hashable, Codable, CaseIterable {
         case none
         case cube
@@ -47,6 +52,18 @@ class ConfigurationData: ObservableObject {
     @Published var gridType: GridType = .irregularHexagon
     @Published var pointsUp = true
     @Published var offsetEven = true
+
+    // custom cells
+    @Published var customCells: [GridCoordinateItem] = {
+        return [
+            GridCoordinateItem(coordinateQ: 0, coordinateR: 0),
+            GridCoordinateItem(coordinateQ: 1, coordinateR: 0),
+            GridCoordinateItem(coordinateQ: 0, coordinateR: 1),
+            GridCoordinateItem(coordinateQ: 1, coordinateR: 1),
+            GridCoordinateItem(coordinateQ: 1, coordinateR: 2),
+            GridCoordinateItem(coordinateQ: 2, coordinateR: 2),
+        ]
+    }()
 
     // coordinates
     @Published var showsCoordinates: GridCoordinateType = .axial

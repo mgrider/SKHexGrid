@@ -7,6 +7,12 @@ struct ConfigurationSheetView: View {
 
     var doneButtonCallback: ((ConfigurationData) -> Void)?
 
+    let numberFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .ordinal
+        return formatter
+    }()
+
     var body: some View {
 
         NavigationView {
@@ -22,7 +28,7 @@ struct ConfigurationSheetView: View {
                             Text("Rectangle").tag(ConfigurationData.GridType.rectangle)
                             Text("Parallelogram").tag(ConfigurationData.GridType.parallelogram)
                             Text("Triangle").tag(ConfigurationData.GridType.triangle)
-//                            Text("Custom").tag(ConfigurationData.GridType.custom)
+                            Text("Custom").tag(ConfigurationData.GridType.custom)
                         })//.pickerStyle(SegmentedPickerStyle())
                     }
 
@@ -48,6 +54,15 @@ struct ConfigurationSheetView: View {
                     Toggle(isOn: $gameData.pointsUp, label: {
                         Text("Hexagon points face up")
                     })
+
+                    NavigationLink("Configure custom cells") {
+                        List(gameData.customCells) { cell in
+                            HStack {
+//                                TextField("q: ", value: cell.coordinateQ, formatter: numberFormatter)
+//                                TextField("r: ", value: cell.coordinateR, formatter: numberFormatter)
+                            }
+                        }
+                    }
 
                 }
 
