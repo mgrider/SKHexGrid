@@ -59,15 +59,13 @@ class HexGridScene: SKScene {
         hexSize.width -= (config.borderWidth * 2)
 
         if config.gridType == .custom {
-            let cellSet: Set<Cell> = try! Set([
-                CubeCoordinates(x:  1, y: -1, z:  0),
-                CubeCoordinates(x:  0, y: -1, z:  1),
-                CubeCoordinates(x:  1, y:  1, z: -2),
-                CubeCoordinates(x: -1, y:  1, z:  0),
-                CubeCoordinates(x:  0, y:  1, z: -1),
-                CubeCoordinates(x:  1, y:  0, z: -1),
-                CubeCoordinates(x:  3, y: -3, z:  0),
-            ].map { Cell($0) })
+            var cellSet = Set<Cell>()
+            for customCell in config.customCells {
+                let axial = AxialCoordinates(q: customCell.coordinateQ, r: customCell.coordinateR)
+                if let cube = try? axial.toCube() {
+                    cellSet.insert(Cell(cube))
+                }
+            }
             self.grid = HexGrid(
                 cells: cellSet,
                 orientation: orientation,

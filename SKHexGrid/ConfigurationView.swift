@@ -9,7 +9,7 @@ struct ConfigurationSheetView: View {
 
     let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
-        formatter.numberStyle = .ordinal
+        formatter.numberStyle = .none
         return formatter
     }()
 
@@ -21,7 +21,7 @@ struct ConfigurationSheetView: View {
 
                 Section("Generated grid") {
 
-                    HStack {
+                    VStack {
                         Picker("Grid type", selection: $gameData.gridType, content: {
                             Text("Hexagon").tag(ConfigurationData.GridType.irregularHexagon)
                             Text("Extended hexagon").tag(ConfigurationData.GridType.extendedHexagon)
@@ -30,39 +30,85 @@ struct ConfigurationSheetView: View {
                             Text("Triangle").tag(ConfigurationData.GridType.triangle)
                             Text("Custom").tag(ConfigurationData.GridType.custom)
                         })//.pickerStyle(SegmentedPickerStyle())
+                        HStack {
+                            switch gameData.gridType {
+                            case .irregularHexagon:
+                                Text("A standard hexagonal grid. When X and Y values are different, this is actually using the \"Irregular\" HexGrid generator type, and every other side will have lengths of X or Y values.").font(.caption)
+                            case .extendedHexagon:
+                                Text("A grid type where two of the parallel sides are X or Y length, where hexagon points face up or not, respectively.").font(.caption)
+                            case .custom:
+                                Text("This is the only grid type that doesn't use a HexGrid generator. You can configure the cells below.").font(.caption)
+                            case .rectangle:
+                                Text("The Rectangle grid type makes a roughly rectangular (or square) grid shape with sides of X and Y length.").font(.caption)
+                            case .parallelogram:
+                                Text("A parallelogram grid shape with side lengths of X and Y.").font(.caption)
+                            case .triangle:
+                                Text("The triangle grid type has equal sides of X length.").font(.caption)
+                            }
+                            Spacer()
+                        }
                     }
 
                     VStack {
-                        HStack {
-                            Text("Size x: \(gameData.gridSizeX, specifier: "%.0f")")
-                            Slider(value: $gameData.gridSizeX, in: 1...30) {
-                                Text("Size: \(gameData.gridSizeX.rounded(), specifier: "%.0f")")
+                        switch gameData.gridType {
+                        case .irregularHexagon, .extendedHexagon, .rectangle, .parallelogram:
+                            HStack {
+                                Text("Size x: \(gameData.gridSizeX, specifier: "%.0f")")
+                                Slider(value: $gameData.gridSizeX, in: 1...30) {
+                                    Text("Size: \(gameData.gridSizeX.rounded(), specifier: "%.0f")")
+                                }
                             }
-                        }
-                        HStack {
-                            Text("Size Y: \(gameData.gridSizeY, specifier: "%.0f")")
-                            Slider(value: $gameData.gridSizeY, in: 1...30) {
-                                Text("Size Y: \(gameData.gridSizeY.rounded(), specifier: "%.0f")")
+                            HStack {
+                                Text("Size Y: \(gameData.gridSizeY, specifier: "%.0f")")
+                                Slider(value: $gameData.gridSizeY, in: 1...30) {
+                                    Text("Size Y: \(gameData.gridSizeY.rounded(), specifier: "%.0f")")
+                                }
                             }
-                        }
-                        HStack {
-                            Text("Size Y only applies to hexagon, rectangle, and parallelogram grids.").font(.caption)
-                            Spacer()
+                        case .custom:
+                            NavigationLink("Configure custom cells") {
+                                List {
+                                    Section {
+                                        HStack {
+                                            Text("Cell coordinates").font(.title2)
+                                            Spacer()
+                                            Button("Add cell", action: {
+                                                gameData.customCells.append(.init(coordinateQ: 0, coordinateR: 0))
+                                            }).buttonStyle(.bordered)
+                                        }
+                                        HStack {
+                                            Text(
+"""
+Edit the Axial coordinates below.
+
+Newly added coordinates will appear at the bottom of the list.
+""").font(.caption)
+                                            Spacer()
+                                        }
+                                    }
+                                    Section {
+                                        ForEach($gameData.customCells) { $cell in
+                                            HStack {
+                                                TextField("axial q", value: $cell.coordinateQ, formatter: numberFormatter)
+                                                TextField("axial r", value: $cell.coordinateR, formatter: numberFormatter)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        case .triangle:
+                            HStack {
+                                Text("Size x: \(gameData.gridSizeX, specifier: "%.0f")")
+                                Slider(value: $gameData.gridSizeX, in: 1...30) {
+                                    Text("Size: \(gameData.gridSizeX.rounded(), specifier: "%.0f")")
+                                }
+                            }
                         }
                     }
 
                     Toggle(isOn: $gameData.pointsUp, label: {
                         Text("Hexagon points face up")
                     })
-
-                    NavigationLink("Configure custom cells") {
-                        List(gameData.customCells) { cell in
-                            HStack {
-//                                TextField("q: ", value: cell.coordinateQ, formatter: numberFormatter)
-//                                TextField("r: ", value: cell.coordinateR, formatter: numberFormatter)
-                            }
-                        }
-                    }
 
                 }
 

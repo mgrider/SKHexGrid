@@ -42,9 +42,11 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 
 ### v0.4.4
 
-* added periodic cell shading (distance 1 and 2)
-* added configuration boolean for shifting to positive axial coordinates
+* added periodic cell shading (with distance between shaded cells 1 and 2)
+* added a configuration boolean for shifting to positive axial coordinates
 * new alphanumeric coordinate type shows coordinates as letter-number combinations
+* added the ability to customize the array of grid cells and add/edit their coordinates
+* added more help text for each grid type, and dynamically removed the Y coordinate for Triangular grids
 
 ### v0.4.3
 
@@ -135,9 +137,8 @@ Roughly corresponds to HexGrid version 0.4.10.
 ## Backlog / ideas list
 
 * Make it clearer which configuration options are from `HexGrid` and which are unique to this project.
-  - write clear explanations for each configuration option, both in the View, and in code
+  - write clear explanations for each configuration option in the code
 * Make additional things configurable
-  - arbitrary coordinates for "custom" generation type (This has been started in the `custom-cells` branch.)
   - the frame of the hexagon? (or just inset/padding, maybe?)
 * interaction ideas
   - Add an option to add shapes on cell tap
@@ -168,12 +169,9 @@ Roughly corresponds to HexGrid version 0.4.10.
     - moving offset coordinate 0,0 all the way to an edge of the grid
   - toggle drawing an extra cell in 2 or 3 directions, and only drawing coordinates (for the relevant axis) in that cell
 * Allow the user to save their hex grid (including any current states)
-* Allow the user to export the current grid
-  - as PDF, specifying the size of each cell
+* Allow the user to export the current grid as PDF, specifying the size of each cell
 * Add option to choose a woodgrain background
 * Add the possibility for arbitrary text annotations
-* Add a periodic shading type, that uses the secondary color only every 2 or 3 cells
-  (The 2-away version would be similar to 3-color, just only using 2-colors.)
 * Allow for coloring the edges of the board
 * Ideas & issues that involve grids that scroll off the edge of the screen (without using the transform)
   - fix resolution "blurriness" when zooming in on large grids
