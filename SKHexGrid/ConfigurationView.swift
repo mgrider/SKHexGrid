@@ -73,6 +73,7 @@ struct ConfigurationSheetView: View {
                             Text("Cube").tag(ConfigurationData.GridCoordinateType.cube)
                             Text("Axial").tag(ConfigurationData.GridCoordinateType.axial)
                             Text("Offset").tag(ConfigurationData.GridCoordinateType.offset)
+                            Text("Alphanumeric").tag(ConfigurationData.GridCoordinateType.alphanumeric)
                         })//.pickerStyle(SegmentedPickerStyle())
                     }
 
@@ -93,6 +94,16 @@ struct ConfigurationSheetView: View {
                         let str: String = gameData.offsetEven ? "Offset: Even" : "Offset: Odd"
                         Text(str)
                     })
+
+                    VStack {
+                        Toggle(isOn: $gameData.usePositiveCoordinateValuesOnly, label: {
+                            Text("Use positive coordinate values")
+                        })
+                        HStack {
+                            Text("This requires coordinate remapping after grid generation. The \"Alphanumeric\" coordinate display type does this by default.").font(.caption)
+                            Spacer()
+                        }
+                    }
 
                 }
 
@@ -167,6 +178,8 @@ struct ConfigurationSheetView: View {
                         Text("Three-color Rings").tag(ConfigurationData.GridInitialShading.ringsThreeColor)
                         Text("Random").tag(ConfigurationData.GridInitialShading.random)
                         Text("Three color").tag(ConfigurationData.GridInitialShading.threeColor)
+                        Text("Periodic second color").tag(ConfigurationData.GridInitialShading.periodic1)
+                        Text("More periodic second color").tag(ConfigurationData.GridInitialShading.periodic2)
                     })//.pickerStyle(SegmentedPickerStyle())
 
                     ColorPicker(
@@ -188,7 +201,9 @@ struct ConfigurationSheetView: View {
                     )
 
                     Text("""
-Edges and rings use default and secondary colors. The third color is only used for Two-color-edges and Three-color-ring styles. Random shading will be different every time the grid is generated. (Which means every time this menu is opened.)
+The third cell shading color is only used for Two-color-edges and Three-color-ring styles.
+
+Random shading will be different every time the grid is generated. (Which means every time this menu's Done button is pressed.)
 
 Warning that ring shading can take a bit of time to compute on larger grid sizes.
 """).font(.caption)

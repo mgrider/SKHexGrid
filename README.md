@@ -40,6 +40,12 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 
 ## History / Release Notes
 
+### v0.4.4
+
+* added periodic cell shading (distance 1 and 2)
+* added configuration boolean for shifting to positive axial coordinates
+* new alphanumeric coordinate type shows coordinates as letter-number combinations
+
 ### v0.4.3
 
 * added reference to the App Store to this README
@@ -131,7 +137,7 @@ Roughly corresponds to HexGrid version 0.4.10.
 * Make it clearer which configuration options are from `HexGrid` and which are unique to this project.
   - write clear explanations for each configuration option, both in the View, and in code
 * Make additional things configurable
-  - arbitrary coordinates for "custom" generation type
+  - arbitrary coordinates for "custom" generation type (This has been started in the `custom-cells` branch.)
   - the frame of the hexagon? (or just inset/padding, maybe?)
 * interaction ideas
   - Add an option to add shapes on cell tap
@@ -160,7 +166,6 @@ Roughly corresponds to HexGrid version 0.4.10.
   - allow shifting of all grid coordinates (there is a start for this in the `shifting-coordinates` branch)
     - 1 direction at a time
     - moving offset coordinate 0,0 all the way to an edge of the grid
-  - allow drawing coordinates as letters
   - toggle drawing an extra cell in 2 or 3 directions, and only drawing coordinates (for the relevant axis) in that cell
 * Allow the user to save their hex grid (including any current states)
 * Allow the user to export the current grid

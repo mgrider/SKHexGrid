@@ -23,6 +23,8 @@
 		85CD4FFE288C920E00B73468 /* Cell+Highlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD4FFD288C920E00B73468 /* Cell+Highlight.swift */; };
 		85CD5002288D99F200B73468 /* HexSize+CGSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD5001288D99F200B73468 /* HexSize+CGSize.swift */; };
 		85CD5005288F164B00B73468 /* ConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD5004288F164B00B73468 /* ConfigurationView.swift */; };
+		85DA4FB12A892C88005DAA92 /* HexGrid+CoordinateRemap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DA4FB02A892C88005DAA92 /* HexGrid+CoordinateRemap.swift */; };
+		85DA4FB32A89352F005DAA92 /* Int+Alphabetical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DA4FB22A89352F005DAA92 /* Int+Alphabetical.swift */; };
 		85EC1D70299D33AB003E7297 /* SaveMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D6F299D33AB003E7297 /* SaveMenuView.swift */; };
 		85EC1D72299D3A32003E7297 /* UIColor+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D71299D3A32003E7297 /* UIColor+Codable.swift */; };
 		85EC1D74299D3ABD003E7297 /* ConfigurationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */; };
@@ -51,6 +53,8 @@
 		85CD4FFD288C920E00B73468 /* Cell+Highlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Cell+Highlight.swift"; sourceTree = "<group>"; };
 		85CD5001288D99F200B73468 /* HexSize+CGSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HexSize+CGSize.swift"; sourceTree = "<group>"; };
 		85CD5004288F164B00B73468 /* ConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationView.swift; sourceTree = "<group>"; };
+		85DA4FB02A892C88005DAA92 /* HexGrid+CoordinateRemap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HexGrid+CoordinateRemap.swift"; sourceTree = "<group>"; };
+		85DA4FB22A89352F005DAA92 /* Int+Alphabetical.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Alphabetical.swift"; sourceTree = "<group>"; };
 		85EC1D6F299D33AB003E7297 /* SaveMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveMenuView.swift; sourceTree = "<group>"; };
 		85EC1D71299D3A32003E7297 /* UIColor+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Codable.swift"; sourceTree = "<group>"; };
 		85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationData.swift; sourceTree = "<group>"; };
@@ -126,7 +130,9 @@
 			children = (
 				85CD4FFD288C920E00B73468 /* Cell+Highlight.swift */,
 				850E03D728A061BB00BC5934 /* Cell+State.swift */,
+				85DA4FB02A892C88005DAA92 /* HexGrid+CoordinateRemap.swift */,
 				85CD5001288D99F200B73468 /* HexSize+CGSize.swift */,
+				85DA4FB22A89352F005DAA92 /* Int+Alphabetical.swift */,
 				85CD4FFB288C918D00B73468 /* Point+CGPoint.swift */,
 				856A7CB729CC2C89003DD486 /* SKShapeNode+extension.swift */,
 				85EC1D71299D3A32003E7297 /* UIColor+Codable.swift */,
@@ -222,12 +228,14 @@
 				856A7CB829CC2C89003DD486 /* SKShapeNode+extension.swift in Sources */,
 				85CD4FFC288C918E00B73468 /* Point+CGPoint.swift in Sources */,
 				8533184A288C87230000DB75 /* GameViewController.swift in Sources */,
+				85DA4FB32A89352F005DAA92 /* Int+Alphabetical.swift in Sources */,
 				85EC1D72299D3A32003E7297 /* UIColor+Codable.swift in Sources */,
 				85EC1D8129A169E3003E7297 /* AboutView.swift in Sources */,
 				85EC1D74299D3ABD003E7297 /* ConfigurationData.swift in Sources */,
 				85CD4FF7288C891100B73468 /* HexGridScene.swift in Sources */,
 				85EC1D7F29A15754003E7297 /* SaveMenuViewData.swift in Sources */,
 				85331842288C87230000DB75 /* AppDelegate.swift in Sources */,
+				85DA4FB12A892C88005DAA92 /* HexGrid+CoordinateRemap.swift in Sources */,
 				85CD5002288D99F200B73468 /* HexSize+CGSize.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,7 +399,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.4.3;
+				MARKETING_VERSION = 0.4.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abstractpuzzle.hexagons;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -423,7 +431,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.4.3;
+				MARKETING_VERSION = 0.4.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abstractpuzzle.hexagons;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

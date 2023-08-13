@@ -14,6 +14,7 @@ class ConfigurationData: ObservableObject {
         case cube
         case offset
         case axial
+        case alphanumeric
     }
     enum GridType: String, Hashable, Codable, CaseIterable {
         case custom
@@ -27,6 +28,8 @@ class ConfigurationData: ObservableObject {
         case none
         case edges
         case edgesTwoColor
+        case periodic1
+        case periodic2
         case random
         case rings
         case ringsThreeColor
@@ -69,6 +72,7 @@ class ConfigurationData: ObservableObject {
     @Published var showsCoordinates: GridCoordinateType = .axial
     @Published var colorForCoordinateLabels: Color = .black
     @Published var coordinateLabelFontSize: Double = 10
+    @Published var usePositiveCoordinateValuesOnly: Bool = false
 
     // entire scene background color
     @Published var colorForBackground: Color = .black
