@@ -85,6 +85,11 @@ class HexGridScene: SKScene {
             )
         }
 
+        if config.showsCoordinates == .alphanumeric || config.usePositiveCoordinateValuesOnly {
+            self.grid.setCellCoordinatesToPositiveValues()
+            self.grid.fitGrid(in: hexSize)
+        }
+
         // need to offset the "origin" AFTER initial grid setup,
         // so all our pixel calculations are correct while drawing the border.
         grid.origin = grid.origin.offset(by: .init(x: config.borderWidth, y: config.borderWidth))
@@ -232,6 +237,9 @@ class HexGridScene: SKScene {
                 case .axial:
                     let axial = cell.coordinates.toAxial()
                     cellText = "\(axial.q), \(axial.r)"
+                case .alphanumeric:
+                    let axial = cell.coordinates.toAxial()
+                    cellText = "\(axial.q.alphabeticalRepresentation().uppercased())\(axial.r)"
                 }
                 let label = SKLabelNode(text: cellText)
                 label.fontName = "Helvetica"
@@ -241,6 +249,7 @@ class HexGridScene: SKScene {
                 label.horizontalAlignmentMode = .center
                 label.verticalAlignmentMode = .center
                 label.position = center.cgPoint
+                label.zPosition = 100
 
                 labelsByCell[cell] = label
                 addChild(label)

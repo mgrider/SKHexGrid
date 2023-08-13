@@ -58,6 +58,7 @@ struct ConfigurationSheetView: View {
                             Text("Cube").tag(ConfigurationData.GridCoordinateType.cube)
                             Text("Axial").tag(ConfigurationData.GridCoordinateType.axial)
                             Text("Offset").tag(ConfigurationData.GridCoordinateType.offset)
+                            Text("Alphanumeric").tag(ConfigurationData.GridCoordinateType.alphanumeric)
                         })//.pickerStyle(SegmentedPickerStyle())
                     }
 
@@ -78,6 +79,16 @@ struct ConfigurationSheetView: View {
                         let str: String = gameData.offsetEven ? "Offset: Even" : "Offset: Odd"
                         Text(str)
                     })
+
+                    VStack {
+                        Toggle(isOn: $gameData.usePositiveCoordinateValuesOnly, label: {
+                            Text("Use positive coordinate values")
+                        })
+                        HStack {
+                            Text("This requires coordinate remapping after grid generation. The \"Alphanumeric\" coordinate display type does this by default.").font(.caption)
+                            Spacer()
+                        }
+                    }
 
                 }
 
