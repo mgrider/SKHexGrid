@@ -258,6 +258,10 @@ class HexGridScene: SKScene {
             colorEdgeCells()
         case .edgesTwoColor:
             colorEdgeCellsWithTwoColors()
+        case .periodic1:
+            colorPeriodicBackground(withInterval: 2)
+        case .periodic2:
+            colorPeriodicBackground(withInterval: 3)
         case .random:
             colorCellsRandomly()
         case .rings:
@@ -428,6 +432,23 @@ class HexGridScene: SKScene {
             return colors[abs(index)-1]
         } else {
             return .systemOrange
+        }
+    }
+
+    func colorPeriodicBackground(withInterval: Int) {
+        for cell in grid.cells {
+            let axial = cell.coordinates.toAxial()
+            let modX = axial.r % withInterval
+            let modY = axial.q % withInterval
+            if modX == 0 && modY == 0 {
+                let color = UIColor(config.colorForStateEmptySecondary)
+                emptyColorsByCell[cell] = color
+                updateCellColor(cell: cell, color: color)
+            } else {
+                let color = UIColor(config.colorForStateEmpty)
+                emptyColorsByCell[cell] = color
+                updateCellColor(cell: cell, color: color)
+            }
         }
     }
 

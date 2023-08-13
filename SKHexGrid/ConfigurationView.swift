@@ -152,6 +152,8 @@ struct ConfigurationSheetView: View {
                         Text("Three-color Rings").tag(ConfigurationData.GridInitialShading.ringsThreeColor)
                         Text("Random").tag(ConfigurationData.GridInitialShading.random)
                         Text("Three color").tag(ConfigurationData.GridInitialShading.threeColor)
+                        Text("Periodic second color").tag(ConfigurationData.GridInitialShading.periodic1)
+                        Text("More periodic second color").tag(ConfigurationData.GridInitialShading.periodic2)
                     })//.pickerStyle(SegmentedPickerStyle())
 
                     ColorPicker(
@@ -173,7 +175,9 @@ struct ConfigurationSheetView: View {
                     )
 
                     Text("""
-Edges and rings use default and secondary colors. The third color is only used for Two-color-edges and Three-color-ring styles. Random shading will be different every time the grid is generated. (Which means every time this menu is opened.)
+The third cell shading color is only used for Two-color-edges and Three-color-ring styles.
+
+Random shading will be different every time the grid is generated. (Which means every time this menu's Done button is pressed.)
 
 Warning that ring shading can take a bit of time to compute on larger grid sizes.
 """).font(.caption)

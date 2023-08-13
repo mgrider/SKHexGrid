@@ -22,6 +22,8 @@ class ConfigurationData: ObservableObject {
         case none
         case edges
         case edgesTwoColor
+        case periodic1
+        case periodic2
         case random
         case rings
         case ringsThreeColor

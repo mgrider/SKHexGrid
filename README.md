@@ -40,6 +40,10 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 
 ## History / Release Notes
 
+### v0.4.4
+
+* added periodic cell shading (distance 1 and 2)
+
 ### v0.4.3
 
 * added reference to the App Store to this README
@@ -131,7 +135,7 @@ Roughly corresponds to HexGrid version 0.4.10.
 * Make it clearer which configuration options are from `HexGrid` and which are unique to this project.
   - write clear explanations for each configuration option, both in the View, and in code
 * Make additional things configurable
-  - arbitrary coordinates for "custom" generation type
+  - arbitrary coordinates for "custom" generation type (This has been started in the `custom-cells` branch.)
   - the frame of the hexagon? (or just inset/padding, maybe?)
 * interaction ideas
   - Add an option to add shapes on cell tap
