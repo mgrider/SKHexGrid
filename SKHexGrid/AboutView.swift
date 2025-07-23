@@ -29,7 +29,7 @@ SKHexGrid is an [open source](https://github.com/mgrider/skhexgrid) project, sho
 
 \(Image(systemName: "square.and.arrow.down")) save / load menu
 
-Press the \(Image(systemName: "square.and.arrow.down")) button to load a preset grids, or to save the current grid to your photos library. Looking at the presets is a great way to see some of the things that are possible with this application.
+Press the \(Image(systemName: "square.and.arrow.down")) button to load a preset grid, or to save the current grid to your photos library. Looking at the presets is a great way to see some of the things that are possible with this application.
 
 \(Image(systemName: "gear")) configuration menu
 
