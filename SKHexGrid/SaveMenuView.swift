@@ -59,7 +59,7 @@ struct SaveMenuView: View {
                     HStack {
                         Menu("Save image to photo library...") {
                             ForEach(0..<imageSizes.count, id: \.self) { value in
-                                Button("\(imageSizes[value]) x \(imageSizes[value])") {
+                                Button("\(Int(imageSizes[value])) x \(Int(imageSizes[value]))") {
                                     gameData.wantsSaveAsImage = true
                                     gameData.wantsSaveSize = .init(width: imageSizes[value], height: imageSizes[value])
                                     doneButtonCallback?(gameData)
@@ -72,7 +72,7 @@ struct SaveMenuView: View {
                     HStack {
                         Menu("Share an image...") {
                             ForEach(0..<imageSizes.count, id: \.self) { value in
-                                Button("\(imageSizes[value]) x \(imageSizes[value])") {
+                                Button("\(Int(imageSizes[value])) x \(Int(imageSizes[value]))") {
                                     gameData.wantsSaveAsShare = true
                                     gameData.wantsSaveSize = .init(width: imageSizes[value], height: imageSizes[value])
                                     doneButtonCallback?(gameData)
