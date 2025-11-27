@@ -2,9 +2,10 @@ import Foundation
 import SwiftUI
 import HexGrid
 
-class ConfigurationData: ObservableObject {
+@Observable
+class ConfigurationData {
 
-    struct GridCoordinateItem: Identifiable {
+    struct GridCoordinateItem: Identifiable, Equatable {
         var id = UUID()
         var coordinateQ: Int
         var coordinateR: Int
@@ -50,73 +51,100 @@ class ConfigurationData: ObservableObject {
     }
 
     // grid config
-    @Published var gridSizeX: Double = 3
-    @Published var gridSizeY: Double = 3
-    @Published var gridType: GridType = .irregularHexagon
-    @Published var pointsUp = true
-    @Published var offsetEven = true
+    var gridSizeX: Double = 3
+    var gridSizeY: Double = 3
+    var gridType: GridType = GridType.irregularHexagon
+    var pointsUp = true
+    var offsetEven = true
 
     // custom cells
-    @Published var customCells: [GridCoordinateItem] = {
-        return [
+    var customCells: [GridCoordinateItem]
+
+    // coordinates
+    var showsCoordinates: GridCoordinateType = GridCoordinateType.axial
+    var colorForCoordinateLabels: Color = Color.black
+    var coordinateLabelFontSize: Double = 10
+    var usePositiveCoordinateValuesOnly: Bool = false
+
+    // entire scene background color
+    var colorForBackground: Color = Color.black
+
+    // cell borders
+    var borderWidth:Double = 1
+    var colorForHexagonBorder: Color = Color.white
+
+    // drawing center points
+    var drawCenterPoint: Bool = false
+    var drawCenterPointColor: Color = Color.black
+    var drawCenterPointDiameter: Double = 3.0
+
+    // drawing lines between cell center points
+    var drawLinesBetweenCells: Bool = false
+    var drawLinesBetweenCellsColor: Color = Color.black
+    var drawLinesBetweenCellsWidth: Double = 3.0
+
+    // interactions
+    var interactionTapType: GridCellTapInteractionType = GridCellTapInteractionType.colorChange
+    var colorForStateTapped: Color
+    var interactionTap2Type: GridCellTapInteractionType = GridCellTapInteractionType.none
+    var colorForStateTapped2: Color = Color(UIColor.systemPurple)
+    var interactionDragType: GridCellDragInteractionType = GridCellDragInteractionType.none
+    var colorForStateDragBegan: Color = Color(red: 59/256, green: 172/256, blue: 182/256)
+    var colorForStateDragContinued: Color = Color(red: 130/256, green: 219/256, blue: 216/256)
+    var colorForStateDragEnded: Color = Color(red: 179/256, green: 232/256, blue: 229/256)
+    var isInteractionPinchZoomAllowed = true
+    var isInteractionTwoFingerDragGridAllowed = true
+
+    // misc
+    var initialShading: GridInitialShading = GridInitialShading.threeColor
+    var colorForStateEmpty: Color
+    var colorForStateEmptySecondary: Color
+    var colorForStateEmptyTertiary: Color = Color(red: 0.8, green: 0.8, blue: 0.8)
+    var showYellowSecondaryGrid = false
+
+    init(
+        colorForStateEmpty: Color = Color(uiColor: .lightGray),
+        colorForStateEmptySecondary: Color = Color(.gray),
+        colorForStateTapped: Color = Color(UIColor.systemOrange),
+        customCells: [GridCoordinateItem] = [
             GridCoordinateItem(coordinateQ: 0, coordinateR: 0),
             GridCoordinateItem(coordinateQ: 1, coordinateR: 0),
             GridCoordinateItem(coordinateQ: 0, coordinateR: 1),
             GridCoordinateItem(coordinateQ: 1, coordinateR: 1),
             GridCoordinateItem(coordinateQ: 1, coordinateR: 2),
             GridCoordinateItem(coordinateQ: 2, coordinateR: 2),
-        ]
-    }()
-
-    // coordinates
-    @Published var showsCoordinates: GridCoordinateType = .axial
-    @Published var colorForCoordinateLabels: Color = .black
-    @Published var coordinateLabelFontSize: Double = 10
-    @Published var usePositiveCoordinateValuesOnly: Bool = false
-
-    // entire scene background color
-    @Published var colorForBackground: Color = .black
-
-    // cell borders
-    @Published var borderWidth:Double = 1
-    @Published var colorForHexagonBorder: Color = .white
-
-    // drawing center points
-    @Published var drawCenterPoint: Bool = false
-    @Published var drawCenterPointColor: Color = .black
-    @Published var drawCenterPointDiameter: Double = 3.0
-
-    // drawing lines between cell center points
-    @Published var drawLinesBetweenCells: Bool = false
-    @Published var drawLinesBetweenCellsColor: Color = .black
-    @Published var drawLinesBetweenCellsWidth: Double = 3.0
-
-    // interactions
-    @Published var interactionTapType: GridCellTapInteractionType = .colorChange
-    @Published var colorForStateTapped: Color = Color(UIColor.systemOrange)
-    @Published var interactionTap2Type: GridCellTapInteractionType = .none
-    @Published var colorForStateTapped2: Color = Color(UIColor.systemPurple)
-    @Published var interactionDragType: GridCellDragInteractionType = .none
-    @Published var colorForStateDragBegan: Color = Color(red: 59/256, green: 172/256, blue: 182/256)
-    @Published var colorForStateDragContinued: Color = Color(red: 130/256, green: 219/256, blue: 216/256)
-    @Published var colorForStateDragEnded: Color = Color(red: 179/256, green: 232/256, blue: 229/256)
-    @Published var isInteractionPinchZoomAllowed = true
-    @Published var isInteractionTwoFingerDragGridAllowed = true
-
-    // misc
-    @Published var initialShading: GridInitialShading = .threeColor
-    @Published var colorForStateEmpty: Color = Color(UIColor.lightGray)
-    @Published var colorForStateEmptySecondary: Color = Color(.gray)
-    @Published var colorForStateEmptyTertiary: Color = Color(red: 0.8, green: 0.8, blue: 0.8)
-    @Published var showYellowSecondaryGrid = false
-
-    init(
+        ],
         number: Double = 3,
         gridType: GridType = .irregularHexagon
     ) {
+        self.colorForStateEmpty = colorForStateEmpty
+        self.colorForStateEmptySecondary = colorForStateEmptySecondary
+        self.colorForStateTapped = colorForStateTapped
+        self.customCells = customCells
         self.gridSizeX = number
         self.gridType = gridType
     }
+}
+
+extension ConfigurationData: Equatable {
+    static func == (lhs: ConfigurationData, rhs: ConfigurationData) -> Bool {
+        lhs.gridSizeX == rhs.gridSizeX &&
+        lhs.gridSizeY == rhs.gridSizeY &&
+        lhs.gridType == rhs.gridType &&
+        lhs.pointsUp == rhs.pointsUp &&
+        lhs.offsetEven == rhs.offsetEven &&
+        lhs.customCells == rhs.customCells &&
+        lhs.showsCoordinates == rhs.showsCoordinates &&
+        lhs.colorForCoordinateLabels == rhs.colorForCoordinateLabels &&
+        lhs.coordinateLabelFontSize == rhs.coordinateLabelFontSize &&
+        lhs.usePositiveCoordinateValuesOnly == rhs.usePositiveCoordinateValuesOnly &&
+        lhs.colorForBackground == rhs.colorForBackground &&
+        // todo: add all the other ones here
+        lhs.colorForStateEmpty == rhs.colorForStateEmpty &&
+        lhs.colorForStateEmptySecondary == rhs.colorForStateEmptySecondary &&
+        lhs.gridType == rhs.gridType
+    }
+
 }
 
 //extension ConfigurationData: Encodable {

@@ -1,7 +1,14 @@
 import SwiftUI
 import HexGrid
 
+@Observable
 class SaveMenuViewData: ObservableObject {
+
+    init(wantsSaveSize: CGSize? = nil, wantsSaveAsImage: Bool = false, wantsPresetLoad: PresetLoadType? = nil) {
+        self.wantsSaveSize = wantsSaveSize
+        self.wantsSaveAsImage = wantsSaveAsImage
+        self.wantsPresetLoad = wantsPresetLoad
+    }
 
     enum PresetLoadType: String, CaseIterable {
         case simpleExample
@@ -46,7 +53,7 @@ class SaveMenuViewData: ObservableObject {
         let presetType: PresetLoadType
     }
 
-    @Published var presets: [Preset] = loadPresets()
+    var presets: [Preset] = loadPresets()
     static func loadPresets() -> [Preset] {
         var presets = [Preset]()
         for type in PresetLoadType.allCases {
@@ -59,8 +66,10 @@ class SaveMenuViewData: ObservableObject {
         return presets
     }
 
-    @Published var wantsSaveAsImage = false
-    @Published var wantsPresetLoad: PresetLoadType? = nil
+    var wantsSaveSize: CGSize? = nil
+    var wantsSaveAsShare = false
+    var wantsSaveAsImage = false
+    var wantsPresetLoad: PresetLoadType? = nil
 
     func config(for type: PresetLoadType) -> ConfigurationData {
         let config = ConfigurationData()

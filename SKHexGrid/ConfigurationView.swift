@@ -3,7 +3,7 @@ import HexGrid
 
 struct ConfigurationSheetView: View {
 
-    @StateObject public var gameData = ConfigurationData()
+    @State public var gameData = ConfigurationData()
 
     var doneButtonCallback: ((ConfigurationData) -> Void)?
 
@@ -343,7 +343,7 @@ This really has no purpose other than to show how you can have an arbitrary numb
 
                 }
 
-            }.padding()
+            }
                 .navigationBarTitle(Text("Configuration"), displayMode: .inline)
                 .navigationBarItems(
                     trailing: Button(

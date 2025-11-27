@@ -20,7 +20,8 @@ extension Encodable where Self: UIColor {
 
 }
 
-extension UIColor: Codable { }
+extension UIColor: @retroactive Decodable {}
+extension UIColor: @retroactive Encodable {}
 
 extension UIColor {
     static func random() -> UIColor {

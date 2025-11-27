@@ -117,8 +117,11 @@ class GameViewController: UIViewController {
             let view = SaveMenuView(gameData: SaveMenuViewData()) { [weak self] saveData in
                 guard let self = self else { return }
                 guard let hostingController = self.saveMenuHostingController else { return }
-                if saveData.wantsSaveAsImage {
-                    self.saveImage()
+                if saveData.wantsSaveAsImage, let size = saveData.wantsSaveSize {
+                    self.saveImage(withSize: size)
+                }
+                if saveData.wantsSaveAsShare, let size = saveData.wantsSaveSize {
+                    self.shareImage(withSize: size)
                 }
                 if let wantsConfig = saveData.wantsPresetLoad {
                     switch wantsConfig {
@@ -311,12 +314,12 @@ class GameViewController: UIViewController {
         hexSecondaryView?.isHidden = !model.showYellowSecondaryGrid
     }
 
-    // MARK: saving to image
+    // MARK: saving to photo library
 
-    func saveImage() {
+    func saveImage(withSize size: CGSize) {
         guard let view = self.gameView else { return }
         let selector = #selector(self.onImageSaved(_:error:contextInfo:))
-        view.takeSnapshot()?.saveToPhotoLibrary(self, selector)
+        view.snapshotImage(withSize: size)?.saveToPhotoLibrary(self, selector)
     }
 
     @objc private func onImageSaved(_ image: UIImage, error: Error?, contextInfo: UnsafeRawPointer) {
@@ -330,17 +333,46 @@ class GameViewController: UIViewController {
             present(ac, animated: true)
         }
     }
+
+    // MARK: sharing the image with the system prompt
+
+    func shareImage(withSize size: CGSize) {
+        if let saveMenuHostingController {
+            saveMenuHostingController.dismiss(animated: false)
+        }
+        guard let view = self.gameView,
+              let image = view.snapshotImage(withSize: size)
+        else {
+            let ac = UIAlertController(title: "Image share error", message: "There was an error saving your image. Please try again.", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+            return
+        }
+        let imagesArray = [image]
+        let activityViewController = UIActivityViewController(activityItems: imagesArray, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
+        activityViewController.excludedActivityTypes = []
+        present(activityViewController, animated: true)
+    }
 }
 
 extension UIView {
 
-    func takeSnapshot() -> UIImage? {
-        UIGraphicsBeginImageContext(CGSize(width: self.frame.size.width, height: self.frame.size.height))
-        let rect = CGRect(x: 0.0, y: 0.0, width: self.frame.size.width, height: self.frame.size.height)
-        drawHierarchy(in: rect, afterScreenUpdates: true)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
+    func snapshotImage(withSize size: CGSize) -> UIImage? {
+        let rendererFormat = UIGraphicsImageRendererFormat.default()
+        rendererFormat.opaque = isOpaque
+        rendererFormat.scale = 1.0
+        let renderer = UIGraphicsImageRenderer(size: size, format: rendererFormat)
+//        return renderer.image { layer.render(in: $0.cgContext) }
+        return renderer.image { _ in
+            drawHierarchy(in: CGRect(origin: .zero, size: size), afterScreenUpdates: true)
+        }
+// old way...
+//        UIGraphicsBeginImageContextWithOptions(size, self.isOpaque, 0.0)
+//        drawHierarchy(in: CGRect(origin: .zero, size: size), afterScreenUpdates: true)
+//        let image = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        return image
     }
 }
 

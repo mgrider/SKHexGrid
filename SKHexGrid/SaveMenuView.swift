@@ -6,6 +6,8 @@ struct SaveMenuView: View {
 
     var doneButtonCallback: ((SaveMenuViewData) -> Void)?
 
+    let imageSizes: [CGFloat] = [600, 1024, 1080, 2048, 3840]
+
     var body: some View {
 
         NavigationView {
@@ -15,7 +17,7 @@ struct SaveMenuView: View {
                 Section("Load grid configuration") {
 
                     HStack {
-                        Menu("Pick a preset") {
+                        Menu("Pick a preset...") {
                             ForEach(gameData.presets, id: \.presetType) { preset in
                                 Button(preset.name) {
                                     gameData.wantsPresetLoad = preset.presetType
@@ -34,7 +36,7 @@ struct SaveMenuView: View {
                         Spacer()
                     }
 
-                    Text("WARNING: This will reset the currently configured grid options.").font(.caption)
+                    Text("WARNING: These options will reset the currently configured grid.").font(.caption)
 
                 }
 
@@ -52,24 +54,40 @@ struct SaveMenuView: View {
 
                 }
 
-                Section("Save to photo library") {
+                Section("Save or share a photo") {
 
                     HStack {
-                        Button("Save grid at current screen size") {
-                            gameData.wantsSaveAsImage = true
-                            doneButtonCallback?(gameData)
-                        }.buttonStyle(.borderless)
+                        Menu("Save image to photo library...") {
+                            ForEach(0..<imageSizes.count, id: \.self) { value in
+                                Button("\(imageSizes[value]) x \(imageSizes[value])") {
+                                    gameData.wantsSaveAsImage = true
+                                    gameData.wantsSaveSize = .init(width: imageSizes[value], height: imageSizes[value])
+                                    doneButtonCallback?(gameData)
+                                }
+                            }
+                        }
+                        Spacer()
+                    }
+
+                    HStack {
+                        Menu("Share an image...") {
+                            ForEach(0..<imageSizes.count, id: \.self) { value in
+                                Button("\(imageSizes[value]) x \(imageSizes[value])") {
+                                    gameData.wantsSaveAsShare = true
+                                    gameData.wantsSaveSize = .init(width: imageSizes[value], height: imageSizes[value])
+                                    doneButtonCallback?(gameData)
+                                }
+                            }
+                        }
                         Spacer()
                     }
                     Text("""
-This will save an image of the currently configured grid to your photo library.
-
-Note that, for now, the size of the image will be a square in the size of the smaller dimension (width or height) of your screen.
+This will create an image of the currently configured grid to save to your photo library or share with the system share sheet.
 """).font(.caption)
 
                 }
 
-            }.padding()
+            }
                 .navigationBarTitle(Text("Save Menu"), displayMode: .inline)
                 .navigationBarItems(
                     trailing: Button(
