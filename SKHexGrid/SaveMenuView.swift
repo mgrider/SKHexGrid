@@ -2,7 +2,7 @@ import SwiftUI
 
 struct SaveMenuView: View {
 
-    @StateObject public var gameData = SaveMenuViewData()
+    @State public var gameData = SaveMenuViewData()
 
     var doneButtonCallback: ((SaveMenuViewData) -> Void)?
 

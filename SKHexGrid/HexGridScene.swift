@@ -6,7 +6,7 @@ class HexGridScene: SKScene {
 
     // MARK: scene properties
 
-    private(set) var config: ConfigurationData
+    private(set) var config: HexGridConfig
 
     private var dragCoordinator: HexGridSceneDragCoordinator?
 
@@ -23,7 +23,7 @@ class HexGridScene: SKScene {
     // MARK: init
 
     init(
-        config: ConfigurationData,
+        config: HexGridConfig,
         size: CGSize
     ) {
         self.config = config
@@ -96,7 +96,7 @@ class HexGridScene: SKScene {
 
         super.init(size: size)
 
-        backgroundColor = UIColor(config.colorForBackground)
+        backgroundColor = config.colorForBackground.uIColor()
         dragCoordinator = HexGridSceneDragCoordinator(forScene: self)
 
         // see `didMove(to view: SKView)` for generation of nodes
@@ -109,7 +109,7 @@ class HexGridScene: SKScene {
     // MARK: updating cell states
 
     private func addOrUpdateNodeOnTopOfCell(cell: Cell, tap2: Bool) {
-        let color = tap2 ? UIColor(config.colorForStateTapped2) : UIColor(config.colorForStateTapped)
+        let color = tap2 ? config.colorForStateTapped2.uIColor() : config.colorForStateTapped.uIColor()
         if let stone = nodesOnTopOfCell[cell] {
             stone.fillColor = color
         } else {
@@ -147,7 +147,7 @@ class HexGridScene: SKScene {
         let state = cell.state
         switch state {
         case .empty:
-            cellColor = emptyColorsByCell[cell] ?? UIColor(config.colorForStateEmpty)
+            cellColor = emptyColorsByCell[cell] ?? config.colorForStateEmpty.uIColor()
             if let stone = nodesOnTopOfCell[cell] {
                 stone.run(SKAction.sequence([
                     SKAction.fadeOut(withDuration: 0.25),
@@ -160,29 +160,29 @@ class HexGridScene: SKScene {
             case .none:
                 return
             case .colorChange:
-                cellColor = UIColor(config.colorForStateTapped)
+                cellColor = config.colorForStateTapped.uIColor()
                 removeNodeOnTopOfCell(cell: cell)
             case .shapeAddStone:
                 addOrUpdateNodeOnTopOfCell(cell: cell, tap2: false)
-                cellColor = emptyColorsByCell[cell] ?? UIColor(config.colorForStateEmpty)
+                cellColor = emptyColorsByCell[cell] ?? config.colorForStateEmpty.uIColor()
             }
         case .tappedASecondTime:
             switch config.interactionTap2Type {
             case .none:
                 return
             case .colorChange:
-                cellColor = UIColor(config.colorForStateTapped2)
+                cellColor = config.colorForStateTapped2.uIColor()
                 removeNodeOnTopOfCell(cell: cell)
             case .shapeAddStone:
                 addOrUpdateNodeOnTopOfCell(cell: cell, tap2: true)
-                cellColor = emptyColorsByCell[cell] ?? UIColor(config.colorForStateEmpty)
+                cellColor = emptyColorsByCell[cell] ?? config.colorForStateEmpty.uIColor()
             }
         case .touchStarted:
-            cellColor = UIColor(config.colorForStateDragBegan)
+            cellColor = config.colorForStateDragBegan.uIColor()
         case .touchContinued:
-            cellColor = UIColor(config.colorForStateDragContinued)
+            cellColor = config.colorForStateDragContinued.uIColor()
         case .touchEnded:
-            cellColor = UIColor(config.colorForStateDragEnded)
+            cellColor = config.colorForStateDragEnded.uIColor()
         }
         shapeNode.fillColor = cellColor
     }
@@ -206,7 +206,7 @@ class HexGridScene: SKScene {
             let shapeNode = SKShapeNode(
                 points: &corners,
                 count: corners.count)
-            shapeNode.strokeColor = UIColor(config.colorForHexagonBorder)
+            shapeNode.strokeColor = config.colorForHexagonBorder.uIColor()
             shapeNode.lineWidth = config.borderWidth.rounded()
 
             nodesByCell[cell] = shapeNode
@@ -216,7 +216,7 @@ class HexGridScene: SKScene {
 
             if config.drawCenterPoint {
                 let pointNode = SKShapeNode(circleOfRadius: CGFloat(config.drawCenterPointDiameter / 2.0))
-                pointNode.fillColor = UIColor(config.drawCenterPointColor)
+                pointNode.fillColor = config.drawCenterPointColor.uIColor()
                 pointNode.lineWidth = 0
                 pointNode.position = center.cgPoint
                 addChild(pointNode)
@@ -242,7 +242,7 @@ class HexGridScene: SKScene {
                 let label = SKLabelNode(text: cellText)
                 label.fontName = "Helvetica"
                 label.fontSize = config.coordinateLabelFontSize
-                label.fontColor = UIColor(config.colorForCoordinateLabels)
+                label.fontColor = config.colorForCoordinateLabels.uIColor()
                 label.numberOfLines = 2
                 label.horizontalAlignmentMode = .center
                 label.verticalAlignmentMode = .center
@@ -254,7 +254,7 @@ class HexGridScene: SKScene {
             }
 
             if config.initialShading == .none {
-                emptyColorsByCell[cell] = UIColor(config.colorForStateEmpty)
+                emptyColorsByCell[cell] = config.colorForStateEmpty.uIColor()
             }
         }
 
@@ -308,7 +308,7 @@ class HexGridScene: SKScene {
     }
 
     func colorEdgeCells() {
-        let color: UIColor = UIColor(config.colorForStateEmptySecondary)
+        let color: UIColor = config.colorForStateEmptySecondary.uIColor()
         for cell in grid.cells {
             if let neighbors = try? grid.neighbors(for: cell),
                neighbors.count != 6 {
@@ -319,8 +319,8 @@ class HexGridScene: SKScene {
     }
 
     func colorEdgeCellsWithTwoColors() {
-        let color: UIColor = UIColor(config.colorForStateEmptySecondary)
-        let color2: UIColor = UIColor(config.colorForStateEmptyTertiary)
+        let color: UIColor = config.colorForStateEmptySecondary.uIColor()
+        let color2: UIColor = config.colorForStateEmptyTertiary.uIColor()
         var neighborsForCell = [Cell: Set<Cell>]()
         var edgeCells = Set<Cell>()
         for cell in grid.cells {
@@ -349,11 +349,11 @@ class HexGridScene: SKScene {
 
     func colorEveryOtherRingOfCells(useThreeColors: Bool) {
         var colors: [UIColor] = [
-            UIColor(config.colorForStateEmptySecondary),
-            UIColor(config.colorForStateEmpty),
+            config.colorForStateEmptySecondary.uIColor(),
+            config.colorForStateEmpty.uIColor(),
         ]
         if useThreeColors {
-            colors.insert(UIColor(config.colorForStateEmptyTertiary), at: 1)
+            colors.insert(config.colorForStateEmptyTertiary.uIColor(), at: 1)
         }
         var neighborsForCell = [Cell: Set<Cell>]()
         var colorIndex = 0
@@ -425,16 +425,16 @@ class HexGridScene: SKScene {
     func colorForBoardWithThreeColors(at index: Int) -> UIColor {
         if index >= 0, index < 3 {
             let colors = [
-                UIColor(config.colorForStateEmpty),
-                UIColor(config.colorForStateEmptySecondary),
-                UIColor(config.colorForStateEmptyTertiary),
+                config.colorForStateEmpty.uIColor(),
+                config.colorForStateEmptySecondary.uIColor(),
+                config.colorForStateEmptyTertiary.uIColor(),
             ]
             return colors[index]
         } else if index < 0, index > -3 {
             let colors = [
-                UIColor(config.colorForStateEmptyTertiary),
-                UIColor(config.colorForStateEmptySecondary),
-                UIColor(config.colorForStateEmpty),
+                config.colorForStateEmptyTertiary.uIColor(),
+                config.colorForStateEmptySecondary.uIColor(),
+                config.colorForStateEmpty.uIColor(),
             ]
             return colors[abs(index)-1]
         } else {
@@ -448,11 +448,11 @@ class HexGridScene: SKScene {
             let modX = axial.r % withInterval
             let modY = axial.q % withInterval
             if modX == 0 && modY == 0 {
-                let color = UIColor(config.colorForStateEmptySecondary)
+                let color = config.colorForStateEmptySecondary.uIColor()
                 emptyColorsByCell[cell] = color
                 updateCellColor(cell: cell, color: color)
             } else {
-                let color = UIColor(config.colorForStateEmpty)
+                let color = config.colorForStateEmpty.uIColor()
                 emptyColorsByCell[cell] = color
                 updateCellColor(cell: cell, color: color)
             }
@@ -478,7 +478,7 @@ class HexGridScene: SKScene {
                     points.append(nPoint)
                     let linearShapeNode = SKShapeNode(points: &points,
                                                       count: points.count)
-                    linearShapeNode.strokeColor = UIColor(config.drawLinesBetweenCellsColor)
+                    linearShapeNode.strokeColor = config.drawLinesBetweenCellsColor.uIColor()
                     linearShapeNode.lineWidth = config.drawLinesBetweenCellsWidth
                     addChild(linearShapeNode)
                 }

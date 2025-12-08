@@ -1,27 +1,5 @@
 import UIKit
-
-extension Decodable where Self: UIColor {
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let components = try container.decode([CGFloat].self)
-        self = Self.init(red: components[0], green: components[1], blue: components[2], alpha: components[3])
-    }
-}
-
-extension Encodable where Self: UIColor {
-    public func encode(to encoder: Encoder) throws {
-        var r, g, b, a: CGFloat
-        (r, g, b, a) = (0, 0, 0, 0)
-        var container = encoder.singleValueContainer()
-        self.getRed(&r, green: &g, blue: &b, alpha: &a)
-        try container.encode([r,g,b,a])
-    }
-
-}
-
-extension UIColor: @retroactive Decodable {}
-extension UIColor: @retroactive Encodable {}
+import SwiftUI
 
 extension UIColor {
     static func random() -> UIColor {
@@ -41,5 +19,40 @@ extension UIColor {
             blue: CGFloat(arc4random()) / CGFloat(UInt32.max),
             alpha: 1.0
         )
+    }
+}
+
+struct ColorCodable: Codable, Equatable {
+    let hue, saturation, brightness, alpha: CGFloat
+
+    init(_ swiftUIColor: Color) {
+        self.init(uiColor: UIColor(swiftUIColor))
+    }
+
+    init(swiftUIColor: Color) {
+        self.init(uiColor: UIColor(swiftUIColor))
+    }
+
+    init(uiColor: UIColor) {
+//        var r, g, b, a: CGFloat
+//        (r, g, b, a) = (0, 0, 0, 0)
+//        uiColor.getRed(&r, green: &g, blue: &b, alpha: &a)
+
+        var h, s, b, a: CGFloat
+        (h, s, b, a) = (0, 0, 0, 0)
+        uiColor.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+
+        self.hue = h
+        self.saturation = s
+        self.brightness = b
+        self.alpha = a
+    }
+
+    func uIColor() -> UIColor {
+        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: alpha)
+    }
+
+    func swiftUIcolor() -> Color {
+        return Color(uIColor())
     }
 }

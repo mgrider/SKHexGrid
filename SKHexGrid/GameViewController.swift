@@ -58,12 +58,13 @@ class GameViewController: UIViewController {
             guard let self = self else { return }
             // open config
             let view = ConfigurationSheetView(
-                gameData: self.displayData,
+                gameData: ConfigurationData.from(config: self.displayData),
                 doneButtonCallback: { [weak self] model in
-                    guard let self = self else { return }
+                    guard let self else { return }
                     guard let hostingController = self.configHostingController else { return }
                     self.gameView?.transform = .identity
-                    self.updateGridFromModel(model: model)
+                    model.update(hexGridConfiguration: &displayData)
+                    self.updateGridFromModel(model: displayData)
                     hostingController.dismiss(animated: true)
             })
             let vc = UIHostingController(rootView: view)
@@ -76,7 +77,7 @@ class GameViewController: UIViewController {
 
     var configHostingController: UIHostingController<ConfigurationSheetView>?
 
-    var displayData = ConfigurationData()
+    var displayData = HexGridConfig()
 
     var gameView: SKView?
 
@@ -111,11 +112,11 @@ class GameViewController: UIViewController {
         config.background = background
         config.image = UIImage(systemName: "square.and.arrow.down")
         button.configuration = config
-        button.addAction(UIAction { [weak self] _ in
-            guard let self = self else { return }
+        let action: UIAction = UIAction { [weak self] _ in
+            guard let self else { return }
             // open save menu
-            let view = SaveMenuView(gameData: SaveMenuViewData()) { [weak self] saveData in
-                guard let self = self else { return }
+            let view = SaveMenuView(
+                doneButtonCallback: { saveData in
                 guard let hostingController = self.saveMenuHostingController else { return }
                 if saveData.wantsSaveAsImage, let size = saveData.wantsSaveSize {
                     self.saveImage(withSize: size)
@@ -133,12 +134,13 @@ class GameViewController: UIViewController {
                     self.gameView?.transform = .identity
                 }
                 hostingController.dismiss(animated: true)
-            }
+            })
             let vc = UIHostingController(rootView: view)
             self.saveMenuHostingController = vc
             vc.modalPresentationStyle = .formSheet
             self.present(vc, animated: true)
-        }, for: .touchUpInside)
+        }
+        button.addAction(action, for: .touchUpInside)
         return button
     }()
 
@@ -151,7 +153,7 @@ class GameViewController: UIViewController {
 
             let bgView = SKView(frame: .init(origin: .zero, size: view.frame.size))
             let bgScene = GameBackgroundScene(size: view.frame.size)
-            bgScene.backgroundColor = UIColor(displayData.colorForBackground)
+            bgScene.backgroundColor = displayData.colorForBackground.uIColor()
             bgView.presentScene(bgScene)
             view.addSubview(bgView)
             bgView.translatesAutoresizingMaskIntoConstraints = false
@@ -239,7 +241,7 @@ class GameViewController: UIViewController {
         NSLayoutConstraint.activate(gameViewConstraints)
     }
 
-    private func presentGridShape(viewData: ConfigurationData) -> HexGridScene? {
+    private func presentGridShape(viewData: HexGridConfig) -> HexGridScene? {
         guard let view = self.gameView else { return nil }
         // make sure our hex scene is square
         let side = min(view.frame.size.height, view.frame.size.width)
@@ -306,10 +308,10 @@ class GameViewController: UIViewController {
 
     // MARK: updating the current grid
 
-    func updateGridFromModel(model: ConfigurationData) {
+    func updateGridFromModel(model: HexGridConfig) {
         displayData = model
-        self.view.backgroundColor = UIColor(model.colorForBackground)
-        background?.backgroundColor = UIColor(model.colorForBackground)
+        self.view.backgroundColor = model.colorForBackground.uIColor()
+        background?.backgroundColor = model.colorForBackground.uIColor()
         hex = presentGridShape(viewData: model)
         hexSecondaryView?.isHidden = !model.showYellowSecondaryGrid
     }

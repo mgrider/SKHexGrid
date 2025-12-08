@@ -23,12 +23,12 @@ struct ConfigurationSheetView: View {
 
                     VStack {
                         Picker("Grid type", selection: $gameData.gridType, content: {
-                            Text("Hexagon").tag(ConfigurationData.GridType.irregularHexagon)
-                            Text("Extended hexagon").tag(ConfigurationData.GridType.extendedHexagon)
-                            Text("Rectangle").tag(ConfigurationData.GridType.rectangle)
-                            Text("Parallelogram").tag(ConfigurationData.GridType.parallelogram)
-                            Text("Triangle").tag(ConfigurationData.GridType.triangle)
-                            Text("Custom").tag(ConfigurationData.GridType.custom)
+                            Text("Hexagon").tag(HexGridConfig.GridType.irregularHexagon)
+                            Text("Extended hexagon").tag(HexGridConfig.GridType.extendedHexagon)
+                            Text("Rectangle").tag(HexGridConfig.GridType.rectangle)
+                            Text("Parallelogram").tag(HexGridConfig.GridType.parallelogram)
+                            Text("Triangle").tag(HexGridConfig.GridType.triangle)
+                            Text("Custom").tag(HexGridConfig.GridType.custom)
                         })//.pickerStyle(SegmentedPickerStyle())
                         HStack {
                             switch gameData.gridType {
@@ -115,11 +115,11 @@ Newly added coordinates will appear at the bottom of the list.
                 Section("Cell coordinates") {
                     HStack {
                         Picker("Coordinate display", selection: $gameData.showsCoordinates, content: {
-                            Text("None").tag(ConfigurationData.GridCoordinateType.none)
-                            Text("Cube").tag(ConfigurationData.GridCoordinateType.cube)
-                            Text("Axial").tag(ConfigurationData.GridCoordinateType.axial)
-                            Text("Offset").tag(ConfigurationData.GridCoordinateType.offset)
-                            Text("Alphanumeric").tag(ConfigurationData.GridCoordinateType.alphanumeric)
+                            Text("None").tag(HexGridConfig.GridCoordinateType.none)
+                            Text("Cube").tag(HexGridConfig.GridCoordinateType.cube)
+                            Text("Axial").tag(HexGridConfig.GridCoordinateType.axial)
+                            Text("Offset").tag(HexGridConfig.GridCoordinateType.offset)
+                            Text("Alphanumeric").tag(HexGridConfig.GridCoordinateType.alphanumeric)
                         })//.pickerStyle(SegmentedPickerStyle())
                     }
 
@@ -217,15 +217,15 @@ Newly added coordinates will appear at the bottom of the list.
                 Section("Cell colors") {
 
                     Picker("Cell shading type", selection: $gameData.initialShading, content: {
-                        Text("Single color").tag(ConfigurationData.GridInitialShading.none)
-                        Text("Edges").tag(ConfigurationData.GridInitialShading.edges)
-                        Text("Two-color Edges").tag(ConfigurationData.GridInitialShading.edgesTwoColor)
-                        Text("Rings").tag(ConfigurationData.GridInitialShading.rings)
-                        Text("Three-color Rings").tag(ConfigurationData.GridInitialShading.ringsThreeColor)
-                        Text("Random").tag(ConfigurationData.GridInitialShading.random)
-                        Text("Three color").tag(ConfigurationData.GridInitialShading.threeColor)
-                        Text("Periodic second color").tag(ConfigurationData.GridInitialShading.periodic1)
-                        Text("More periodic second color").tag(ConfigurationData.GridInitialShading.periodic2)
+                        Text("Single color").tag(HexGridConfig.GridInitialShading.none)
+                        Text("Edges").tag(HexGridConfig.GridInitialShading.edges)
+                        Text("Two-color Edges").tag(HexGridConfig.GridInitialShading.edgesTwoColor)
+                        Text("Rings").tag(HexGridConfig.GridInitialShading.rings)
+                        Text("Three-color Rings").tag(HexGridConfig.GridInitialShading.ringsThreeColor)
+                        Text("Random").tag(HexGridConfig.GridInitialShading.random)
+                        Text("Three color").tag(HexGridConfig.GridInitialShading.threeColor)
+                        Text("Periodic second color").tag(HexGridConfig.GridInitialShading.periodic1)
+                        Text("More periodic second color").tag(HexGridConfig.GridInitialShading.periodic2)
                     })//.pickerStyle(SegmentedPickerStyle())
 
                     ColorPicker(
@@ -270,9 +270,9 @@ Warning that ring shading can take a bit of time to compute on larger grid sizes
                     // MARK: tap 1
 
                     Picker("Tap effect", selection: $gameData.interactionTapType, content: {
-                        Text("None").tag(ConfigurationData.GridCellTapInteractionType.none)
-                        Text("Color change").tag(ConfigurationData.GridCellTapInteractionType.colorChange)
-                        Text("Add stone").tag(ConfigurationData.GridCellTapInteractionType.shapeAddStone)
+                        Text("None").tag(HexGridConfig.GridCellTapInteractionType.none)
+                        Text("Color change").tag(HexGridConfig.GridCellTapInteractionType.colorChange)
+                        Text("Add stone").tag(HexGridConfig.GridCellTapInteractionType.shapeAddStone)
                     })
                     ColorPicker(
                         "Tap effect color",
@@ -283,9 +283,9 @@ Warning that ring shading can take a bit of time to compute on larger grid sizes
                     // MARK: tap 2
 
                     Picker("Second tap effect", selection: $gameData.interactionTap2Type, content: {
-                        Text("None").tag(ConfigurationData.GridCellTapInteractionType.none)
-                        Text("Color change").tag(ConfigurationData.GridCellTapInteractionType.colorChange)
-                        Text("Add stone").tag(ConfigurationData.GridCellTapInteractionType.shapeAddStone)
+                        Text("None").tag(HexGridConfig.GridCellTapInteractionType.none)
+                        Text("Color change").tag(HexGridConfig.GridCellTapInteractionType.colorChange)
+                        Text("Add stone").tag(HexGridConfig.GridCellTapInteractionType.shapeAddStone)
                     })
                     ColorPicker(
                         "Second tap effect color",
@@ -296,9 +296,9 @@ Warning that ring shading can take a bit of time to compute on larger grid sizes
                     // MARK: drag
 
                     Picker("Drag effect", selection: $gameData.interactionDragType, content: {
-                        Text("None").tag(ConfigurationData.GridCellDragInteractionType.none)
-                        Text("Color change").tag(ConfigurationData.GridCellDragInteractionType.colorChange)
-                        Text("Move existing tap effect").tag(ConfigurationData.GridCellDragInteractionType.dragExistingState)
+                        Text("None").tag(HexGridConfig.GridCellDragInteractionType.none)
+                        Text("Color change").tag(HexGridConfig.GridCellDragInteractionType.colorChange)
+                        Text("Move existing tap effect").tag(HexGridConfig.GridCellDragInteractionType.dragExistingState)
                     })
 
                     ColorPicker(
