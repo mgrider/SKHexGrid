@@ -58,7 +58,7 @@ class GameViewController: UIViewController {
             guard let self = self else { return }
             // open config
             let view = ConfigurationSheetView(
-                gameData: ConfigurationData.from(config: self.displayData),
+                gameData: ConfigurationViewData.from(config: self.displayData),
                 doneButtonCallback: { [weak self] model in
                     guard let self else { return }
                     guard let hostingController = self.configHostingController else { return }

@@ -4,12 +4,6 @@ import HexGrid
 @Observable
 class SaveMenuViewData {
 
-    init(wantsSaveSize: CGSize? = nil, wantsSaveAsImage: Bool = false, wantsPresetLoad: PresetLoadType? = nil) {
-        self.wantsSaveSize = wantsSaveSize
-        self.wantsSaveAsImage = wantsSaveAsImage
-        self.wantsPresetLoad = wantsPresetLoad
-    }
-
     enum PresetLoadType: String, CaseIterable {
         case simpleExample
         case defaultGray
@@ -190,7 +184,7 @@ class SaveMenuViewData {
         config.pointsUp = Bool.random()
         config.offsetEven = Bool.random()
         config.showsCoordinates = .none
-//        config.showsCoordinates = ConfigurationData.GridCoordinateType.allCases.randomElement() ?? .none
+//        config.showsCoordinates = HexGridConfig.GridCoordinateType.allCases.randomElement() ?? .none
 //        config.colorForCoordinateLabels = Color(UIColor.random())
 //        config.coordinateLabelFontSize = Double.random(in: 6..<30)
         config.colorForBackground = ColorCodable(swiftUIColor: Color(UIColor.random()))

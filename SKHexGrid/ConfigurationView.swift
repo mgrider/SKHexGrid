@@ -3,9 +3,9 @@ import HexGrid
 
 struct ConfigurationSheetView: View {
 
-    @State public var gameData = ConfigurationData()
+    @State public var gameData = ConfigurationViewData()
 
-    var doneButtonCallback: ((ConfigurationData) -> Void)?
+    var doneButtonCallback: ((ConfigurationViewData) -> Void)?
 
     let numberFormatter: NumberFormatter = {
         let formatter = NumberFormatter()

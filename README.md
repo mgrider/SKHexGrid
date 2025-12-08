@@ -46,7 +46,7 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 * added a sub-menu for size of image to save or share in the save menu
 * modernized image saving code somewhat
 * switched from @Published macros everywhere to @Observable macros
-* separated HexGridConfiguration from ConfigurationData
+* separated HexGridConfiguration from ConfigurationViewData
 
 ### v0.4.4
 

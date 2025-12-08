@@ -3,7 +3,7 @@ import SwiftUI
 import HexGrid
 
 @Observable
-final class ConfigurationData {
+final class ConfigurationViewData {
 
     // TODO: rename this ConfigurationViewData
 
@@ -68,8 +68,8 @@ final class ConfigurationData {
 
 }
 
-extension ConfigurationData: Equatable {
-    static func == (lhs: ConfigurationData, rhs: ConfigurationData) -> Bool {
+extension ConfigurationViewData: Equatable {
+    static func == (lhs: ConfigurationViewData, rhs: ConfigurationViewData) -> Bool {
         lhs.gridSizeX == rhs.gridSizeX &&
         lhs.gridSizeY == rhs.gridSizeY &&
         lhs.gridType == rhs.gridType &&
@@ -107,9 +107,9 @@ extension ConfigurationData: Equatable {
     }
 }
 
-extension ConfigurationData {
-    static func from(config: HexGridConfig) -> ConfigurationData {
-        var data = ConfigurationData()
+extension ConfigurationViewData {
+    static func from(config: HexGridConfig) -> ConfigurationViewData {
+        var data = ConfigurationViewData()
         data.gridSizeX = config.gridSizeX
         data.gridSizeY = config.gridSizeY
         data.gridType = config.gridType

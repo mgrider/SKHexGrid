@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		850E03D828A061BB00BC5934 /* Cell+State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 850E03D728A061BB00BC5934 /* Cell+State.swift */; };
-		852587152EE6442B00C0873D /* HexGridConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852587142EE6442500C0873D /* HexGridConfiguration.swift */; };
+		852587152EE6442B00C0873D /* HexGridConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852587142EE6442500C0873D /* HexGridConfig.swift */; };
 		85331842288C87230000DB75 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85331841288C87230000DB75 /* AppDelegate.swift */; };
 		85331844288C87230000DB75 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 85331843288C87230000DB75 /* GameScene.sks */; };
 		85331846288C87230000DB75 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 85331845288C87230000DB75 /* Actions.sks */; };
@@ -28,7 +28,7 @@
 		85DA4FB32A89352F005DAA92 /* Int+Alphabetical.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DA4FB22A89352F005DAA92 /* Int+Alphabetical.swift */; };
 		85EC1D70299D33AB003E7297 /* SaveMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D6F299D33AB003E7297 /* SaveMenuView.swift */; };
 		85EC1D72299D3A32003E7297 /* UIColor+Codable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D71299D3A32003E7297 /* UIColor+Codable.swift */; };
-		85EC1D74299D3ABD003E7297 /* ConfigurationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */; };
+		85EC1D74299D3ABD003E7297 /* ConfigurationViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D73299D3ABD003E7297 /* ConfigurationViewData.swift */; };
 		85EC1D7C299DD1F1003E7297 /* SimpleHexGridScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D7B299DD1F1003E7297 /* SimpleHexGridScene.swift */; };
 		85EC1D7F29A15754003E7297 /* SaveMenuViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D7E29A15754003E7297 /* SaveMenuViewData.swift */; };
 		85EC1D8129A169E3003E7297 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85EC1D8029A169E3003E7297 /* AboutView.swift */; };
@@ -36,7 +36,7 @@
 
 /* Begin PBXFileReference section */
 		850E03D728A061BB00BC5934 /* Cell+State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cell+State.swift"; sourceTree = "<group>"; };
-		852587142EE6442500C0873D /* HexGridConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexGridConfiguration.swift; sourceTree = "<group>"; };
+		852587142EE6442500C0873D /* HexGridConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexGridConfig.swift; sourceTree = "<group>"; };
 		8533183E288C87230000DB75 /* SKHexGrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKHexGrid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85331841288C87230000DB75 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85331843288C87230000DB75 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -59,7 +59,7 @@
 		85DA4FB22A89352F005DAA92 /* Int+Alphabetical.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Alphabetical.swift"; sourceTree = "<group>"; };
 		85EC1D6F299D33AB003E7297 /* SaveMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveMenuView.swift; sourceTree = "<group>"; };
 		85EC1D71299D3A32003E7297 /* UIColor+Codable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Codable.swift"; sourceTree = "<group>"; };
-		85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationData.swift; sourceTree = "<group>"; };
+		85EC1D73299D3ABD003E7297 /* ConfigurationViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewData.swift; sourceTree = "<group>"; };
 		85EC1D7B299DD1F1003E7297 /* SimpleHexGridScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleHexGridScene.swift; sourceTree = "<group>"; };
 		85EC1D7E29A15754003E7297 /* SaveMenuViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveMenuViewData.swift; sourceTree = "<group>"; };
 		85EC1D8029A169E3003E7297 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
@@ -100,13 +100,13 @@
 				8536B108289D9439005CDF87 /* README.md */,
 				85CD5003288D9A1700B73468 /* application */,
 				85CD4FF6288C891100B73468 /* HexGridScene.swift */,
-				852587142EE6442500C0873D /* HexGridConfiguration.swift */,
+				852587142EE6442500C0873D /* HexGridConfig.swift */,
 				856A7CC229D0A3C4003DD486 /* HexGridSceneDragCoordinator.swift */,
 				85EC1D7B299DD1F1003E7297 /* SimpleHexGridScene.swift */,
 				85EC1D7D29A14350003E7297 /* Extensions */,
 				85331849288C87230000DB75 /* GameViewController.swift */,
-				85EC1D73299D3ABD003E7297 /* ConfigurationData.swift */,
 				85CD5004288F164B00B73468 /* ConfigurationView.swift */,
+				85EC1D73299D3ABD003E7297 /* ConfigurationViewData.swift */,
 				85EC1D6F299D33AB003E7297 /* SaveMenuView.swift */,
 				85EC1D7E29A15754003E7297 /* SaveMenuViewData.swift */,
 				85EC1D8029A169E3003E7297 /* AboutView.swift */,
@@ -234,8 +234,8 @@
 				85DA4FB32A89352F005DAA92 /* Int+Alphabetical.swift in Sources */,
 				85EC1D72299D3A32003E7297 /* UIColor+Codable.swift in Sources */,
 				85EC1D8129A169E3003E7297 /* AboutView.swift in Sources */,
-				85EC1D74299D3ABD003E7297 /* ConfigurationData.swift in Sources */,
-				852587152EE6442B00C0873D /* HexGridConfiguration.swift in Sources */,
+				85EC1D74299D3ABD003E7297 /* ConfigurationViewData.swift in Sources */,
+				852587152EE6442B00C0873D /* HexGridConfig.swift in Sources */,
 				85CD4FF7288C891100B73468 /* HexGridScene.swift in Sources */,
 				85EC1D7F29A15754003E7297 /* SaveMenuViewData.swift in Sources */,
 				85331842288C87230000DB75 /* AppDelegate.swift in Sources */,
