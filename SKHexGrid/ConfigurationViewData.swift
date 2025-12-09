@@ -109,7 +109,7 @@ extension ConfigurationViewData: Equatable {
 
 extension ConfigurationViewData {
     static func from(config: HexGridConfig) -> ConfigurationViewData {
-        var data = ConfigurationViewData()
+        let data = ConfigurationViewData()
         data.gridSizeX = config.gridSizeX
         data.gridSizeY = config.gridSizeY
         data.gridType = config.gridType
