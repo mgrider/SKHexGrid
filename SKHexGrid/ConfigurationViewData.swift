@@ -5,7 +5,11 @@ import HexGrid
 @Observable
 final class ConfigurationViewData {
 
-    // TODO: rename this ConfigurationViewData
+    struct GridCoordinateItem: Identifiable, Equatable {
+        var id = UUID()
+        var coordinateQ: Int
+        var coordinateR: Int
+    }
 
     // grid config
     var gridSizeX: Double = 3
@@ -15,13 +19,13 @@ final class ConfigurationViewData {
     var offsetEven = true
 
     // custom cells
-    var customCells: [HexGridConfig.GridCoordinateItem] = [
-        HexGridConfig.GridCoordinateItem(coordinateQ: 0, coordinateR: 0),
-        HexGridConfig.GridCoordinateItem(coordinateQ: 1, coordinateR: 0),
-        HexGridConfig.GridCoordinateItem(coordinateQ: 0, coordinateR: 1),
-        HexGridConfig.GridCoordinateItem(coordinateQ: 1, coordinateR: 1),
-        HexGridConfig.GridCoordinateItem(coordinateQ: 1, coordinateR: 2),
-        HexGridConfig.GridCoordinateItem(coordinateQ: 2, coordinateR: 2),
+    var customCells: [ConfigurationViewData.GridCoordinateItem] = [
+        ConfigurationViewData.GridCoordinateItem(coordinateQ: 0, coordinateR: 0),
+        ConfigurationViewData.GridCoordinateItem(coordinateQ: 1, coordinateR: 0),
+        ConfigurationViewData.GridCoordinateItem(coordinateQ: 0, coordinateR: 1),
+        ConfigurationViewData.GridCoordinateItem(coordinateQ: 1, coordinateR: 1),
+        ConfigurationViewData.GridCoordinateItem(coordinateQ: 1, coordinateR: 2),
+        ConfigurationViewData.GridCoordinateItem(coordinateQ: 2, coordinateR: 2),
     ]
 
     // coordinates
@@ -48,9 +52,9 @@ final class ConfigurationViewData {
     var drawLinesBetweenCellsWidth: Double = 3.0
 
     // interactions
-    var interactionTapType: HexGridConfig.GridCellTapInteractionType = .colorChange
+    var interactionTapType: HexGridConfig.GridCellStateType = .color
     var colorForStateTapped: Color = Color(UIColor.systemOrange)
-    var interactionTap2Type: HexGridConfig.GridCellTapInteractionType = .none
+    var interactionTap2Type: HexGridConfig.GridCellStateType = .none
     var colorForStateTapped2: Color = Color(UIColor.systemPurple)
     var interactionDragType: HexGridConfig.GridCellDragInteractionType = .none
     var colorForStateDragBegan: Color = Color(red: 59/256, green: 172/256, blue: 182/256)
@@ -75,7 +79,7 @@ extension ConfigurationViewData: Equatable {
         lhs.gridType == rhs.gridType &&
         lhs.pointsUp == rhs.pointsUp &&
         lhs.offsetEven == rhs.offsetEven &&
-        lhs.customCells == rhs.customCells &&
+        lhs.customCells.count == rhs.customCells.count &&
         lhs.showsCoordinates == rhs.showsCoordinates &&
         lhs.colorForCoordinateLabels == rhs.colorForCoordinateLabels &&
         lhs.coordinateLabelFontSize == rhs.coordinateLabelFontSize &&
@@ -115,7 +119,10 @@ extension ConfigurationViewData {
         data.gridType = config.gridType
         data.pointsUp = config.pointsUp
         data.offsetEven = config.offsetEven
-        data.customCells = config.customCells
+        data.customCells = config.customCells.map { ConfigurationViewData.GridCoordinateItem(
+            coordinateQ: $0.coordinateQ,
+            coordinateR: $0.coordinateR
+        ) }
         data.showsCoordinates = config.showsCoordinates
         data.colorForCoordinateLabels = config.colorForCoordinateLabels.swiftUIcolor()
         data.coordinateLabelFontSize = config.coordinateLabelFontSize
@@ -153,7 +160,12 @@ extension ConfigurationViewData {
         config.gridType = gridType
         config.pointsUp = pointsUp
         config.offsetEven = offsetEven
-        config.customCells = customCells
+        config.customCells = customCells.map {
+            HexGridConfig.GridCoordinateItem(
+                coordinateQ: $0.coordinateQ,
+                coordinateR: $0.coordinateR
+            )
+        }
         config.showsCoordinates = showsCoordinates
         config.colorForCoordinateLabels = ColorCodable(colorForCoordinateLabels)
         config.coordinateLabelFontSize = coordinateLabelFontSize

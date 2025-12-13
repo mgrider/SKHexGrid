@@ -11,7 +11,9 @@ This project contains (at present) two distinct examples.
 
 ## How to use this project
 
-### Get it running first
+### Get it running
+
+You can either get the app from the iOS App Store, or build it yourself with Xcode.
 
 #### From the App Store
 
@@ -23,7 +25,7 @@ This project has been published in the iOS App Store, where it is called [Hexago
 2. Download this repository
 3. Open the `SKHexGrid.project` file with Xcode
 4. Build and run the project
-    - Optionally pick a deployment target first (any iOS, iPadOS, or macOS should work)
+    - You may need to pick a deployment target first.
 
 ### Load various preset examples
 
@@ -39,6 +41,11 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 
 
 ## History / Release Notes
+
+### v0.6.0
+
+* renamed various configuration entity and property names
+* added a drag-to-copy-state option
 
 ### v0.5.0
 

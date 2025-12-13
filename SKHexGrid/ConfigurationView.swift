@@ -251,7 +251,7 @@ The third cell shading color is only used for Two-color-edges and Three-color-ri
 
 Random shading will be different every time the grid is generated. (Which means every time this menu's Done button is pressed.)
 
-Warning that ring shading can take a bit of time to compute on larger grid sizes.
+Warning: ring shading types can take a bit of time to compute on larger grid sizes.
 """).font(.caption)
 
                 }
@@ -270,9 +270,9 @@ Warning that ring shading can take a bit of time to compute on larger grid sizes
                     // MARK: tap 1
 
                     Picker("Tap effect", selection: $gameData.interactionTapType, content: {
-                        Text("None").tag(HexGridConfig.GridCellTapInteractionType.none)
-                        Text("Color change").tag(HexGridConfig.GridCellTapInteractionType.colorChange)
-                        Text("Add stone").tag(HexGridConfig.GridCellTapInteractionType.shapeAddStone)
+                        Text("None").tag(HexGridConfig.GridCellStateType.none)
+                        Text("Color change").tag(HexGridConfig.GridCellStateType.color)
+                        Text("Add stone").tag(HexGridConfig.GridCellStateType.stone)
                     })
                     ColorPicker(
                         "Tap effect color",
@@ -283,9 +283,9 @@ Warning that ring shading can take a bit of time to compute on larger grid sizes
                     // MARK: tap 2
 
                     Picker("Second tap effect", selection: $gameData.interactionTap2Type, content: {
-                        Text("None").tag(HexGridConfig.GridCellTapInteractionType.none)
-                        Text("Color change").tag(HexGridConfig.GridCellTapInteractionType.colorChange)
-                        Text("Add stone").tag(HexGridConfig.GridCellTapInteractionType.shapeAddStone)
+                        Text("None").tag(HexGridConfig.GridCellStateType.none)
+                        Text("Color change").tag(HexGridConfig.GridCellStateType.color)
+                        Text("Add stone").tag(HexGridConfig.GridCellStateType.stone)
                     })
                     ColorPicker(
                         "Second tap effect color",
@@ -298,26 +298,30 @@ Warning that ring shading can take a bit of time to compute on larger grid sizes
                     Picker("Drag effect", selection: $gameData.interactionDragType, content: {
                         Text("None").tag(HexGridConfig.GridCellDragInteractionType.none)
                         Text("Color change").tag(HexGridConfig.GridCellDragInteractionType.colorChange)
-                        Text("Move existing tap effect").tag(HexGridConfig.GridCellDragInteractionType.dragExistingState)
+                        Text("Copy existing cell state").tag(HexGridConfig.GridCellDragInteractionType.copyExistingState)
+                        Text("Move existing cell state").tag(HexGridConfig.GridCellDragInteractionType.dragExistingState)
                     })
 
-                    ColorPicker(
-                        "Drag color",
-                        selection: $gameData.colorForStateDragContinued,
-                        supportsOpacity: false
-                    )
+                    if gameData.interactionDragType == .colorChange {
 
-                    ColorPicker(
-                        "Drag start color",
-                        selection: $gameData.colorForStateDragBegan,
-                        supportsOpacity: false
-                    )
+                        ColorPicker(
+                            "Drag color change to",
+                            selection: $gameData.colorForStateDragContinued,
+                            supportsOpacity: false
+                        )
 
-                    ColorPicker(
-                        "Drag end color",
-                        selection: $gameData.colorForStateDragEnded,
-                        supportsOpacity: false
-                    )
+                        ColorPicker(
+                            "Drag color change start color",
+                            selection: $gameData.colorForStateDragBegan,
+                            supportsOpacity: false
+                        )
+
+                        ColorPicker(
+                            "Drag color change end color",
+                            selection: $gameData.colorForStateDragEnded,
+                            supportsOpacity: false
+                        )
+                    }
 
                     // MARK: pinch/zoom
 

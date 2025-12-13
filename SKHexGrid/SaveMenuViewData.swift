@@ -124,9 +124,9 @@ class SaveMenuViewData {
             config.colorForHexagonBorder = ColorCodable(swiftUIColor: .black)
             config.colorForStateEmpty = ColorCodable(swiftUIColor: Color(red: 251/256, green: 232/256, blue: 108/256))
             config.initialShading = .none
-            config.interactionTapType = .shapeAddStone
+            config.interactionTapType = .stone
             config.colorForStateTapped = ColorCodable(swiftUIColor: Color(red: 235/256, green: 235/256, blue: 235/256))
-            config.interactionTap2Type = .shapeAddStone
+            config.interactionTap2Type = .stone
             config.colorForStateTapped2 = ColorCodable(swiftUIColor: Color(red: 51/256, green: 51/256, blue: 51/256))
             config.interactionDragType = .none
             config.colorForBackground = ColorCodable(swiftUIColor: .white)
@@ -140,7 +140,7 @@ class SaveMenuViewData {
             config.colorForStateEmpty = ColorCodable(swiftUIColor: Color(red: 51/256, green: 51/256, blue: 51/256))
             config.colorForStateEmptySecondary = ColorCodable(swiftUIColor: Color(red: 61/256, green: 61/256, blue: 61/256))
             config.colorForStateEmptyTertiary = ColorCodable(swiftUIColor: Color(red: 71/256, green: 71/256, blue: 71/256))
-            config.interactionTap2Type = .colorChange
+            config.interactionTap2Type = .color
             config.showsCoordinates = .none
         case .centerPointsAndLines:
             config.drawLinesBetweenCells = true
@@ -156,7 +156,7 @@ class SaveMenuViewData {
             config.colorForStateEmpty = ColorCodable(swiftUIColor: Color(red: 248/256, green: 250/256, blue: 222/256))
             config.colorForStateEmptySecondary = ColorCodable(swiftUIColor: Color(red: 186/256, green: 220/256, blue: 148/256))
             config.colorForStateEmptyTertiary = ColorCodable(swiftUIColor: Color(red: 226/256, green: 238/256, blue: 214/256))
-            config.interactionTap2Type = .colorChange
+            config.interactionTap2Type = .color
             config.showsCoordinates = .none
             config.gridType = .rectangle
             config.gridSizeX = 6

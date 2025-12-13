@@ -115,13 +115,13 @@ class HexGridScene: SKScene {
         } else {
             let newType = tap2 ? config.interactionTap2Type : config.interactionTapType
             switch newType {
-            case .shapeAddStone:
+            case .stone:
                 let newNode = SKShapeNode.stoneNode(withRadius: grid.hexSize.height / 2)
                 newNode.position = grid.pixelCoordinates(for: cell).cgPoint
                 newNode.fillColor = color
                 self.addChild(newNode)
                 nodesOnTopOfCell[cell] = newNode
-            case .colorChange, .none:
+            case .color, .none:
                 break
             }
         }
@@ -159,10 +159,10 @@ class HexGridScene: SKScene {
             switch config.interactionTapType {
             case .none:
                 return
-            case .colorChange:
+            case .color:
                 cellColor = config.colorForStateTapped.uIColor()
                 removeNodeOnTopOfCell(cell: cell)
-            case .shapeAddStone:
+            case .stone:
                 addOrUpdateNodeOnTopOfCell(cell: cell, tap2: false)
                 cellColor = emptyColorsByCell[cell] ?? config.colorForStateEmpty.uIColor()
             }
@@ -170,10 +170,10 @@ class HexGridScene: SKScene {
             switch config.interactionTap2Type {
             case .none:
                 return
-            case .colorChange:
+            case .color:
                 cellColor = config.colorForStateTapped2.uIColor()
                 removeNodeOnTopOfCell(cell: cell)
-            case .shapeAddStone:
+            case .stone:
                 addOrUpdateNodeOnTopOfCell(cell: cell, tap2: true)
                 cellColor = emptyColorsByCell[cell] ?? config.colorForStateEmpty.uIColor()
             }

@@ -5,8 +5,7 @@ import UIKit
 
 final class HexGridConfig: Codable {
 
-    struct GridCoordinateItem: Codable, Identifiable, Equatable {
-        var id = UUID()
+    struct GridCoordinateItem: Codable, Equatable {
         var coordinateQ: Int
         var coordinateR: Int
     }
@@ -36,17 +35,18 @@ final class HexGridConfig: Codable {
         case ringsThreeColor
         case threeColor
     }
-    enum GridCellTapInteractionType: String, Hashable, Codable {
+    enum GridCellStateType: String, Hashable, Codable {
         case none
-        case colorChange
-//        case shapeAddCircle
-//        case shapeAddSquare
-        case shapeAddStone
-//        case shapeAddTriangle
+        case color
+//        case circle
+//        case square
+        case stone
+//        case triangle
     }
     enum GridCellDragInteractionType: String, Hashable, Codable {
         case none
         case colorChange
+        case copyExistingState
         case dragExistingState
     }
 
@@ -91,9 +91,9 @@ final class HexGridConfig: Codable {
     var drawLinesBetweenCellsWidth: Double = 3.0
 
     // interactions
-    var interactionTapType: GridCellTapInteractionType = .colorChange
+    var interactionTapType: GridCellStateType = .color
     var colorForStateTapped: ColorCodable = ColorCodable(uiColor: .systemOrange)
-    var interactionTap2Type: GridCellTapInteractionType = .none
+    var interactionTap2Type: GridCellStateType = .none
     var colorForStateTapped2: ColorCodable = ColorCodable(uiColor: .systemPurple)
     var interactionDragType: GridCellDragInteractionType = .none
     var colorForStateDragBegan: ColorCodable = ColorCodable(swiftUIColor: Color(red: 59/256, green: 172/256, blue: 182/256))

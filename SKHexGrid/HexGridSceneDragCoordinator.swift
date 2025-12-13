@@ -52,7 +52,7 @@ final class HexGridSceneDragCoordinator: NSObject {
                 case .colorChange:
                     cell.state = .touchStarted
                     scene.updateCell(cell: cell)
-                case .dragExistingState:
+                case .copyExistingState, .dragExistingState:
                     if cell.state == .tapped || cell.state == .tappedASecondTime {
                         draggingState = cell.state
                         draggingCurrentCell = cell
@@ -73,15 +73,12 @@ final class HexGridSceneDragCoordinator: NSObject {
                 return
             case .colorChange:
                 cell.state = .touchContinued
-                scene.updateCell(cell: cell)
+            case .copyExistingState:
+                handleCopyExistingStateMoved(toCell: cell)
             case .dragExistingState:
-                if let dragCell = draggingCurrentCell,
-                   draggingState != .empty {
-                    if cell.coordinates != dragCell.coordinates {
-                        handleDragMoved(fromCell: dragCell, toCell: cell)
-                    }
-                }
+                handleDragExistingStateMoved(toCell: cell)
             }
+            scene.updateCell(cell: cell)
         }
     }
 
@@ -93,28 +90,35 @@ final class HexGridSceneDragCoordinator: NSObject {
                 return
             case .colorChange:
                 cell.state = .touchEnded
-                scene.updateCell(cell: cell)
+            case .copyExistingState:
+                handleCopyExistingStateMoved(toCell: cell)
             case .dragExistingState:
-                if let dragCell = draggingCurrentCell,
-                   draggingState != .empty {
-                    if cell.coordinates != dragCell.coordinates {
-                        handleDragMoved(fromCell: dragCell, toCell: cell)
-                    }
-                }
-                draggingCurrentCell = nil
-                draggingCurrentCellPreviousState = .empty
-                draggingState = .empty
+                handleDragExistingStateMoved(toCell: cell)
             }
+            scene.updateCell(cell: cell)
+            draggingCurrentCell = nil
+            draggingCurrentCellPreviousState = .empty
+            draggingState = .empty
         }
     }
 
-    func handleDragMoved(fromCell: Cell, toCell: Cell) {
-        fromCell.state = draggingCurrentCellPreviousState
-        draggingCurrentCellPreviousState = toCell.state
-        toCell.state = draggingState
-        draggingCurrentCell = toCell
-        scene.updateCell(cell: toCell)
-        scene.updateCell(cell: fromCell)
+    func handleCopyExistingStateMoved(toCell cell: Cell) {
+        guard let dragCell = draggingCurrentCell,
+              draggingState != .empty,
+              cell.coordinates != dragCell.coordinates else { return }
+        cell.state = draggingState
+        draggingCurrentCell = cell
+    }
+
+    func handleDragExistingStateMoved(toCell cell: Cell) {
+        guard let dragCell = draggingCurrentCell,
+              draggingState != .empty,
+              cell.coordinates != dragCell.coordinates else { return }
+        dragCell.state = draggingCurrentCellPreviousState
+        draggingCurrentCellPreviousState = cell.state
+        cell.state = draggingState
+        draggingCurrentCell = cell
+        scene.updateCell(cell: dragCell)
     }
 }
 
