@@ -123,34 +123,37 @@ Newly added coordinates will appear at the bottom of the list.
                         })//.pickerStyle(SegmentedPickerStyle())
                     }
 
-                    ColorPicker(
-                        "Coordinate text color",
-                        selection: $gameData.colorForCoordinateLabels,
-                        supportsOpacity: false
-                    )
+                    if gameData.showsCoordinates != .none {
 
-                    HStack {
-                        Text("Font size: \(gameData.coordinateLabelFontSize, specifier: "%.0f")")
-                        Slider(value: $gameData.coordinateLabelFontSize, in: 6...30) {
-                            Text("Font size: \(gameData.coordinateLabelFontSize.rounded(), specifier: "%.0f")")
-                        }
-                    }
+                        ColorPicker(
+                            "Coordinate text color",
+                            selection: $gameData.colorForCoordinateLabels,
+                            supportsOpacity: false
+                        )
 
-                    Toggle(isOn: $gameData.offsetEven, label: {
-                        let str: String = gameData.offsetEven ? "Offset: Even" : "Offset: Odd"
-                        Text(str)
-                    })
-
-                    VStack {
-                        Toggle(isOn: $gameData.usePositiveCoordinateValuesOnly, label: {
-                            Text("Use positive coordinate values")
-                        })
                         HStack {
-                            Text("This requires coordinate remapping after grid generation. The \"Alphanumeric\" coordinate display type does this by default.").font(.caption)
-                            Spacer()
+                            Text("Font size: \(gameData.coordinateLabelFontSize, specifier: "%.0f")")
+                            Slider(value: $gameData.coordinateLabelFontSize, in: 6...30) {
+                                Text("Font size: \(gameData.coordinateLabelFontSize.rounded(), specifier: "%.0f")")
+                            }
                         }
-                    }
 
+                        Toggle(isOn: $gameData.offsetEven, label: {
+                            let str: String = gameData.offsetEven ? "Offset: Even" : "Offset: Odd"
+                            Text(str)
+                        })
+
+                        VStack {
+                            Toggle(isOn: $gameData.usePositiveCoordinateValuesOnly, label: {
+                                Text("Use positive coordinate values")
+                            })
+                            HStack {
+                                Text("This requires coordinate remapping after grid generation. The \"Alphanumeric\" coordinate display type does this by default.").font(.caption)
+                                Spacer()
+                            }
+                        }
+
+                    }
                 }
 
                 Section("Outlines and borders") {
@@ -175,22 +178,26 @@ Newly added coordinates will appear at the bottom of the list.
                         Text("Draw center point")
                     })
 
-                    ColorPicker(
-                        "Center point color",
-                        selection: $gameData.drawCenterPointColor,
-                        supportsOpacity: true
-                    )
+                    if gameData.drawCenterPoint {
 
-                    HStack {
-                        Text("Center point diameter: \(gameData.drawCenterPointDiameter, specifier: "%.0f")")
-                        Slider(value: $gameData.drawCenterPointDiameter, in: 0...100) {
+                        ColorPicker(
+                            "Center point color",
+                            selection: $gameData.drawCenterPointColor,
+                            supportsOpacity: true
+                        )
+
+                        HStack {
                             Text("Center point diameter: \(gameData.drawCenterPointDiameter, specifier: "%.0f")")
+                            Slider(value: $gameData.drawCenterPointDiameter, in: 0...100) {
+                                Text("Center point diameter: \(gameData.drawCenterPointDiameter, specifier: "%.0f")")
+                            }
                         }
-                    }
 
-                    HStack {
-                        Text("Note that center points will be drawn underneath coordinates, but they are both drawn in the middle of the cell, so should be considered together.").font(.caption)
-                        Spacer()
+                        HStack {
+                            Text("Note that center points will be drawn underneath coordinates, but they are both drawn in the middle of the cell, so should be considered together.").font(.caption)
+                            Spacer()
+                        }
+
                     }
                 }
 
@@ -200,16 +207,18 @@ Newly added coordinates will appear at the bottom of the list.
                         Text("Draw lines between cells")
                     })
 
-                    ColorPicker(
-                        "Color for lines between cells",
-                        selection: $gameData.drawLinesBetweenCellsColor,
-                        supportsOpacity: true
-                    )
+                    if gameData.drawLinesBetweenCells {
+                        ColorPicker(
+                            "Color for lines between cells",
+                            selection: $gameData.drawLinesBetweenCellsColor,
+                            supportsOpacity: true
+                        )
 
-                    HStack {
-                        Text("Line width: \(gameData.drawLinesBetweenCellsWidth, specifier: "%.0f")")
-                        Slider(value: $gameData.drawLinesBetweenCellsWidth, in: 0...100) {
+                        HStack {
                             Text("Line width: \(gameData.drawLinesBetweenCellsWidth, specifier: "%.0f")")
+                            Slider(value: $gameData.drawLinesBetweenCellsWidth, in: 0...100) {
+                                Text("Line width: \(gameData.drawLinesBetweenCellsWidth, specifier: "%.0f")")
+                            }
                         }
                     }
                 }

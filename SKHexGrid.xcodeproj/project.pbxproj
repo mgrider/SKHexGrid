@@ -16,6 +16,8 @@
 		8533184D288C87230000DB75 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8533184B288C87230000DB75 /* Main.storyboard */; };
 		8533184F288C87240000DB75 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8533184E288C87240000DB75 /* Assets.xcassets */; };
 		85331852288C87240000DB75 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85331850288C87240000DB75 /* LaunchScreen.storyboard */; };
+		853D8E272EEE087200643FC0 /* UserDefaults+HexGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853D8E262EEE086C00643FC0 /* UserDefaults+HexGrid.swift */; };
+		853D8E292EEE0A7900643FC0 /* UIView+ImageSaving.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853D8E282EEE0A5900643FC0 /* UIView+ImageSaving.swift */; };
 		856A7CB829CC2C89003DD486 /* SKShapeNode+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856A7CB729CC2C89003DD486 /* SKShapeNode+extension.swift */; };
 		856A7CC329D0A3C4003DD486 /* HexGridSceneDragCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 856A7CC229D0A3C4003DD486 /* HexGridSceneDragCoordinator.swift */; };
 		85CD4FF7288C891100B73468 /* HexGridScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CD4FF6288C891100B73468 /* HexGridScene.swift */; };
@@ -47,6 +49,8 @@
 		85331851288C87240000DB75 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8536B108289D9439005CDF87 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		8536B109289D961D005CDF87 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		853D8E262EEE086C00643FC0 /* UserDefaults+HexGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+HexGrid.swift"; sourceTree = "<group>"; };
+		853D8E282EEE0A5900643FC0 /* UIView+ImageSaving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ImageSaving.swift"; sourceTree = "<group>"; };
 		856A7CB729CC2C89003DD486 /* SKShapeNode+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKShapeNode+extension.swift"; sourceTree = "<group>"; };
 		856A7CC229D0A3C4003DD486 /* HexGridSceneDragCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexGridSceneDragCoordinator.swift; sourceTree = "<group>"; };
 		85AFCB5529AD2AA4000028EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -139,6 +143,8 @@
 				85CD4FFB288C918D00B73468 /* Point+CGPoint.swift */,
 				856A7CB729CC2C89003DD486 /* SKShapeNode+extension.swift */,
 				85EC1D71299D3A32003E7297 /* UIColor+Codable.swift */,
+				853D8E282EEE0A5900643FC0 /* UIView+ImageSaving.swift */,
+				853D8E262EEE086C00643FC0 /* UserDefaults+HexGrid.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -222,8 +228,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				853D8E292EEE0A7900643FC0 /* UIView+ImageSaving.swift in Sources */,
 				850E03D828A061BB00BC5934 /* Cell+State.swift in Sources */,
 				85CD4FFE288C920E00B73468 /* Cell+Highlight.swift in Sources */,
+				853D8E272EEE087200643FC0 /* UserDefaults+HexGrid.swift in Sources */,
 				85EC1D7C299DD1F1003E7297 /* SimpleHexGridScene.swift in Sources */,
 				85EC1D70299D33AB003E7297 /* SaveMenuView.swift in Sources */,
 				85CD5005288F164B00B73468 /* ConfigurationView.swift in Sources */,

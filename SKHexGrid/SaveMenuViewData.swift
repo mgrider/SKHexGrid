@@ -173,10 +173,10 @@ class SaveMenuViewData {
         let config = HexGridConfig()
         config.gridSizeX = Double.random(in: 2..<10)
         config.gridSizeY = Double.random(in: 2..<10)
-        if config.gridSizeX > 7 && config.gridSizeY > 7 {
-            config.gridSizeX = Double.random(in: 8..<30)
-            config.gridSizeY = Double.random(in: 8..<30)
-        }
+//        if config.gridSizeX > 7 && config.gridSizeY > 7 {
+//            config.gridSizeX = Double.random(in: 8..<20)
+//            config.gridSizeY = Double.random(in: 8..<20)
+//        }
         config.gridType = HexGridConfig.GridType.allCases.randomElement() ?? .irregularHexagon
         while config.gridType == .custom {
             config.gridType = HexGridConfig.GridType.allCases.randomElement() ?? .irregularHexagon

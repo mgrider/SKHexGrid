@@ -5,7 +5,7 @@ extension Cell {
 
     fileprivate static let kStateAttribute: String = "kStateAttribute-key"
 
-    public enum State: Int {
+    public enum State: Int, Codable {
         case empty
         case tapped
         case tappedASecondTime
@@ -26,4 +26,9 @@ extension Cell {
         }
     }
 
+}
+
+struct CellStateConfiguration: Codable {
+    let state: Cell.State
+    let associatedColor: ColorCodable
 }

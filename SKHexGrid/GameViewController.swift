@@ -149,6 +149,10 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let data = UserDefaults.standard.currentHexGridConfig {
+            self.displayData = data
+        }
+
         if let view = self.view as! SKView? {
 
             let bgView = SKView(frame: .init(origin: .zero, size: view.frame.size))
@@ -355,35 +359,6 @@ class GameViewController: UIViewController {
         activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
         activityViewController.excludedActivityTypes = []
         present(activityViewController, animated: true)
-    }
-}
-
-extension UIView {
-
-    func snapshotImage(withSize size: CGSize) -> UIImage? {
-        let rendererFormat = UIGraphicsImageRendererFormat.default()
-        rendererFormat.opaque = isOpaque
-        rendererFormat.scale = 1.0
-        let renderer = UIGraphicsImageRenderer(size: size, format: rendererFormat)
-//        return renderer.image { layer.render(in: $0.cgContext) }
-        return renderer.image { _ in
-            drawHierarchy(in: CGRect(origin: .zero, size: size), afterScreenUpdates: true)
-        }
-// old way...
-//        UIGraphicsBeginImageContextWithOptions(size, self.isOpaque, 0.0)
-//        drawHierarchy(in: CGRect(origin: .zero, size: size), afterScreenUpdates: true)
-//        let image = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        return image
-    }
-}
-
-extension UIImage {
-
-    func saveToPhotoLibrary(_ completionTarget: Any?, _ completionSelector: Selector?) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            UIImageWriteToSavedPhotosAlbum(self, completionTarget, completionSelector, nil)
-        }
     }
 }
 
