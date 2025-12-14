@@ -5,8 +5,17 @@ struct SaveMenuView: View {
     @State public var gameData = SaveMenuViewData()
 
     @State private var isPresentingSaveDialog = false
-    @State private var saveName = Date().description(with: nil)
+    @State private var saveName: String = String(Date().description(with: nil).prefix(16))
     @State private var saveNamesArray = UserDefaults.standard.saveHexGridDataNamesArray
+
+    var gridConfigurationAsJson: String = {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        guard let json = try? encoder.encode(GameViewController.hexConfig) else {
+            return "error"
+        }
+        return String(decoding: json, as: UTF8.self)
+    }()
 
     var doneButtonCallback: ((SaveMenuViewData) -> Void)?
 
@@ -131,6 +140,20 @@ struct SaveMenuView: View {
                     Text("""
 This will create an image of the currently configured grid to save to your photo library or share with the system share sheet.
 """).font(.caption)
+
+                }
+
+                Section("Debug") {
+                    // this isn't very useful without an import option somewhere
+                    HStack {
+                        ShareLink(
+                            "Share grid configuration as json",
+                            item: gridConfigurationAsJson
+//                            preview: SharePreview("Grid Configuration", image: Image(systemName: "circle.hexagongrid.circle.fill"))
+                        )
+                        .foregroundStyle(Color(.systemBlue))
+                        Spacer()
+                    }
 
                 }
 

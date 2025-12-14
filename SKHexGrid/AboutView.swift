@@ -14,18 +14,20 @@ struct AboutView: View {
 
             ScrollView {
 
-                Text("What is SKHexGrid?").font(.title)
+                VStack {
 
-                Text("""
+                    Text("What is SKHexGrid?").font(.title)
+
+                    Text("""
 
 SKHexGrid is an [open source](https://github.com/mgrider/skhexgrid) project, showing how to use Apple's SpriteKit and another open source library called [HexGrid](https://github.com/fananek/hex-grid) to draw hexagonal grids in various configurations.
 
 
 """)
 
-                Text("What can I do with it?").font(.title)
+                    Text("What can I do with it?").font(.title)
 
-                Text("""
+                    Text("""
 
 \(Image(systemName: "square.and.arrow.down")) save / load menu
 
@@ -48,9 +50,9 @@ There are a couple of other uses imagined for this application (outside of servi
 
 """)
 
-                Text("Who made this?").font(.title)
+                    Text("Who made this?").font(.title)
 
-                Text("""
+                    Text("""
 
 `SKHexGrid` was made by Martin Grider. You can find more apps and games by Martin at his website, [http://abstractpuzzle.com](http://abstractpuzzle.com).
 
@@ -59,8 +61,9 @@ The `HexGrid` project was originally created by [František Mikš](https://githu
 HexGrid was heavily influenced by (and in many cases based on) the work of Amit Patel, whose [tutorial on hexagonal grids](https://www.redblobgames.com/grids/hexagons/) has inspired and helped countless game developers for many years.
 
 """)
+                }.padding()
 
-            }.padding()
+            }
                 .navigationBarTitle(Text("About this app - v.\(versionString)"), displayMode: .inline)
                 .navigationBarItems(
                     trailing: Button(
