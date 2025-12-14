@@ -49,6 +49,7 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 * added auto-saving of the current grid when the application is closed
 * hid more configuration options when they are disabled / not relevant
 * reduced max possible size of random grid configurations
+* added saving and loading of grid configurations
 
 ### v0.5.0
 

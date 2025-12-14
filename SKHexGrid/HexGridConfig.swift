@@ -109,6 +109,9 @@ final class HexGridConfig: Codable {
     var colorForStateEmptyTertiary: ColorCodable = ColorCodable(swiftUIColor: Color(red: 0.8, green: 0.8, blue: 0.8))
     var showYellowSecondaryGrid = false
 
+    // versioning
+    var version: Int = 1
+
 }
 
 extension HexGridConfig: Equatable {
@@ -146,6 +149,7 @@ extension HexGridConfig: Equatable {
         lhs.colorForStateEmpty == rhs.colorForStateEmpty &&
         lhs.colorForStateEmptySecondary == rhs.colorForStateEmptySecondary &&
         lhs.colorForStateEmptyTertiary == rhs.colorForStateEmptyTertiary &&
-        lhs.showYellowSecondaryGrid == rhs.showYellowSecondaryGrid
+        lhs.showYellowSecondaryGrid == rhs.showYellowSecondaryGrid &&
+        lhs.version == rhs.version
     }
 }

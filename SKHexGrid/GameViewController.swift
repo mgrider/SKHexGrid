@@ -58,13 +58,13 @@ class GameViewController: UIViewController {
             guard let self = self else { return }
             // open config
             let view = ConfigurationSheetView(
-                gameData: ConfigurationViewData.from(config: self.displayData),
+                gameData: ConfigurationViewData.from(config: Self.hexConfig),
                 doneButtonCallback: { [weak self] model in
                     guard let self else { return }
                     guard let hostingController = self.configHostingController else { return }
                     self.gameView?.transform = .identity
-                    model.update(hexGridConfiguration: &displayData)
-                    self.updateGridFromModel(model: displayData)
+                    model.update(hexGridConfiguration: &Self.hexConfig)
+                    self.updateGridFromModel(model: Self.hexConfig)
                     hostingController.dismiss(animated: true)
             })
             let vc = UIHostingController(rootView: view)
@@ -77,7 +77,8 @@ class GameViewController: UIViewController {
 
     var configHostingController: UIHostingController<ConfigurationSheetView>?
 
-    var displayData = HexGridConfig()
+    /// just a tiny bit of a singleton here...
+    static var hexConfig: HexGridConfig = HexGridConfig()
 
     var gameView: SKView?
 
@@ -115,8 +116,7 @@ class GameViewController: UIViewController {
         let action: UIAction = UIAction { [weak self] _ in
             guard let self else { return }
             // open save menu
-            let view = SaveMenuView(
-                doneButtonCallback: { saveData in
+            let view = SaveMenuView(doneButtonCallback: { saveData in
                 guard let hostingController = self.saveMenuHostingController else { return }
                 if saveData.wantsSaveAsImage, let size = saveData.wantsSaveSize {
                     self.saveImage(withSize: size)
@@ -124,12 +124,14 @@ class GameViewController: UIViewController {
                 if saveData.wantsSaveAsShare, let size = saveData.wantsSaveSize {
                     self.shareImage(withSize: size)
                 }
-                if let wantsConfig = saveData.wantsPresetLoad {
-                    switch wantsConfig {
-                    case .simpleExample:
-                        self.presentSimpleGridExample()
-                    default:
+                if saveData.wantsLoadSimpleGridExample {
+                    self.presentSimpleGridExample()
+                    self.gameView?.transform = .identity
+                } else {
+                    if let wantsConfig = saveData.wantsPresetLoad {
                         self.updateGridFromModel(model: saveData.config(for: wantsConfig))
+                    } else {
+                        self.updateGridFromModel(model: Self.hexConfig)
                     }
                     self.gameView?.transform = .identity
                 }
@@ -150,14 +152,14 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
 
         if let data = UserDefaults.standard.currentHexGridConfig {
-            self.displayData = data
+            Self.hexConfig = data
         }
 
         if let view = self.view as! SKView? {
 
             let bgView = SKView(frame: .init(origin: .zero, size: view.frame.size))
             let bgScene = GameBackgroundScene(size: view.frame.size)
-            bgScene.backgroundColor = displayData.colorForBackground.uIColor()
+            bgScene.backgroundColor = Self.hexConfig.colorForBackground.uIColor()
             bgView.presentScene(bgScene)
             view.addSubview(bgView)
             bgView.translatesAutoresizingMaskIntoConstraints = false
@@ -177,7 +179,7 @@ class GameViewController: UIViewController {
             setupConstraints(forGameView: gameView, relativeTo: view)
             self.gameView = gameView
 
-            hex = presentGridShape(viewData: self.displayData)
+            hex = presentGridShape(viewData: Self.hexConfig)
             view.ignoresSiblingOrder = true
             view.showsFPS = true
             view.showsNodeCount = true
@@ -186,7 +188,7 @@ class GameViewController: UIViewController {
             // an arbitrary number of grids shown on the screen at once.
             let hex2 = SKView(frame: CGRect(x: 10, y: 70, width: 150, height: 150))
             let hexScene = HexGridScene(
-                config: displayData,
+                config: Self.hexConfig,
                 size: CGSize(width: 150, height: 150)
             )
             hexScene.scaleMode = .aspectFit
@@ -194,7 +196,7 @@ class GameViewController: UIViewController {
             hex2.presentScene(hexScene)
             view.addSubview(hex2)
             hexSecondaryView = hex2
-            hexSecondaryView?.isHidden = !displayData.showYellowSecondaryGrid
+            hexSecondaryView?.isHidden = !Self.hexConfig.showYellowSecondaryGrid
 
             view.addSubview(configButton)
             configButton.translatesAutoresizingMaskIntoConstraints = false
@@ -293,7 +295,7 @@ class GameViewController: UIViewController {
     // MARK: pinch/zoom
 
     @objc func didReceivePinchGesture(sender: UIPinchGestureRecognizer) {
-        guard displayData.isInteractionPinchZoomAllowed else { return }
+        guard Self.hexConfig.isInteractionPinchZoomAllowed else { return }
         guard let gameView = self.gameView else { return }
         gameView.transform = gameView.transform.scaledBy(x: sender.scale, y: sender.scale)
         sender.scale = 1
@@ -301,7 +303,7 @@ class GameViewController: UIViewController {
     }
 
     @objc func didReceivePanGesture(sender: UIPanGestureRecognizer) {
-        guard displayData.isInteractionTwoFingerDragGridAllowed else { return }
+        guard Self.hexConfig.isInteractionTwoFingerDragGridAllowed else { return }
         guard let gameView = self.gameView else { return }
         guard sender.numberOfTouches == 2 else { return }
         let translation = sender.translation(in: view)
@@ -313,7 +315,7 @@ class GameViewController: UIViewController {
     // MARK: updating the current grid
 
     func updateGridFromModel(model: HexGridConfig) {
-        displayData = model
+        Self.hexConfig = model
         self.view.backgroundColor = model.colorForBackground.uIColor()
         background?.backgroundColor = model.colorForBackground.uIColor()
         hex = presentGridShape(viewData: model)

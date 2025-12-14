@@ -4,6 +4,10 @@ struct SaveMenuView: View {
 
     @State public var gameData = SaveMenuViewData()
 
+    @State private var isPresentingSaveDialog = false
+    @State private var saveName = Date().description(with: nil)
+    @State private var saveNamesArray = UserDefaults.standard.saveHexGridDataNamesArray
+
     var doneButtonCallback: ((SaveMenuViewData) -> Void)?
 
     let imageSizes: [CGFloat] = [600, 1024, 1080, 2048, 3840]
@@ -17,15 +21,33 @@ struct SaveMenuView: View {
                 Section("Load grid configuration") {
 
                     HStack {
-                        Menu("Pick a preset...") {
+                        Menu("From a preset") {
                             ForEach(gameData.presets, id: \.presetType) { preset in
-                                Button(preset.name) {
+                                Button(preset.name.capitalized) {
                                     gameData.wantsPresetLoad = preset.presetType
                                     doneButtonCallback?(gameData)
                                 }
                             }
                         }
                         Spacer()
+                    }
+
+                    if !saveNamesArray.isEmpty {
+                        HStack {
+                            Menu("From a save") {
+                                ForEach(saveNamesArray, id: \.self) { name in
+                                    Button(name) {
+                                        guard let config = UserDefaults.standard.savedHexGridConfig(named: name) else {
+                                            return
+                                        }
+                                        GameViewController.hexConfig = config
+                                        gameData.wantsLoadFromConfig = true
+                                        doneButtonCallback?(gameData)
+                                    }
+                                }
+                            }
+                            Spacer()
+                        }
                     }
 
                     HStack {
@@ -36,21 +58,46 @@ struct SaveMenuView: View {
                         Spacer()
                     }
 
+                    VStack {
+                        HStack {
+                            Button("Load the simple grid example") {
+                                gameData.wantsLoadSimpleGridExample = true
+                                doneButtonCallback?(gameData)
+                            }.buttonStyle(.borderless)
+                            Spacer()
+                        }
+                        HStack {
+                            Text("This example is not configurable.").font(.caption)
+                            Spacer()
+                        }
+                    }
+
                     Text("WARNING: These options will reset the currently configured grid.").font(.caption)
 
                 }
 
-                Section("Load simple grid example") {
+                Section("Save grid configuration") {
 
                     HStack {
-                        Button("Load simple grid example") {
-                            gameData.wantsPresetLoad = .simpleExample
-                            doneButtonCallback?(gameData)
-                        }.buttonStyle(.borderless)
+                        Button("Save grid configuration") {
+                            isPresentingSaveDialog = true
+                        }
+                        .buttonStyle(.borderless)
+                        .alert("Save as...", isPresented: $isPresentingSaveDialog) {
+                            TextField("Save name", text: $saveName)
+                            Button("OK") {
+                                UserDefaults.standard.saveHexGridConfig(
+                                    GameViewController.hexConfig,
+                                    withName: saveName
+                                )
+                                saveNamesArray = UserDefaults.standard.saveHexGridDataNamesArray
+                            }
+                            Button("Cancel", role: .cancel) { }
+                        } message: {
+                            Text("You can give it a name.")
+                        }
                         Spacer()
                     }
-
-                    Text("This example is not configurable.").font(.caption)
 
                 }
 

@@ -5,7 +5,6 @@ import HexGrid
 class SaveMenuViewData {
 
     enum PresetLoadType: String, CaseIterable {
-        case simpleExample
         case defaultGray
         case randomColorParallelogram
         case whiteBorderlessEdges
@@ -18,8 +17,6 @@ class SaveMenuViewData {
 
         func buttonName() -> String {
             switch self {
-            case .simpleExample:
-                return "A simple grid example"
             case .defaultGray:
                 return "the default gray grid"
             case .randomColorParallelogram:
@@ -51,7 +48,7 @@ class SaveMenuViewData {
     static func loadPresets() -> [Preset] {
         var presets = [Preset]()
         for type in PresetLoadType.allCases {
-            if type == .simpleExample || type == .completelyRandomConfiguration {
+            if type == .completelyRandomConfiguration {
                 // these are treated as separate options in the SaveMenuView
                 continue
             }
@@ -60,6 +57,8 @@ class SaveMenuViewData {
         return presets
     }
 
+    var wantsLoadSimpleGridExample = false
+    var wantsLoadFromConfig = false
     var wantsSaveSize: CGSize? = nil
     var wantsSaveAsShare = false
     var wantsSaveAsImage = false
@@ -68,9 +67,6 @@ class SaveMenuViewData {
     func config(for type: PresetLoadType) -> HexGridConfig {
         let config = HexGridConfig()
         switch type {
-        case .simpleExample:
-            // this is not used
-            break
         case .defaultGray:
             break
         case .randomColorParallelogram:
