@@ -235,6 +235,8 @@ Newly added coordinates will appear at the bottom of the list.
                         Text("Three color").tag(HexGridConfig.GridInitialShading.threeColor)
                         Text("Periodic second color").tag(HexGridConfig.GridInitialShading.periodic1)
                         Text("More periodic second color").tag(HexGridConfig.GridInitialShading.periodic2)
+                        Text("Rows").tag(HexGridConfig.GridInitialShading.rows2)
+                        Text("Three-Color Rows").tag(HexGridConfig.GridInitialShading.rows3)
                     })//.pickerStyle(SegmentedPickerStyle())
 
                     ColorPicker(

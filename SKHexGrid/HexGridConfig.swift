@@ -33,6 +33,8 @@ final class HexGridConfig: Codable {
         case random
         case rings
         case ringsThreeColor
+        case rows2
+        case rows3
         case threeColor
     }
     enum GridCellStateType: String, Hashable, Codable {

@@ -275,6 +275,10 @@ class HexGridScene: SKScene {
             colorEveryOtherRingOfCells(useThreeColors: false)
         case .ringsThreeColor:
             colorEveryOtherRingOfCells(useThreeColors: true)
+        case .rows2:
+            colorInRows(withRowCount: 2)
+        case .rows3:
+            colorInRows(withRowCount: 3)
         case .threeColor:
             colorBoardWithThreeColors()
         }
@@ -439,6 +443,24 @@ class HexGridScene: SKScene {
             return colors[abs(index)-1]
         } else {
             return .systemOrange
+        }
+    }
+
+    func colorInRows(withRowCount: Int) {
+        var color: UIColor
+        for cell in grid.cells {
+            let axial = cell.coordinates.toAxial()
+            let modX = abs(axial.r % withRowCount)
+//            let modY = axial.q % withRowCount
+            if modX == 2 {
+                color = config.colorForStateEmptyTertiary.uIColor()
+            } else if modX == 1 {
+                color = config.colorForStateEmptySecondary.uIColor()
+            } else {
+                color = config.colorForStateEmpty.uIColor()
+            }
+            emptyColorsByCell[cell] = color
+            updateCellColor(cell: cell, color: color)
         }
     }
 

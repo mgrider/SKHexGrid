@@ -85,31 +85,6 @@ struct SaveMenuView: View {
 
                 }
 
-                Section("Save grid configuration") {
-
-                    HStack {
-                        Button("Save grid configuration") {
-                            isPresentingSaveDialog = true
-                        }
-                        .buttonStyle(.borderless)
-                        .alert("Save as...", isPresented: $isPresentingSaveDialog) {
-                            TextField("Save name", text: $saveName)
-                            Button("OK") {
-                                UserDefaults.standard.saveHexGridConfig(
-                                    GameViewController.hexConfig,
-                                    withName: saveName
-                                )
-                                saveNamesArray = UserDefaults.standard.saveHexGridDataNamesArray
-                            }
-                            Button("Cancel", role: .cancel) { }
-                        } message: {
-                            Text("You can give it a name.")
-                        }
-                        Spacer()
-                    }
-
-                }
-
                 Section("Save or share a photo") {
 
                     HStack {
@@ -143,7 +118,29 @@ This will create an image of the currently configured grid to save to your photo
 
                 }
 
-                Section("Debug") {
+                Section("Save grid configuration") {
+
+                    HStack {
+                        Button("Save grid configuration") {
+                            isPresentingSaveDialog = true
+                        }
+                        .buttonStyle(.borderless)
+                        .alert("Save as...", isPresented: $isPresentingSaveDialog) {
+                            TextField("Save name", text: $saveName)
+                            Button("OK") {
+                                UserDefaults.standard.saveHexGridConfig(
+                                    GameViewController.hexConfig,
+                                    withName: saveName
+                                )
+                                saveNamesArray = UserDefaults.standard.saveHexGridDataNamesArray
+                            }
+                            Button("Cancel", role: .cancel) { }
+                        } message: {
+                            Text("You can give it a name.")
+                        }
+                        Spacer()
+                    }
+
                     // this isn't very useful without an import option somewhere
                     HStack {
                         ShareLink(
@@ -155,6 +152,7 @@ This will create an image of the currently configured grid to save to your photo
                         Spacer()
                     }
 
+                    Text("WARNING: This feature is in development, and your grid configurations are not guaranteed to be saved between version updates.").font(.caption)
                 }
 
             }

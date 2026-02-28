@@ -42,6 +42,10 @@ Back in the save/load menu, you can also save an image of the current grid to yo
 
 ## History / Release Notes
 
+### v0.6.1
+
+* Additional background color algorithms: 2-row colors alternating, 3-row colors
+
 ### v0.6.0
 
 * renamed various configuration entity and property names
@@ -181,6 +185,7 @@ Roughly corresponds to HexGrid version 0.4.10.
   - growing and shrinking of cells
 * additional "canned" examples
   - An example drawn with `UIKit`
+  - An example drawn with `SwiftUI`
   - A fully functioning game example? ([Hex](https://en.wikipedia.org/wiki/Hex_(board_game)) maybe?)
 * additional coordinate ideas
   - allow shifting of all grid coordinates (there is a start for this in the `shifting-coordinates` branch)
@@ -191,7 +196,7 @@ Roughly corresponds to HexGrid version 0.4.10.
 * Allow the user to export the current grid as PDF, specifying the size of each cell
 * Add option to choose a woodgrain background
 * Add the possibility for arbitrary text annotations
-* Allow for coloring the edges of the board
+* Allow for coloring the outside edges of the board
 * Ideas & issues that involve grids that scroll off the edge of the screen (without using the transform)
   - fix resolution "blurriness" when zooming in on large grids
   - An example that does not "fit" to the screen size, and instead is much larger and scrolls off-screen in all directions
